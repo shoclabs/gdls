@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { AsyncStorage, View } from 'react-native';
+import { View } from 'react-native';
 import { Input, Item, Button, Text } from 'native-base';
 import { css } from 'css-rn';
 

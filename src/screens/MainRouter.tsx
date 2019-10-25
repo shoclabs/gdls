@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container, Content, Drawer } from 'native-base';
 import { Route } from 'react-router-native';
 import * as Font from 'expo-font';
 
@@ -10,6 +10,7 @@ import { HomeScreen } from './home-screen/HomeScreen';
 import { EnterScoreScreen } from './enter-score-screen/EnterScoreScreen';
 import { WeeklyBoardsScreen } from './weekly-boards-screen/WeeklyBoardsScreen';
 import { LoginScreen } from './login-screen/LoginScreen';
+import { DrawerPanel } from './components/DrawerPanel';
 
 export class MainRouter extends Component {
   state = { fontLoaded: false, isLoggedIn: false };
@@ -50,6 +51,10 @@ export class MainRouter extends Component {
     this.setState({ isLoggedIn: true });
   };
 
+  handleOpen = () => this.drawer._root.open();
+
+  handleClose = () => this.drawer._root.close();
+
   render() {
     const { fontLoaded, isLoggedIn } = this.state;
     if (!fontLoaded) {
@@ -59,15 +64,21 @@ export class MainRouter extends Component {
       return <LoginScreen onLogin={this.handleLogin} />;
     }
     return (
-      <Container>
-        <Header />
-        <Content>
-          <Route path="/home" component={HomeScreen} />
-          <Route path="/enter-score" component={EnterScoreScreen} />
-          <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
-        </Content>
-        <BottomNavigation />
-      </Container>
+      <Drawer
+        ref={(ref) => { this.drawer = ref; }}
+        content={<DrawerPanel />}
+        onClose={this.handleClose}
+      >
+        <Container>
+          <Header onOpenDrawer={this.handleOpen} />
+          <Content>
+            <Route path="/home" component={HomeScreen} />
+            <Route path="/enter-score" component={EnterScoreScreen} />
+            <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
+          </Content>
+          <BottomNavigation />
+        </Container>
+      </Drawer>
     );
   }
 }
