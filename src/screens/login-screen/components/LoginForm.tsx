@@ -60,18 +60,28 @@ const separatorStyle = css`
   width: 24px;
 `;
 
-export const LoginForm = () => (
+export const LoginForm = ({ onLogin }) => (
   <Formik
     initialValues={initialValues}
     validationSchema={validationSchema}
-    onSubmit={async () => AsyncStorage.setItem('isLoggedIn', 'true')}
-    render={({ values, handleSubmit }) => (
+    onSubmit={onLogin}
+    render={({ values, handleSubmit, errors, handleChange }) =>  (
       <View style={containerStyle}>
         <Item regular style={inputContainerStyle}>
-          <Input style={inputStyle} placeholder="Email" />
+          <Input
+            style={inputStyle}
+            placeholder="Email"
+            keyboardType="email-address"
+            onChangeText={handleChange('email')}
+          />
         </Item>
         <Item regular style={inputContainerStyle}>
-          <Input style={inputStyle} placeholder="Password" />
+          <Input
+            style={inputStyle}
+            secureTextEntry
+            placeholder="Password"
+            onChangeText={handleChange('password')}
+          />
         </Item>
         <View style={separatorContainerStyle}>
           <View style={separatorStyle} />

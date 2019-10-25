@@ -33,7 +33,7 @@ const markedTextStyle = css`
   font-family: open-sans-bold;
 `;
 
-export const LoginScreen = () => (
+export const LoginScreen = ({ onLogin }) => (
   <Container>
     <View style={headerContainerStyle}>
       <Image source={headerImage} />
@@ -46,7 +46,7 @@ export const LoginScreen = () => (
           password provided by an administrator:
         </Text>
       </View>
-      <LoginForm />
+      <LoginForm onLogin={onLogin} />
     </Content>
   </Container>
 );

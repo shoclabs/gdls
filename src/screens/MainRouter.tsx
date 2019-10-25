@@ -45,13 +45,18 @@ export class MainRouter extends Component {
     }
   };
 
+  handleLogin = async () => {
+    await AsyncStorage.setItem('isLoggedIn', 'true');
+    this.setState({ isLoggedIn: true });
+  };
+
   render() {
     const { fontLoaded, isLoggedIn } = this.state;
     if (!fontLoaded) {
       return null;
     }
     if (!isLoggedIn) {
-      return <LoginScreen />;
+      return <LoginScreen onLogin={this.handleLogin} />;
     }
     return (
       <Container>
