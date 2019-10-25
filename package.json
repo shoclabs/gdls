@@ -14,12 +14,14 @@
     "expo": "^35.0.0",
     "expo-font": "^7.0.0",
     "flatten-dependencies": "^0.0.4",
+    "formik": "^1.5.8",
     "native-base": "^2.13.8",
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-web": "^0.11.7",
-    "react-router-native": "^5.1.2"
+    "react-router-native": "^5.1.2",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.9",

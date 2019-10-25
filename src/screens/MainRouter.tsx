@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
 import { Container, Content } from 'native-base';
 import { Route } from 'react-router-native';
 import * as Font from 'expo-font';
@@ -8,11 +9,13 @@ import { BottomNavigation } from './components/BottomNavigation';
 import { HomeScreen } from './home-screen/HomeScreen';
 import { EnterScoreScreen } from './enter-score-screen/EnterScoreScreen';
 import { WeeklyBoardsScreen } from './weekly-boards-screen/WeeklyBoardsScreen';
+import { LoginScreen } from './login-screen/LoginScreen';
 
 export class MainRouter extends Component {
-  state = { fontLoaded: false };
+  state = { fontLoaded: false, isLoggedIn: false };
 
   async componentDidMount() {
+    await this.loadLoggedInCredentials();
     await Font.loadAsync({
       'open-sans-bold': require('../theme/fonts/OpenSans-Bold.ttf'),
       'open-sans-bold-italic': require('../theme/fonts/OpenSans-BoldItalic.ttf'),
@@ -31,10 +34,24 @@ export class MainRouter extends Component {
     this.setState({ fontLoaded: true });
   }
 
+  loadLoggedInCredentials = async () => {
+    try {
+      const value = await AsyncStorage.getItem('isLoggedIn');
+      if (value !== null) {
+        this.setState({ isLoggedIn: true });
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
   render() {
-    const { fontLoaded } = this.state;
+    const { fontLoaded, isLoggedIn } = this.state;
     if (!fontLoaded) {
       return null;
+    }
+    if (!isLoggedIn) {
+      return <LoginScreen />;
     }
     return (
       <Container>
