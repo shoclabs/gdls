@@ -77,7 +77,7 @@ export class MainRouter extends Component {
         <Container>
           <Header onOpenDrawer={this.handleOpen} />
           <Content>
-            <Route path="/home" component={HomeScreen} />
+            <Route exact path="/" component={HomeScreen} />
             <Route path="/enter-score" component={EnterScoreScreen} />
             <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
           </Content>
