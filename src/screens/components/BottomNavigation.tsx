@@ -38,8 +38,8 @@ export const BottomNavigation = withRouter(({ history: { push, location: { pathn
         <Text style={navigationStyle(pathname === '/home')}>HOME</Text>
       </Button>
       <Button onPress={() => push('/enter-score')}>
-        <Image source={pathname === '/enter-score' ? plusIconSelected : plusIcon} style={iconStyle} />
-        <Text style={navigationStyle(pathname === '/enter-score')}>ENTER SCORE</Text>
+        <Image source={pathname.startsWith('/enter-score') ? plusIconSelected : plusIcon} style={iconStyle} />
+        <Text style={navigationStyle(pathname.startsWith('/enter-score'))}>ENTER SCORE</Text>
       </Button>
       <Button onPress={() => push('/weekly-boards')}>
         <Image source={pathname === '/weekly-boards' ? boardIconSelected : boardIcon} style={iconStyle} />

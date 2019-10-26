@@ -73,6 +73,7 @@ export const LoginForm = ({ onLogin }) => (
             placeholder="Email"
             keyboardType="email-address"
             onChangeText={handleChange('email')}
+            selectionColor={colors.darkBlue}
           />
         </Item>
         <Item regular style={inputContainerStyle}>
@@ -81,6 +82,7 @@ export const LoginForm = ({ onLogin }) => (
             secureTextEntry
             placeholder="Password"
             onChangeText={handleChange('password')}
+            selectionColor={colors.darkBlue}
           />
         </Item>
         <View style={separatorContainerStyle}>
