@@ -51,6 +51,11 @@ export class MainRouter extends Component {
     this.setState({ isLoggedIn: true });
   };
 
+  handleLogout = async () => {
+    await AsyncStorage.removeItem('isLoggedIn');
+    this.setState({ isLoggedIn: false });
+  };
+
   handleOpen = () => this.drawer._root.open();
 
   handleClose = () => this.drawer._root.close();
@@ -66,7 +71,7 @@ export class MainRouter extends Component {
     return (
       <Drawer
         ref={(ref) => { this.drawer = ref; }}
-        content={<DrawerPanel onCloseDrawer={this.handleClose} />}
+        content={<DrawerPanel onCloseDrawer={this.handleClose} onLogout={this.handleLogout} />}
         onClose={this.handleClose}
       >
         <Container>

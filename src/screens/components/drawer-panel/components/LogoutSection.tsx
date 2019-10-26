@@ -26,9 +26,9 @@ const buttonTextStyle = css`
   font-size: 14px;
 `;
 
-export const LogoutSection = () => (
+export const LogoutSection = ({ onLogout }) => (
   <Footer style={footerStyle}>
-    <TouchableOpacity style={buttonStyle}>
+    <TouchableOpacity style={buttonStyle} onPress={onLogout}>
       <Text style={tabHereStyle}>Tab here to </Text>
       <Text style={buttonTextStyle}>log out</Text>
     </TouchableOpacity>

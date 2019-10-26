@@ -35,11 +35,7 @@ const menuContainerStyle = css`
   margin-top: 100px;
 `;
 
-const footerStyle = css`
-  background-color: ${colors.darkBlue}
-`;
-
-export const DrawerPanel = ({ onCloseDrawer }) => (
+export const DrawerPanel = ({ onCloseDrawer, onLogout }) => (
   <Container style={containerStyle}>
     <Content
       bounces={false}
@@ -57,6 +53,6 @@ export const DrawerPanel = ({ onCloseDrawer }) => (
       <MenuSection />
     </View>
     </Content>
-    <LogoutSection />
+    <LogoutSection onLogout={onLogout} />
   </Container>
 );
