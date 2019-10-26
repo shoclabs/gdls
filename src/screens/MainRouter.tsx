@@ -10,7 +10,7 @@ import { HomeScreen } from './home-screen/HomeScreen';
 import { EnterScoreScreen } from './enter-score-screen/EnterScoreScreen';
 import { WeeklyBoardsScreen } from './weekly-boards-screen/WeeklyBoardsScreen';
 import { LoginScreen } from './login-screen/LoginScreen';
-import { DrawerPanel } from './components/DrawerPanel';
+import { DrawerPanel } from './components/drawer-panel/DrawerPanel';
 
 export class MainRouter extends Component {
   state = { fontLoaded: false, isLoggedIn: false };
@@ -66,7 +66,7 @@ export class MainRouter extends Component {
     return (
       <Drawer
         ref={(ref) => { this.drawer = ref; }}
-        content={<DrawerPanel />}
+        content={<DrawerPanel onCloseDrawer={this.handleClose} />}
         onClose={this.handleClose}
       >
         <Container>
