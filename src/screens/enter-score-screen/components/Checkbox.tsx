@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
 import { TouchableOpacity, Image } from 'react-native';
@@ -25,11 +25,10 @@ const textStyle = css`
   color: ${colors.darkBlue};
 `;
 
-export const Checkbox = ({ text }) => {
-  const [value, setValue] = useState(false);
+export const Checkbox = ({ text, value, onChange }) => {
   return (
     <View style={containerStyle}>
-      <TouchableOpacity onPress={() => setValue(!value)}>
+      <TouchableOpacity onPress={() => onChange(!value)}>
         <Image source={value ? onIcon : offIcon} style={checkboxStyle} />
       </TouchableOpacity>
       <Text style={textStyle}>

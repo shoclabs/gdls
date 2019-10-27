@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image } from 'react-native';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
@@ -7,6 +7,8 @@ import { GoBackBar } from '../components/GoBackBar';
 import { Checkbox } from '../components/Checkbox';
 
 import { colors } from '../../../theme/colors';
+import { ConfirmationDialog } from '../components/ConfirmationDialog';
+import { SuccessDialog } from '../components/SuccessDialog';
 
 const searchIcon = require('../assets/search-icon.png');
 
@@ -86,34 +88,64 @@ const checkboxStyle = css`
   margin: 50px 30px 0 30px;
 `;
 
-export const EnterOtherPointsScreen = () => (
-  <Content>
-    <GoBackBar />
-    <View style={searchContainerStyle}>
-      <Image source={searchIcon} style={searchIconStyle} />
-      <Input
-        style={searchStyle}
-        selectionColor={colors.darkBlue}
-        placeholder="Player name"
-        placeholderTextColor={colors.darkBlue}
+export const EnterOtherPointsScreen = () => {
+  const [score, setScore] = useState('');
+  const [userId, setUserId] = useState('');
+  const [confirmation, setConfirmation] = useState(false);
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const handleSubmit = () => {
+    if (score !== '' && confirmation && userId !== '') {
+      setShowConfirmationDialog(true);
+    }
+  };
+  return (
+    <Content>
+      <GoBackBar />
+      <View style={searchContainerStyle}>
+        <Image source={searchIcon} style={searchIconStyle} />
+        <Input
+          style={searchStyle}
+          selectionColor={colors.darkBlue}
+          placeholder="Player name"
+          placeholderTextColor={colors.darkBlue}
+          value={userId}
+          onChangeText={text => setUserId(text)}
+        />
+      </View>
+      <View style={descriptionStyle}>
+        <Text style={textStyle}>ENTER OTHERS PLAYER'S</Text>
+        <Text style={textStyle}>TOTAL <Text style={markedTextStyle}>STABLEFORD</Text> POINTS:</Text>
+      </View>
+      <View style={inputContainerStyle}>
+        <Input
+          style={inputStyle}
+          selectionColor="white"
+          keyboardType="numeric"
+          value={score}
+          onChangeText={text => setScore(text)}
+        />
+      </View>
+      <View style={checkboxStyle}>
+        <Checkbox
+          value={confirmation}
+          text="I have been authorized by other player to register his score for this week."
+          onChange={setConfirmation}
+        />
+      </View>
+      <View style={buttonContainerStyle}>
+        <Button style={buttonStyle} onPress={handleSubmit}>
+          <Text style={buttonTextStyle}>SUBMIT</Text>
+        </Button>
+      </View>
+      <ConfirmationDialog
+        visible={showConfirmationDialog}
+        onClose={() => setShowConfirmationDialog(false)}
+        score={score}
+        onSuccess={() => setShowSuccessDialog(true)}
+        id={userId}
       />
-    </View>
-    <View style={descriptionStyle}>
-      <Text style={textStyle}>ENTER OTHERS PLAYER'S</Text>
-      <Text style={textStyle}>TOTAL <Text style={markedTextStyle}>STABLEFORD</Text> POINTS:</Text>
-    </View>
-    <View style={inputContainerStyle}>
-      <Input style={inputStyle} selectionColor="white" keyboardType="numeric" />
-    </View>
-    <View style={checkboxStyle}>
-      <Checkbox
-        text="I have been authorized by other player to register his score for this week."
-      />
-    </View>
-    <View style={buttonContainerStyle}>
-      <Button style={buttonStyle}>
-        <Text style={buttonTextStyle}>SUBMIT</Text>
-      </Button>
-    </View>
-  </Content>
-);
+      <SuccessDialog visible={showSuccessDialog} onClose={() => setShowSuccessDialog(false)} />
+    </Content>
+  );
+};

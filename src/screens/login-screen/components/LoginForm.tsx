@@ -2,13 +2,14 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { View } from 'react-native';
-import { Input, Item, Button, Text, Spinner } from 'native-base';
+import { Input, Item, Button, Text } from 'native-base';
 import { css } from 'css-rn';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { get } from 'lodash';
 
-import { ErrorMessage } from './ErrorMessage';
+import { ErrorMessage } from '../../components/ErrorMessage';
+import { Loader } from '../../components/Loader';
 
 import { colors } from '../../../theme/colors';
 
@@ -65,11 +66,6 @@ const separatorStyle = css`
   width: 24px;
 `;
 
-const spinnerStyle = css`
-  width: 30px;
-  height: 30px;
-`;
-
 const LOGIN_MUTATION = gql`
   mutation LOGIN($email: String!, $password: String!) {
     emailLogin(email: $email, password: $password) {
@@ -89,7 +85,7 @@ export const LoginForm = ({ onLogin }) => {
   }
   return (
     <>
-      {error && <ErrorMessage />}
+      {error && <ErrorMessage text="Invalid email or password." />}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -120,9 +116,7 @@ export const LoginForm = ({ onLogin }) => {
               <View style={separatorStyle} />
             </View>
             <Button style={buttonStyle} onPress={handleSubmit}>
-              {loading ?
-                <Spinner color="white" style={spinnerStyle}/> :
-                <Text style={buttonTextStyle}>Log in</Text>}
+              {loading ? <Loader /> : <Text style={buttonTextStyle}>Log in</Text>}
             </Button>
           </View>
         )}

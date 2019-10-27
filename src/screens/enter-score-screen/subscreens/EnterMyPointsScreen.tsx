@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
 
 import { GoBackBar } from '../components/GoBackBar';
+import { ConfirmationDialog } from '../components/ConfirmationDialog';
+import { SuccessDialog } from '../components/SuccessDialog';
 
 import { colors } from '../../../theme/colors';
 
@@ -58,20 +60,43 @@ const inputStyle = css`
   text-align: center;
 `;
 
-export const EnterMyPointsScreen = () => (
-  <Content>
-    <GoBackBar />
+export const EnterMyPointsScreen = () => {
+  const [score, setScore] = useState('');
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const handleSubmit = () => {
+    if (score !== '') {
+      setShowConfirmationDialog(true);
+    }
+  };
+  return (
+    <Content>
+      <GoBackBar />
       <View style={descriptionStyle}>
         <Text style={textStyle}>ENTER YOUR TOTAL</Text>
         <Text style={textStyle}><Text style={markedTextStyle}>STABLEFORD</Text> POINTS:</Text>
       </View>
       <View style={inputContainerStyle}>
-        <Input style={inputStyle} selectionColor="white" keyboardType="numeric" />
+        <Input
+          style={inputStyle}
+          selectionColor="white"
+          keyboardType="numeric"
+          value={score}
+          onChangeText={text => setScore(text)}
+        />
       </View>
       <View style={buttonContainerStyle}>
-        <Button style={buttonStyle}>
+        <Button style={buttonStyle} onPress={handleSubmit}>
           <Text style={buttonTextStyle}>SUBMIT</Text>
         </Button>
       </View>
-  </Content>
-);
+      <ConfirmationDialog
+        visible={showConfirmationDialog}
+        onClose={() => setShowConfirmationDialog(false)}
+        score={score}
+        onSuccess={() => setShowSuccessDialog(true)}
+      />
+      <SuccessDialog visible={showSuccessDialog} onClose={() => setShowSuccessDialog(false)} />
+    </Content>
+  );
+};
