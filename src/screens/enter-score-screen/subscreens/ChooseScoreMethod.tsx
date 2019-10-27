@@ -44,7 +44,7 @@ export const ChooseScoreMethod = withRouter(({ history }) => (
     <Button style={[firstButtonStyle, buttonStyle]} onPress={() => history.push('/enter-score/my')}>
       <Text style={buttonTextStyle}>STABLEFORD SCORE</Text>
     </Button>
-    <Button style={[secondButtonStyle, buttonStyle]}>
+    <Button style={[secondButtonStyle, buttonStyle]} onPress={() => history.push('/enter-score/scorecard')}>
       <Text style={buttonTextStyle}>SCORECARD</Text>
     </Button>
     <Button style={[thirdButtonStyle, buttonStyle]} onPress={() => history.push('/enter-score/other')}>
