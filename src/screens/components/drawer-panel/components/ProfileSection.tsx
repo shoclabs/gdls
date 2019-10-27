@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
+import { get } from 'lodash';
 
 const containerStyle = css`
   padding: 0 25px;
@@ -34,14 +35,14 @@ const locationStyle = css`
   font-family: open-sans-condensed-bold;
 `;
 
-export const ProfileSection = () => (
+export const ProfileSection = ({ user }) => (
   <View style={containerStyle}>
     <View style={imageContainerStyle} />
     <View style={descriptionContainerStyle}>
       <Text style={nameStyle}>
-        Mauricio <Text style={surnameStyle}>Yanaculis</Text>
+        {get(user, 'firstName')} <Text style={surnameStyle}>{get(user, 'lastName')}</Text>
       </Text>
-      <Text style={locationStyle}>México</Text>
+      <Text style={locationStyle}>{get(user, 'location') || 'Location not provided'}</Text>
     </View>
   </View>
 );

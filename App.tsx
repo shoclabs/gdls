@@ -13,7 +13,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NativeRouter>
-        <MainRouter />
+        <MainRouter client={client} />
       </NativeRouter>
     </ApolloProvider>
   );

@@ -37,7 +37,7 @@ export class MainRouter extends Component {
 
   loadLoggedInCredentials = async () => {
     try {
-      const value = await AsyncStorage.getItem('isLoggedIn');
+      const value = await AsyncStorage.getItem('token');
       if (value !== null) {
         this.setState({ isLoggedIn: true });
       }
@@ -53,9 +53,11 @@ export class MainRouter extends Component {
   };
 
   handleLogout = async () => {
+    const { client } = this.props;
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('userId');
     this.setState({ isLoggedIn: false });
+    await client.resetStore();
   };
 
   handleOpen = () => this.drawer._root.open();

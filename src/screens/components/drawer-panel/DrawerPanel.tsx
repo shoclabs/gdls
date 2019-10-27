@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Container, Content, Icon, View } from 'native-base';
 import { css } from 'css-rn';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+import { get } from 'lodash';
 
 import { ProfileSection } from './components/ProfileSection';
 import { MenuSection } from './components/MenuSection';
@@ -35,24 +38,39 @@ const menuContainerStyle = css`
   margin-top: 100px;
 `;
 
-export const DrawerPanel = ({ onCloseDrawer, onLogout }) => (
-  <Container style={containerStyle}>
-    <Content
-      bounces={false}
-      style={contentStyle}
-    >
-      <View style={closeContainerStyle}>
-        <Button transparent onPress={onCloseDrawer}>
-          <Icon name="close" style={closeIconStyle} />
-        </Button>
-      </View>
-    <View style={profileContainerStyle}>
-      <ProfileSection />
-    </View>
-    <View style={menuContainerStyle}>
-      <MenuSection />
-    </View>
-    </Content>
-    <LogoutSection onLogout={onLogout} />
-  </Container>
-);
+const GET_ME = gql`
+  {
+    me {
+      id
+      email
+      firstName
+      lastName
+      location
+    }
+  }
+`;
+
+export const DrawerPanel = ({ onCloseDrawer, onLogout }) => {
+  const { loading, error, data } = useQuery(GET_ME);
+  return (
+    <Container style={containerStyle}>
+      <Content
+        bounces={false}
+        style={contentStyle}
+      >
+        <View style={closeContainerStyle}>
+          <Button transparent onPress={onCloseDrawer}>
+            <Icon name="close" style={closeIconStyle} />
+          </Button>
+        </View>
+        <View style={profileContainerStyle}>
+          <ProfileSection user={get(data, 'me')} />
+        </View>
+        <View style={menuContainerStyle}>
+          <MenuSection />
+        </View>
+      </Content>
+      <LogoutSection onLogout={onLogout} />
+    </Container>
+  );
+};
