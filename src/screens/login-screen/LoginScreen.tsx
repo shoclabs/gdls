@@ -33,20 +33,22 @@ const markedTextStyle = css`
   font-family: open-sans-bold;
 `;
 
-export const LoginScreen = ({ onLogin }) => (
-  <Container>
-    <View style={headerContainerStyle}>
-      <Image source={headerImage} />
-    </View>
-    <Content padder>
-      <View style={descriptionContainerStyle}>
-        <Text style={descriptionStyle}>
-          Welcome to <Text style={markedTextStyle}>Golf de los Sábados. </Text>
-          Please enter your email and the
-          password provided by an administrator:
-        </Text>
+export const LoginScreen = ({ onLogin }) => {
+  return (
+    <Container>
+      <View style={headerContainerStyle}>
+        <Image source={headerImage} />
       </View>
-      <LoginForm onLogin={onLogin} />
-    </Content>
-  </Container>
-);
+      <Content padder>
+        <View style={descriptionContainerStyle}>
+          <Text style={descriptionStyle}>
+            Welcome to <Text style={markedTextStyle}>Golf de los Sábados. </Text>
+            Please enter your email and the
+            password provided by an administrator:
+          </Text>
+        </View>
+        <LoginForm onLogin={onLogin} />
+      </Content>
+    </Container>
+  );
+};

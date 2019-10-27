@@ -46,13 +46,15 @@ export class MainRouter extends Component {
     }
   };
 
-  handleLogin = async () => {
-    await AsyncStorage.setItem('isLoggedIn', 'true');
+  handleLogin = async (token, userId) => {
+    await AsyncStorage.setItem('token', token);
+    await AsyncStorage.setItem('userId', userId);
     this.setState({ isLoggedIn: true });
   };
 
   handleLogout = async () => {
-    await AsyncStorage.removeItem('isLoggedIn');
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('userId');
     this.setState({ isLoggedIn: false });
   };
 
