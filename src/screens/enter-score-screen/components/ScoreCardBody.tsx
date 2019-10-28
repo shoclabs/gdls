@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { range } from 'lodash';
 import { ImageBackground } from 'react-native';
 import { Input, Text, View } from 'native-base';
 import { css } from 'css-rn';
+import { times, slice } from 'lodash';
 
 import { colors } from '../../../theme/colors';
+import { calculateScoreOnHole } from '../utils/calculate-score-on-hole';
 
 const redFlagIcon = require('../assets/flag-red.png');
 const greenFlagIcon = require('../assets/flag-green.png');
@@ -56,7 +58,20 @@ const flagTextStyle = css`
    color: white;
 `;
 
-export const ScoreCardBody = () => {
+const initialResult = times(18, () => '');
+const initialScorePerHole = times(18, () => 0);
+
+export const ScoreCardBody = ({ handicap }) => {
+  const [results, setResults] = useState(initialResult);
+  const [scorePerHole, setScorePerHole] = useState(initialScorePerHole);
+  const updateScorePerHole = (score, holeIndex) => {
+    const newScore = calculateScoreOnHole(score, holeIndex, handicap);
+    setScorePerHole([
+      ...slice(scorePerHole, 0, holeIndex - 1),
+      newScore,
+      ...slice(scorePerHole, holeIndex, 18),
+    ]);
+  };
   return (
     <>
       {range(1, 10).map(i => (
@@ -70,10 +85,18 @@ export const ScoreCardBody = () => {
             </ImageBackground>
           </View>
           <View style={cellStyle}>
-            <Input style={inputStyle} selectionColor={colors.darkBlue} />
+            <Input
+              style={inputStyle}
+              selectionColor={colors.darkBlue}
+              value={results[i - 1]}
+              onChangeText={text => {
+                setResults([ ...slice(results,0, i - 1), text, ...slice(results, i, 18) ]);
+                updateScorePerHole(parseInt(text), i);
+              }}
+            />
           </View>
           <View style={cellStyle}>
-            <Input style={[inputStyle, disabledInputStyle]} disabled value="5" />
+            <Input style={[inputStyle, disabledInputStyle]} disabled value={scorePerHole[i - 1].toString()} />
           </View>
           <View style={flagCellStyle}>
             <ImageBackground
@@ -84,10 +107,18 @@ export const ScoreCardBody = () => {
             </ImageBackground>
           </View>
           <View style={cellStyle}>
-            <Input style={inputStyle} selectionColor={colors.darkBlue} />
+            <Input
+              style={inputStyle}
+              selectionColor={colors.darkBlue}
+              value={results[i + 8]}
+              onChangeText={text => {
+                setResults([ ...slice(results,0, i + 8), text, ...slice(results, i + 9, 18) ]);
+                updateScorePerHole(parseInt(text), i + 9);
+              }}
+            />
           </View>
           <View style={cellStyle}>
-            <Input style={[inputStyle, disabledInputStyle]} disabled value="5" />
+            <Input style={[inputStyle, disabledInputStyle]} disabled value={scorePerHole[i + 8].toString()} />
           </View>
         </View>
       ))}
