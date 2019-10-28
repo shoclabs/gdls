@@ -7,6 +7,7 @@ import { times, slice } from 'lodash';
 
 import { colors } from '../../../theme/colors';
 import { calculateScoreOnHole } from '../utils/calculate-score-on-hole';
+import { SubmitScoreBoardResult } from './SubmitScoreBoardResult';
 
 const redFlagIcon = require('../assets/flag-red.png');
 const greenFlagIcon = require('../assets/flag-green.png');
@@ -89,6 +90,7 @@ export const ScoreCardBody = ({ handicap }) => {
               style={inputStyle}
               selectionColor={colors.darkBlue}
               value={results[i - 1]}
+              keyboardType="numeric"
               onChangeText={text => {
                 setResults([ ...slice(results,0, i - 1), text, ...slice(results, i, 18) ]);
                 updateScorePerHole(parseInt(text), i);
@@ -111,6 +113,7 @@ export const ScoreCardBody = ({ handicap }) => {
               style={inputStyle}
               selectionColor={colors.darkBlue}
               value={results[i + 8]}
+              keyboardType="numeric"
               onChangeText={text => {
                 setResults([ ...slice(results,0, i + 8), text, ...slice(results, i + 9, 18) ]);
                 updateScorePerHole(parseInt(text), i + 9);
@@ -122,6 +125,7 @@ export const ScoreCardBody = ({ handicap }) => {
           </View>
         </View>
       ))}
+      <SubmitScoreBoardResult result={scorePerHole.reduce((sum, item) => sum + item, 0)} />
     </>
   );
 };
