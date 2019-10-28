@@ -19,7 +19,8 @@ const itemStyle = css`
 `;
 
 const iconStyle = css`
-
+  height: 24px;
+  width: 24px;
 `;
 
 const textStyle = css`
