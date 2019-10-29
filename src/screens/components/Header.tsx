@@ -21,7 +21,7 @@ interface IHeaderProps extends RouteComponentProps<any>{
 export const Header = withRouter<IHeaderProps, any>(({ location: { pathname }, onOpenDrawer }) => {
   return (
     <NativeHeader
-      style={containerStyle(pathname === '/home')}
+      style={containerStyle(pathname === '/')}
     >
       <Left>
         <Button transparent onPress={onOpenDrawer}>

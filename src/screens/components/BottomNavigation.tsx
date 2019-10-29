@@ -31,11 +31,11 @@ const iconStyle = css`
 `;
 
 export const BottomNavigation = withRouter(({ history: { push, location: { pathname } } }) => (
-  <Footer style={containerStyle(pathname === '/home')}>
+  <Footer style={containerStyle(pathname === '/')}>
     <FooterTab>
-      <Button onPress={() => push('/home')}>
-        <Image source={pathname === '/home' ? homeIconSelected : homeIcon} style={iconStyle} />
-        <Text style={navigationStyle(pathname === '/home')}>HOME</Text>
+      <Button onPress={() => push('/')}>
+        <Image source={pathname === '/' ? homeIconSelected : homeIcon} style={iconStyle} />
+        <Text style={navigationStyle(pathname === '/')}>HOME</Text>
       </Button>
       <Button onPress={() => push('/enter-score')}>
         <Image source={pathname.startsWith('/enter-score') ? plusIconSelected : plusIcon} style={iconStyle} />

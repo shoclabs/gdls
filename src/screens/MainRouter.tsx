@@ -18,6 +18,7 @@ export class MainRouter extends Component {
   async componentDidMount() {
     await this.loadLoggedInCredentials();
     await Font.loadAsync({
+      'Roboto_medium': require('../theme/fonts/Roboto_medium.ttf'),
       'open-sans-bold': require('../theme/fonts/OpenSans-Bold.ttf'),
       'open-sans-bold-italic': require('../theme/fonts/OpenSans-BoldItalic.ttf'),
       'open-sans-extra-bold': require('../theme/fonts/OpenSans-ExtraBold.ttf'),
