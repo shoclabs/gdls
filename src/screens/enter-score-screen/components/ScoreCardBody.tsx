@@ -12,6 +12,10 @@ import { SubmitScoreBoardResult } from './SubmitScoreBoardResult';
 const redFlagIcon = require('../assets/flag-red.png');
 const greenFlagIcon = require('../assets/flag-green.png');
 
+const containerStyle = css`
+  height: 800px;
+`;
+
 const rowStyle = isGrey => css`
   flex-direction: row;
   height: 52px;
@@ -74,7 +78,7 @@ export const ScoreCardBody = ({ handicap }) => {
     ]);
   };
   return (
-    <>
+    <View style={containerStyle}>
       {range(1, 10).map(i => (
         <View style={rowStyle(i % 2 == 1)} key={i}>
           <View style={flagCellStyle}>
@@ -126,6 +130,6 @@ export const ScoreCardBody = ({ handicap }) => {
         </View>
       ))}
       <SubmitScoreBoardResult result={scorePerHole.reduce((sum, item) => sum + item, 0)} />
-    </>
+    </View>
   );
 };

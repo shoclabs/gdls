@@ -32,7 +32,7 @@ const iconStyle = css`
 
 export const BottomNavigation = withRouter(({ history: { push, location: { pathname } } }) => (
   <Footer style={containerStyle(pathname === '/')}>
-    <FooterTab>
+    <FooterTab style={containerStyle(pathname === '/')}>
       <Button onPress={() => push('/')}>
         <Image source={pathname === '/' ? homeIconSelected : homeIcon} style={iconStyle} />
         <Text style={navigationStyle(pathname === '/')}>HOME</Text>
