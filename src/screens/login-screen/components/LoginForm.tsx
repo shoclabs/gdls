@@ -25,6 +25,7 @@ const validationSchema = yup.object().shape({
 
 const containerStyle = css`
   margin: 20px 30px 0 30px;
+  height: 600px;
 `;
 
 const inputContainerStyle = css`
