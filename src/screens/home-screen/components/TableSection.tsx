@@ -3,8 +3,10 @@ import { ScrollView } from 'react-native';
 import { View } from 'native-base';
 import { css } from 'css-rn';
 
-import { TableHeader } from './TableHeader';
+import { TableHeader } from '../../components/TableHeader';
 import { TableRow } from './TableRow';
+
+const headers = ['Played', 'Won', 'Lost', '% Won', '% Lost', 'Money'];
 
 const contentStyle = css`
   flex-direction: column;
@@ -13,7 +15,7 @@ const contentStyle = css`
 export const TableSection = () => (
   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
     <View style={contentStyle}>
-      <TableHeader />
+      <TableHeader headers={headers} />
       <TableRow
         rank={1}
         played={10}

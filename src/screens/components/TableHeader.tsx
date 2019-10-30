@@ -2,12 +2,14 @@ import React from 'react';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
 
-import { colors } from '../../../theme/colors';
+import { colors } from '../../theme/colors';
 
 const containerStyle = css`
   height: 60px;
   flex-direction: row;
   align-items: center;
+  min-width: 100%;
+  justify-content: space-between;
 `;
 
 const leftHeaderStyle = css`
@@ -17,7 +19,6 @@ const leftHeaderStyle = css`
 
 const rightHeaderStyle = css`
   flex-direction: row;
-  width: 143px;
 `;
 
 const textStyle = css`
@@ -43,7 +44,7 @@ const cellHeaderStyle = css`
   width: 70px;
 `;
 
-export const TableHeader = () => (
+export const TableHeader = ({ headers }) => (
   <View style={containerStyle}>
     <View style={leftHeaderStyle}>
       <View style={rankStyle}>
@@ -54,24 +55,11 @@ export const TableHeader = () => (
       </View>
     </View>
     <View style={rightHeaderStyle}>
-      <View style={cellHeaderStyle}>
-        <Text style={[textStyle, centerTextStyle]}>Played</Text>
-      </View>
-      <View style={cellHeaderStyle}>
-        <Text style={[textStyle, centerTextStyle]}>Won</Text>
-      </View>
-      <View style={cellHeaderStyle}>
-        <Text style={[textStyle, centerTextStyle]}>Lost</Text>
-      </View>
-      <View style={cellHeaderStyle}>
-        <Text style={[textStyle, centerTextStyle]}>% Won</Text>
-      </View>
-      <View style={cellHeaderStyle}>
-        <Text style={[textStyle, centerTextStyle]}>% Lost</Text>
-      </View>
-      <View style={cellHeaderStyle}>
-        <Text style={[textStyle, centerTextStyle]}>Money</Text>
-      </View>
+      {headers.map(header => (
+        <View style={cellHeaderStyle} key={header}>
+          <Text style={[textStyle, centerTextStyle]}>{header}</Text>
+        </View>
+      ))}
     </View>
   </View>
 );

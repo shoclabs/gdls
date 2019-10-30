@@ -1,14 +1,11 @@
 import React from 'react';
-import { Image, View as NativeView } from 'react-native';
+import { View as NativeView } from 'react-native';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
-import { ImageBackground } from 'react-native';
+
+import { TableRowLeftContent } from '../../components/TableRowLeftContent';
 
 import { colors } from '../../../theme/colors';
-
-const rankIcon = require('../assets/rank.png');
-const crownIcon = require('../assets/crown.png');
-const dumbhatIcon = require('../assets/dumbhat.png');
 
 const containerStyle = isGrey => css`
   height: 46px;
@@ -16,12 +13,6 @@ const containerStyle = isGrey => css`
   align-items: center;
   background-color: ${isGrey ? colors.lightGrey : 'white'};
   width: 650px;
-`;
-
-const leftContentStyle = css`
-  flex-direction: row;
-  width: 232px;
-  align-items: center;
 `;
 
 const rightContentStyle = css`
@@ -36,59 +27,12 @@ const textStyle = css`
   padding-right: 10px;
 `;
 
-const rankStyle = css`
-  width: 62px;
-`;
-
 const centerTextStyle = css`
   text-align: center;
 `;
 
-const playerStyle = css`
-  width: 138px;
-  flex-direction: row;
-  padding-left: 16px;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const dataCellStyle = css`
   width: 70px;
-`;
-
-const rankIconStyle = css`
-  width: 24px;
-  height: 27.5px;
-  align-items: center;
-  justify-content: center;
-  margin-left: 20px;
-`;
-
-const rankTextStyle = css`
-  font-family: open-sans-condensed-bold;
-  font-size: 12px;
-  color: white;
-`;
-
-const avatarContainerStyle = css`
-  width: 32px;
-`;
-
-const avatarPlaceholderStyle = css`
-  background-color: black;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-`;
-
-const crownStyle = css`
-  width: 16.2px;
-  height: 12.2px;
-`;
-
-const dumbhatStyle = css`
-  width: 16px;
-  height: 12px;
 `;
 
 interface ITableRow {
@@ -106,21 +50,12 @@ interface ITableRow {
 
 export const TableRow = ({ rank, played, won, lost, fullName, isWinner, isLooser, percentWon, percentLost, money }: ITableRow) => (
   <NativeView style={containerStyle(rank % 2 === 1)}>
-    <View style={leftContentStyle}>
-      <View style={rankStyle}>
-        <ImageBackground source={rankIcon} style={rankIconStyle}>
-          <Text style={rankTextStyle}>{rank}</Text>
-        </ImageBackground>
-      </View>
-      <View style={avatarContainerStyle}>
-        <View style={avatarPlaceholderStyle} />
-      </View>
-      <View style={playerStyle}>
-        <Text style={textStyle}>{fullName}</Text>
-        {isWinner && <Image style={crownStyle} source={crownIcon} />}
-        {isLooser && <Image style={dumbhatStyle} source={dumbhatIcon} />}
-      </View>
-    </View>
+    <TableRowLeftContent
+      isWinner={isWinner}
+      isLooser={isLooser}
+      rank={rank}
+      fullName={fullName}
+    />
     <View style={rightContentStyle}>
       <View style={dataCellStyle}>
         <Text style={[textStyle, centerTextStyle]}>{played}</Text>
