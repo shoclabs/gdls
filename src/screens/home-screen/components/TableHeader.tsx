@@ -39,11 +39,7 @@ const playerStyle = css`
   padding-left: 48px;
 `;
 
-const playedStyle = css`
-  width: 70px;
-`;
-
-const wonStyle = css`
+const cellHeaderStyle = css`
   width: 70px;
 `;
 
@@ -58,11 +54,23 @@ export const TableHeader = () => (
       </View>
     </View>
     <View style={rightHeaderStyle}>
-      <View style={playedStyle}>
+      <View style={cellHeaderStyle}>
         <Text style={[textStyle, centerTextStyle]}>Played</Text>
       </View>
-      <View style={wonStyle}>
+      <View style={cellHeaderStyle}>
         <Text style={[textStyle, centerTextStyle]}>Won</Text>
+      </View>
+      <View style={cellHeaderStyle}>
+        <Text style={[textStyle, centerTextStyle]}>Lost</Text>
+      </View>
+      <View style={cellHeaderStyle}>
+        <Text style={[textStyle, centerTextStyle]}>% Won</Text>
+      </View>
+      <View style={cellHeaderStyle}>
+        <Text style={[textStyle, centerTextStyle]}>% Lost</Text>
+      </View>
+      <View style={cellHeaderStyle}>
+        <Text style={[textStyle, centerTextStyle]}>Money</Text>
       </View>
     </View>
   </View>

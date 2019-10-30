@@ -52,6 +52,9 @@ const GET_ME = gql`
 
 export const DrawerPanel = ({ onCloseDrawer, onLogout }) => {
   const { loading, error, data } = useQuery(GET_ME);
+  if (get(data, 'me') === null) {
+    onLogout();
+  }
   return (
     <Container style={containerStyle}>
       <Content

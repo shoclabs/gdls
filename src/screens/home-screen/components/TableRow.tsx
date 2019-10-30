@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View as NativeView } from 'react-native';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
 import { ImageBackground } from 'react-native';
@@ -12,10 +12,10 @@ const dumbhatIcon = require('../assets/dumbhat.png');
 
 const containerStyle = isGrey => css`
   height: 46px;
-  width: 100%;
   flex-direction: row;
   align-items: center;
   background-color: ${isGrey ? colors.lightGrey : 'white'};
+  width: 650px;
 `;
 
 const leftContentStyle = css`
@@ -52,11 +52,7 @@ const playerStyle = css`
   justify-content: space-between;
 `;
 
-const playedStyle = css`
-  width: 70px;
-`;
-
-const wonStyle = css`
+const dataCellStyle = css`
   width: 70px;
 `;
 
@@ -99,13 +95,17 @@ interface ITableRow {
   rank: number;
   played: number;
   won: number;
+  lost: number;
+  percentWon: number;
+  percentLost: number;
+  money: number;
   fullName: string;
   isWinner?: boolean;
   isLooser?: boolean;
 }
 
-export const TableRow = ({ rank, played, won, fullName, isWinner, isLooser }: ITableRow) => (
-  <View style={containerStyle(rank % 2 === 1)}>
+export const TableRow = ({ rank, played, won, lost, fullName, isWinner, isLooser, percentWon, percentLost, money }: ITableRow) => (
+  <NativeView style={containerStyle(rank % 2 === 1)}>
     <View style={leftContentStyle}>
       <View style={rankStyle}>
         <ImageBackground source={rankIcon} style={rankIconStyle}>
@@ -122,12 +122,24 @@ export const TableRow = ({ rank, played, won, fullName, isWinner, isLooser }: IT
       </View>
     </View>
     <View style={rightContentStyle}>
-      <View style={playedStyle}>
+      <View style={dataCellStyle}>
         <Text style={[textStyle, centerTextStyle]}>{played}</Text>
       </View>
-      <View style={wonStyle}>
+      <View style={dataCellStyle}>
         <Text style={[textStyle, centerTextStyle]}>{won}</Text>
       </View>
+      <View style={dataCellStyle}>
+        <Text style={[textStyle, centerTextStyle]}>{lost}</Text>
+      </View>
+      <View style={dataCellStyle}>
+        <Text style={[textStyle, centerTextStyle]}>{percentWon}</Text>
+      </View>
+      <View style={dataCellStyle}>
+        <Text style={[textStyle, centerTextStyle]}>{percentLost}</Text>
+      </View>
+      <View style={dataCellStyle}>
+        <Text style={[textStyle, centerTextStyle]}>{money}</Text>
+      </View>
     </View>
-  </View>
+  </NativeView>
 );
