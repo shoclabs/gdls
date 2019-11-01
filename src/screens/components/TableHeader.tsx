@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, View } from 'native-base';
+import React, { useState } from 'react';
+import { Text, View, Button } from 'native-base';
 import { css } from 'css-rn';
 
 import { colors } from '../../theme/colors';
@@ -36,6 +36,14 @@ const centerTextStyle = css`
   text-align: center;
 `;
 
+const headerTextStyle = isSelected => css`
+  text-align: center;
+  font-family: open-sans-extra-bold;
+  font-size: 12px;
+  color: ${isSelected ? 'white' : colors.darkBlue};
+  padding: 0 10px;
+`;
+
 const playerStyle = css`
   width: 94px;
   padding-left: 48px;
@@ -45,28 +53,47 @@ const cellHeaderStyle = css`
   width: 70px;
 `;
 
+const buttonStyle = isSelected => css`
+  border-radius: 5px;
+  background-color: ${isSelected ? colors.darkBlue : 'white'};
+  text-align: center;
+  justify-content: center;
+  height: 30px;
+`;
+
 interface ITableHeader {
   headers: Array<string>;
   removeRank?: boolean;
+  selectedHeader?: string;
 }
 
-export const TableHeader = ({ headers, removeRank }: ITableHeader) => (
-  <View style={containerStyle}>
-    <View style={leftHeaderStyle(removeRank)}>
-      {!removeRank &&
+export const TableHeader = ({ headers, removeRank, selectedHeader }: ITableHeader) => {
+  const [selected, setSelected] = useState(selectedHeader);
+  const handleSelect = header => {
+    if (selectedHeader) {
+      setSelected(header);
+    }
+  };
+  return (
+    <View style={containerStyle}>
+      <View style={leftHeaderStyle(removeRank)}>
+        {!removeRank &&
         <View style={rankStyle}>
           <Text style={[textStyle, centerTextStyle]}>Rank</Text>
         </View>}
-      <View style={playerStyle}>
-        <Text style={textStyle}>Player</Text>
+        <View style={playerStyle}>
+          <Text style={textStyle}>Player</Text>
+        </View>
+      </View>
+      <View style={rightHeaderStyle}>
+        {headers.map(header => (
+          <View style={cellHeaderStyle} key={header}>
+            <Button transparent onPress={() => handleSelect(header)} style={buttonStyle(header === selected)}>
+              <Text style={headerTextStyle(header === selected)}>{header}</Text>
+            </Button>
+          </View>
+        ))}
       </View>
     </View>
-    <View style={rightHeaderStyle}>
-      {headers.map(header => (
-        <View style={cellHeaderStyle} key={header}>
-          <Text style={[textStyle, centerTextStyle]}>{header}</Text>
-        </View>
-      ))}
-    </View>
-  </View>
-);
+  );
+};

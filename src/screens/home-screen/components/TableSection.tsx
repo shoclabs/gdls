@@ -15,7 +15,7 @@ const contentStyle = css`
 export const TableSection = () => (
   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
     <View style={contentStyle}>
-      <TableHeader headers={headers} removeRank />
+      <TableHeader headers={headers} removeRank selectedHeader="Won" />
       <TableRow
         rank={1}
         played={10}
