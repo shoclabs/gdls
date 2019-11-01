@@ -12,9 +12,10 @@ const containerStyle = css`
   justify-content: space-between;
 `;
 
-const leftHeaderStyle = css`
+const leftHeaderStyle = removeRank => css`
   flex-direction: row;
-  width: 232px;
+  width: ${removeRank ? 170 : 232}px;
+  ${removeRank ? 'margin-left: 20px;' : ''}
 `;
 
 const rightHeaderStyle = css`
@@ -44,12 +45,18 @@ const cellHeaderStyle = css`
   width: 70px;
 `;
 
-export const TableHeader = ({ headers }) => (
+interface ITableHeader {
+  headers: Array<string>;
+  removeRank?: boolean;
+}
+
+export const TableHeader = ({ headers, removeRank }: ITableHeader) => (
   <View style={containerStyle}>
-    <View style={leftHeaderStyle}>
-      <View style={rankStyle}>
-        <Text style={[textStyle, centerTextStyle]}>Rank</Text>
-      </View>
+    <View style={leftHeaderStyle(removeRank)}>
+      {!removeRank &&
+        <View style={rankStyle}>
+          <Text style={[textStyle, centerTextStyle]}>Rank</Text>
+        </View>}
       <View style={playerStyle}>
         <Text style={textStyle}>Player</Text>
       </View>

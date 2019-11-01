@@ -8,10 +8,11 @@ const rankIcon = require('./icons/rank.png');
 const crownIcon = require('./icons/crown.png');
 const dumbhatIcon = require('./icons/dumbhat.png');
 
-const containerStyle = css`
+const containerStyle = removeRank => css`
   flex-direction: row;
-  width: 232px;
+  width: ${removeRank ? 170 : 232}px;
   align-items: center;
+  ${removeRank ? 'margin-left: 20px;' : ''}
 `;
 
 const rankStyle = css`
@@ -68,13 +69,22 @@ const dumbhatStyle = css`
   height: 12px;
 `;
 
-export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName }) => (
-  <View style={containerStyle}>
-    <View style={rankStyle}>
-      <ImageBackground source={rankIcon} style={rankIconStyle}>
-        <Text style={rankTextStyle}>{rank}</Text>
-      </ImageBackground>
-    </View>
+interface ITableRowLeftContent {
+  isWinner: boolean;
+  isLooser: boolean;
+  rank: number;
+  fullName: string;
+  removeRank?: boolean;
+}
+
+export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, removeRank }) => (
+  <View style={containerStyle(removeRank)}>
+    {!removeRank &&
+      <View style={rankStyle}>
+        <ImageBackground source={rankIcon} style={rankIconStyle}>
+          <Text style={rankTextStyle}>{rank}</Text>
+        </ImageBackground>
+      </View>}
     <View style={avatarContainerStyle}>
       <View style={avatarPlaceholderStyle} />
     </View>

@@ -43,7 +43,7 @@ export const WeeklyBoardsScreen = () => {
         <BoardLoader /> :
         <>
           <HeaderSection
-            activeWeek={data.activeWeek.weekNumber}
+            activeWeek={selectedWeek || data.activeWeek.weekNumber}
             activeYear={data.activeWeek.year.year}
             onWeekSelect={setSelectedWeek}
           />

@@ -40,6 +40,7 @@ export const TableRow = ({ rank, played, won, lost, fullName, isWinner, isLooser
       isLooser={isLooser}
       rank={rank}
       fullName={fullName}
+      removeRank
     />
     <View style={rightContentStyle}>
       <TableCell value={played} />
