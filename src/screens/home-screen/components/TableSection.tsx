@@ -52,7 +52,7 @@ export const TableSection = () => {
     )
   }
   const userFieldToFilter = userFieldResolver[selectedHeader];
-  const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']);
+  const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']).reverse();
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={contentStyle}>
