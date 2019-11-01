@@ -5,15 +5,15 @@ import { ApolloProvider } from '@apollo/react-hooks';
 
 import { MainRouter } from './src/screens/MainRouter';
 
-const client = new ApolloClient({
+export const apolloClient = new ApolloClient({
   uri: 'https://gdls-backend.herokuapp.com/graphql',
 });
 
 export default function App() {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <NativeRouter>
-        <MainRouter client={client} />
+        <MainRouter client={apolloClient} />
       </NativeRouter>
     </ApolloProvider>
   );
