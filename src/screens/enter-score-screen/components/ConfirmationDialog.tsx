@@ -3,7 +3,6 @@ import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import { Text, View, Button } from 'native-base';
 import { css } from 'css-rn';
 import gql from 'graphql-tag';
-import { AsyncStorage } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
 import moment from 'moment';
 import { get } from 'lodash';
@@ -39,8 +38,8 @@ const contentStyle = css`
 `;
 
 const CREATE_SCORE_MUTATION = gql`
-  mutation CREATE_ROUND($score: Float!, $weekNumber: Float!, $year: Float!, $userId: EntityId!) {
-    createRound(input: { score: $score, weekNumber: $weekNumber, year: $year, user: { id: $userId } }) {
+  mutation CREATE_ROUND($score: Float!, $weekNumber: Float!, $year: Float!) {
+    createRound(input: { score: $score, weekNumber: $weekNumber, year: $year }) {
       id
     }
   }
@@ -57,12 +56,10 @@ interface IConfirmationDialog {
 export const ConfirmationDialog = ({ visible, onClose, score, onSuccess, id }: IConfirmationDialog) => {
   const [createScoreMutation, { data, loading, error }] = useMutation(CREATE_SCORE_MUTATION);
   const handleSubmit = async () => {
-    const userId = id || await AsyncStorage.getItem('userId');
     const variables = {
       score: parseInt(score),
       weekNumber: moment().weeks(),
       year: moment().year(),
-      userId,
     };
     createScoreMutation({ variables });
   };

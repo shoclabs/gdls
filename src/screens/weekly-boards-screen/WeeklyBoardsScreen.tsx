@@ -1,22 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 import { HeaderSection } from './components/HeaderSection';
-import { TableHeader } from '../components/TableHeader';
-import { TableRow } from './components/TableRow';
+import { BoardLoader } from './components/BoardLoader';
+import { TableBody } from './components/TableBody';
 
-const headers = ['Score'];
+const GET_ROUNDS = gql`
+  {
+    rounds {
+      id
+      score
+      user {
+        firstName
+        lastName
+      }
+      week {
+        weekNumber
+        year {
+          year
+        }
+      }
+    }
+    activeWeek {
+      id
+      weekNumber
+      isActive
+      year {
+        year
+      }
+    }
+  }
+`;
 
-export const WeeklyBoardsScreen = () => (
-  <View>
-    <HeaderSection />
-    <TableHeader headers={headers} />
-    <TableRow fullName="Mauricio Yanaculis" isWinner isLooser={false} rank={1} score={60} />
-    <TableRow fullName="Trip Scammonden" isWinner={false} isLooser={false} rank={2} score={53} />
-    <TableRow fullName="Tom Mahok" isWinner={false} isLooser={false} rank={3} score={45} />
-    <TableRow fullName="Rollo Cressey" isWinner={false} isLooser={false} rank={4} score={16} />
-    <TableRow fullName="Donnie Boerder" isWinner={false} isLooser={false} rank={5} score={8} />
-    <TableRow fullName="Mislav Kucanda" isWinner={false} isLooser={false} rank={6} score={3} />
-    <TableRow fullName="Alejandro Yanaculis" isWinner={false} isLooser={true} rank={7} score={1} />
-  </View>
-);
+export const WeeklyBoardsScreen = () => {
+  const [selectedWeek, setSelectedWeek] = useState();
+  const { data, loading, error } = useQuery(GET_ROUNDS);
+  return (
+    <View>
+      {loading ?
+        <BoardLoader /> :
+        <>
+          <HeaderSection
+            activeWeek={data.activeWeek.weekNumber}
+            activeYear={data.activeWeek.year.year}
+            onWeekSelect={setSelectedWeek}
+          />
+          <TableBody
+            rounds={data.rounds}
+            week={selectedWeek || data.activeWeek.weekNumber}
+          />
+        </>
+      }
+    </View>
+  );
+};

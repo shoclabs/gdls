@@ -4,7 +4,6 @@ import { css } from 'css-rn';
 import moment from 'moment';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { get } from 'lodash';
 
 import { Picker } from '../../components/Picker';
 
@@ -53,14 +52,6 @@ const pickerStyle = css`
 
 const GET_ACTIVE_WEEK = gql`
   {
-    activeWeek {
-      id
-      weekNumber
-      isActive
-      year {
-        year
-      }
-    }
     weeks {
       id
       weekNumber
@@ -68,26 +59,25 @@ const GET_ACTIVE_WEEK = gql`
   }
 `;
 
-export const HeaderSection = () => {
+export const HeaderSection = ({ activeWeek, activeYear, onWeekSelect }) => {
   const { loading, error, data } = useQuery(GET_ACTIVE_WEEK);
   if (loading) {
     return null;
   }
-  const weekNumber = get(data, 'activeWeek.weekNumber');
-  const year = get(data, 'activeWeek.year.year');
-  const date = getDateFromWeekAndYear(weekNumber, year);
+  const date = getDateFromWeekAndYear(activeWeek, activeYear);
   const weekNumbers = data.weeks.map(week => week.weekNumber).sort();
-  const items = generatePickerItems(weekNumbers, year);
+  const items = generatePickerItems(weekNumbers, activeYear);
   return (
     <View style={containerStyle}>
-      <Text style={headerTextStyle}>WEEK {weekNumber}</Text>
+      <Text style={headerTextStyle}>WEEK {activeWeek}</Text>
       <Text style={subHeaderTextStyle}>
         {moment(date).format('MMMM DD, YYYY')}
       </Text>
       <View style={pickerStyle}>
         <Picker
           items={items}
-          initialValue={weekNumber}
+          initialValue={activeWeek}
+          onWeekSelect={onWeekSelect}
           customSelector={
             <Button style={buttonStyle}>
               <Text style={buttonTextStyle}>PREVIOUS WEEKS</Text>

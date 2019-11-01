@@ -7,6 +7,6 @@ const spinnerStyle = css`
   height: 30px;
 `;
 
-export const Loader = () => (
-  <Spinner color="white" style={spinnerStyle} />
+export const Loader = ({ color }) => (
+  <Spinner color={color || 'white'} style={spinnerStyle} />
 );
