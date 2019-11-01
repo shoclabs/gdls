@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View, Button } from 'native-base';
 import { css } from 'css-rn';
 
@@ -65,13 +65,13 @@ interface ITableHeader {
   headers: Array<string>;
   removeRank?: boolean;
   selectedHeader?: string;
+  onSelectHeader?(header: string): void;
 }
 
-export const TableHeader = ({ headers, removeRank, selectedHeader }: ITableHeader) => {
-  const [selected, setSelected] = useState(selectedHeader);
+export const TableHeader = ({ headers, removeRank, selectedHeader, onSelectHeader }: ITableHeader) => {
   const handleSelect = header => {
     if (selectedHeader) {
-      setSelected(header);
+      onSelectHeader(header);
     }
   };
   return (
@@ -88,8 +88,8 @@ export const TableHeader = ({ headers, removeRank, selectedHeader }: ITableHeade
       <View style={rightHeaderStyle}>
         {headers.map(header => (
           <View style={cellHeaderStyle} key={header}>
-            <Button transparent onPress={() => handleSelect(header)} style={buttonStyle(header === selected)}>
-              <Text style={headerTextStyle(header === selected)}>{header}</Text>
+            <Button transparent onPress={() => handleSelect(header)} style={buttonStyle(header === selectedHeader)}>
+              <Text style={headerTextStyle(header === selectedHeader)}>{header}</Text>
             </Button>
           </View>
         ))}
