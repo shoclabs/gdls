@@ -7,6 +7,10 @@ const spinnerStyle = css`
   height: 30px;
 `;
 
-export const Loader = ({ color }) => (
+interface ILoaderProps {
+  color?: string;
+}
+
+export const Loader = ({ color }: ILoaderProps) => (
   <Spinner color={color || 'white'} style={spinnerStyle} />
 );

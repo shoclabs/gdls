@@ -35,6 +35,10 @@ export const MenuSection = withRouter<IMenuSectionProps, any>(({ history, onClos
     history.push('/my-profile');
     onClose();
   };
+  const handleOpenSettingsScreen = () => {
+    history.push('/settings-screen');
+    onClose();
+  };
   return (
     <View>
       <Button transparent style={itemStyle} onPress={handleOpenProfileScreen}>
@@ -49,7 +53,7 @@ export const MenuSection = withRouter<IMenuSectionProps, any>(({ history, onClos
         <Image style={iconStyle} source={sideBetsIcon} />
         <Text style={textStyle}>SIDE BETS</Text>
       </Button>
-      <Button transparent style={itemStyle}>
+      <Button transparent style={itemStyle} onPress={handleOpenSettingsScreen}>
         <Image style={iconStyle} source={sideBetsIcon} />
         <Text style={textStyle}>SETTINGS</Text>
       </Button>

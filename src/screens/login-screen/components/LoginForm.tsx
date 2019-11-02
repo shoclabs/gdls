@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { Input, Item, Button, Text } from 'native-base';
 import { css } from 'css-rn';
 import gql from 'graphql-tag';
@@ -25,7 +25,7 @@ const validationSchema = yup.object().shape({
 
 const containerStyle = css`
   margin: 20px 30px 0 30px;
-  height: 600px;
+  ${Platform.OS === 'android' ? 'height: 600px;' : ''}
 `;
 
 const inputContainerStyle = css`
