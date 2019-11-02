@@ -58,10 +58,12 @@ export const UserModal = ({ isVisible, onClose, userStatistics }) => {
     >
       <View style={containerStyle}>
         <View style={avatarStyle} />
-        <Text style={firstNameStyle}>John <Text style={lastNameStyle}>Doe</Text></Text>
-        <Text style={locationStyle}>Queens, NY, USA</Text>
+        <Text style={firstNameStyle}>
+          {userStatistics.firstName} <Text style={lastNameStyle}>{userStatistics.lastName}</Text>
+        </Text>
+        <Text style={locationStyle}>{userStatistics.location || 'Location not provided'}</Text>
         <Text style={descriptionStyle}>
-          Hi! My name is John, I’m a real estate hustler from Queens NY. Contact me at john@email.com
+          {userStatistics.description || 'Description not provided'}
         </Text>
         <UserStatistics {...userStatistics} />
       </View>

@@ -37,6 +37,8 @@ const GET_USERS = gql`
       losePercentage
       handicap
       money
+      description
+      location
     }
   }
 `;
@@ -77,6 +79,8 @@ export const TableSection = () => {
             lastName={user.lastName}
             isWinner={index === 0}
             isLooser={sortedUsers.length === index + 1}
+            location={user.location}
+            description={user.description}
           />
         ))}
       </View>

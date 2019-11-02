@@ -74,7 +74,9 @@ export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, remove
         </Button>
       </View>
       <View style={playerStyle}>
-        <Text style={textStyle}>{fullName}</Text>
+        <Button transparent onPress={() => setShowUserModal(true)}>
+          <Text style={textStyle}>{fullName}</Text>
+        </Button>
         {isWinner && <Image style={crownStyle} source={crownIcon} />}
         {isLooser && <Image style={dumbhatStyle} source={dumbhatIcon} />}
       </View>

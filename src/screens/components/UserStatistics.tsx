@@ -30,6 +30,10 @@ const headerStyle = css`
   color: ${colors.blue};
 `;
 
+const dividerStyle = css`
+  margin-top: 20px;
+`;
+
 interface IUserStatistics {
   won: number;
   money: number;
@@ -51,6 +55,7 @@ export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLos
       <Text style={headerStyle}>$</Text>
       <Text style={headerStyle}>HCP</Text>
     </View>
+    <View style={dividerStyle} />
     <View style={rowStyle}>
       <Text style={valueStyle}>{won}</Text>
       <Text style={valueStyle}>{percentWon}</Text>
