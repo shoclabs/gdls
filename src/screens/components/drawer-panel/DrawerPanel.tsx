@@ -28,6 +28,7 @@ const closeIconStyle = css`
 
 const closeContainerStyle = css`
   align-items: flex-end;
+  margin-top: 35px;
 `;
 
 const profileContainerStyle = css`

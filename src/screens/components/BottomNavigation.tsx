@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Platform } from 'react-native';
 import { Footer, FooterTab, Button, Text } from 'native-base';
 import { css } from 'css-rn';
 import { withRouter } from 'react-router-native';
@@ -16,6 +16,7 @@ const boardIconSelected = require('./icons/board-selected.png');
 
 const containerStyle = onHomeScreen => css`
   background-color: ${onHomeScreen ? colors.blue : colors.green};
+  ${Platform.OS === 'android' ? 'height: 85px;' : ''}
 `;
 
 const navigationStyle = isSelected => css`
