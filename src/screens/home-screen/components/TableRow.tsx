@@ -28,19 +28,21 @@ interface ITableRow {
   percentLost: number;
   money: number;
   hcp: number;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   isWinner?: boolean;
   isLooser?: boolean;
 }
 
-export const TableRow = ({ rank, played, won, lost, fullName, isWinner, isLooser, percentWon, percentLost, money, hcp }: ITableRow) => (
+export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinner, isLooser, percentWon, percentLost, money, hcp }: ITableRow) => (
   <NativeView style={containerStyle(rank % 2 === 1)}>
     <TableRowLeftContent
       isWinner={isWinner}
       isLooser={isLooser}
       rank={rank}
-      fullName={fullName}
+      fullName={`${firstName} ${lastName}`}
       removeRank
+      userStatistics={{ won, played, percentWon, percentLost, hcp, money }}
     />
     <View style={rightContentStyle}>
       <TableCell value={played} />

@@ -73,7 +73,8 @@ export const TableSection = () => {
             percentLost={user.losePercentage}
             money={user.money}
             hcp={user.handicap}
-            fullName={`${user.firstName} ${user.lastName}`}
+            firstName={user.firstName}
+            lastName={user.lastName}
             isWinner={index === 0}
             isLooser={sortedUsers.length === index + 1}
           />
