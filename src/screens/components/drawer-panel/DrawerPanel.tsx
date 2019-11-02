@@ -70,7 +70,7 @@ export const DrawerPanel = ({ onCloseDrawer, onLogout }) => {
           <ProfileSection user={get(data, 'me')} />
         </View>
         <View style={menuContainerStyle}>
-          <MenuSection />
+          <MenuSection onClose={onCloseDrawer} />
         </View>
       </Content>
       <LogoutSection onLogout={onLogout} />

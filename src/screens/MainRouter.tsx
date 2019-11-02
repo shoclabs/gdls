@@ -11,6 +11,7 @@ import { EnterScoreScreen } from './enter-score-screen/EnterScoreScreen';
 import { WeeklyBoardsScreen } from './weekly-boards-screen/WeeklyBoardsScreen';
 import { LoginScreen } from './login-screen/LoginScreen';
 import { DrawerPanel } from './components/drawer-panel/DrawerPanel';
+import { MyProfileScreen } from './my-profile-screen/MyProfileScreen';
 
 export class MainRouter extends Component {
   state = { fontLoaded: false, isLoggedIn: false };
@@ -85,6 +86,7 @@ export class MainRouter extends Component {
             <Route exact path="/" component={HomeScreen} />
             <Route path="/enter-score" component={EnterScoreScreen} />
             <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
+            <Route path="/my-profile" component={MyProfileScreen} />
           </Content>
           <BottomNavigation />
         </Container>

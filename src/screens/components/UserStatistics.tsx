@@ -34,6 +34,20 @@ const dividerStyle = css`
   margin-top: 20px;
 `;
 
+const rightSeparatorStyle = css`
+  border-right-width: 2px;
+  border-right-color: ${colors.green};
+  border-right-style: solid;
+  flex: 1;
+`;
+
+const leftSeparatorStyle = css`
+  border-left-width: 2px;
+  border-left-color: ${colors.green};
+  border-left-style: solid;
+  flex: 1;
+`;
+
 interface IUserStatistics {
   won: number;
   money: number;
@@ -46,9 +60,13 @@ interface IUserStatistics {
 export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLost }: IUserStatistics) => (
   <View style={containerStyle}>
     <View style={rowStyle}>
-      <Text style={valueStyle}>{played}</Text>
+      <View style={rightSeparatorStyle}>
+        <Text style={valueStyle}>{played}</Text>
+      </View>
       <Text style={valueStyle}>{money}</Text>
-      <Text style={valueStyle}>{hcp}</Text>
+      <View style={leftSeparatorStyle}>
+        <Text style={valueStyle}>{hcp}</Text>
+      </View>
     </View>
     <View style={rowStyle}>
       <Text style={headerStyle}>PLAYED</Text>
@@ -57,9 +75,13 @@ export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLos
     </View>
     <View style={dividerStyle} />
     <View style={rowStyle}>
-      <Text style={valueStyle}>{won}</Text>
+      <View style={rightSeparatorStyle}>
+        <Text style={valueStyle}>{won}</Text>
+      </View>
       <Text style={valueStyle}>{percentWon}</Text>
-      <Text style={valueStyle}>{percentLost}</Text>
+      <View style={leftSeparatorStyle}>
+        <Text style={valueStyle}>{percentLost}</Text>
+      </View>
     </View>
     <View style={rowStyle}>
       <Text style={headerStyle}>WIN</Text>
