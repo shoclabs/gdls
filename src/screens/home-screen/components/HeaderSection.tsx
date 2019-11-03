@@ -2,9 +2,10 @@ import React from 'react';
 import { Image, ImageSourcePropType } from 'react-native';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
-import moment from 'moment';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+
+const imagePlaceholder = require('../assets/test-img.png');
 
 const containerStyle = css`
   height: 214px;
@@ -28,7 +29,7 @@ const imageStyle = css`
 
 const placeholderStyle = css`
   height: 214px;
-  background-color: black;
+  width: 100%;
 `;
 
 const GET_ACTIVE_WEEK = gql`
@@ -54,7 +55,7 @@ export const HeaderSection = ({ imageUrl }: IHeaderSection) => {
     <View style={containerStyle}>
       {imageUrl ?
         <Image style={imageStyle} source={imageUrl} /> :
-        <View style={placeholderStyle} />}
+        <Image style={placeholderStyle} source={imagePlaceholder} resizeMode="cover" />}
       <Text style={titleStyle}>WEEK {data.activeWeek.weekNumber}</Text>
     </View>
   );
