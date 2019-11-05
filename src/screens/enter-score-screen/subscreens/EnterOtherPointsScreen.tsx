@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
 
-import { GoBackBar } from '../components/GoBackBar';
+import { GoBackBar } from '../../components/GoBackBar';
 import { Checkbox } from '../components/Checkbox';
 
 import { colors } from '../../../theme/colors';

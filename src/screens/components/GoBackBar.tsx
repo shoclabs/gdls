@@ -3,7 +3,7 @@ import { Icon, View, Button } from 'native-base';
 import { css } from 'css-rn';
 import { withRouter } from 'react-router';
 
-import { colors } from '../../../theme/colors';
+import { colors } from '../../theme/colors';
 
 const containerStyle = css`
   height: 45px;

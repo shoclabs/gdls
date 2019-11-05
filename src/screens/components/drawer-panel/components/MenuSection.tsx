@@ -12,7 +12,8 @@ const itemStyle = css`
   margin-left: 90px;
   display: flex;
   flex-direction: row;
-  width: 105px;
+  width: 145px;
+  justify-content: flex-start;
 `;
 
 const iconStyle = css`
@@ -31,21 +32,17 @@ interface IMenuSectionProps extends RouteComponentProps<any>{
 }
 
 export const MenuSection = withRouter<IMenuSectionProps, any>(({ history, onClose }) => {
-  const handleOpenProfileScreen = () => {
-    history.push('/my-profile');
-    onClose();
-  };
-  const handleOpenSettingsScreen = () => {
-    history.push('/settings-screen');
+  const handleOpenScreen = path => () => {
+    history.push(path);
     onClose();
   };
   return (
     <View>
-      <Button transparent style={itemStyle} onPress={handleOpenProfileScreen}>
+      <Button transparent style={itemStyle} onPress={handleOpenScreen('/my-profile')}>
         <Image style={iconStyle} source={profileIcon} />
         <Text style={textStyle}>PROFILE</Text>
       </Button>
-      <Button transparent style={itemStyle}>
+      <Button transparent style={itemStyle} onPress={handleOpenScreen('/holes-in-one')}>
         <Image style={iconStyle} source={holeInOneIcon} />
         <Text style={textStyle}>HOLES-IN-ONE</Text>
       </Button>
@@ -53,7 +50,7 @@ export const MenuSection = withRouter<IMenuSectionProps, any>(({ history, onClos
         <Image style={iconStyle} source={sideBetsIcon} />
         <Text style={textStyle}>SIDE BETS</Text>
       </Button>
-      <Button transparent style={itemStyle} onPress={handleOpenSettingsScreen}>
+      <Button transparent style={itemStyle} onPress={handleOpenScreen('/settings-screen')}>
         <Image style={iconStyle} source={sideBetsIcon} />
         <Text style={textStyle}>SETTINGS</Text>
       </Button>

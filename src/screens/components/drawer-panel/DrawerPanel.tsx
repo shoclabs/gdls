@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { Button, Container, Content, Icon, View } from 'native-base';
 import { css } from 'css-rn';
 import { useQuery } from '@apollo/react-hooks';
@@ -28,7 +29,7 @@ const closeIconStyle = css`
 
 const closeContainerStyle = css`
   align-items: flex-end;
-  margin-top: 35px;
+  ${Platform.OS === 'android' ? 'margin-top: 35px;' : ''}
 `;
 
 const profileContainerStyle = css`

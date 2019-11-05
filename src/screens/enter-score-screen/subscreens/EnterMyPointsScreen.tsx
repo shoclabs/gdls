@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
 
-import { GoBackBar } from '../components/GoBackBar';
+import { GoBackBar } from '../../components/GoBackBar';
 import { ConfirmationDialog } from '../components/ConfirmationDialog';
 import { SuccessDialog } from '../components/SuccessDialog';
 
