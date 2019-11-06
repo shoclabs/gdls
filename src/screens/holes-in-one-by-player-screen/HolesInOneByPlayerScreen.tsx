@@ -16,7 +16,6 @@ const headerStyle = css`
 `;
 
 export const HolesInOneByPlayerScreen = () => {
-  console.log('tu sam');
   return (
     <Container>
       <Content>
