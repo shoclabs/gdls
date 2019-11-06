@@ -13,6 +13,7 @@ import { LoginScreen } from './login-screen/LoginScreen';
 import { DrawerPanel } from './components/drawer-panel/DrawerPanel';
 import { MyProfileScreen } from './my-profile-screen/MyProfileScreen';
 import { SettingsScreen } from './settings-screen/SettingsScreen';
+import { HolesInOneByPlayerScreen } from './holes-in-one-by-player-screen/HolesInOneByPlayerScreen';
 import { HolesInOneScreen } from './holes-in-one-screen/HolesInOneScreen';
 
 export class MainRouter extends Component {
@@ -90,6 +91,7 @@ export class MainRouter extends Component {
             <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
             <Route path="/my-profile" component={MyProfileScreen} />
             <Route path="/settings-screen" component={SettingsScreen} />
+            <Route path="/holes-in-one-by-player" component={HolesInOneByPlayerScreen} />
             <Route path="/holes-in-one" component={HolesInOneScreen} />
           </Content>
           <BottomNavigation />
