@@ -12,6 +12,7 @@ import { Loader } from '../../components/Loader';
 
 import { colors } from '../../../theme/colors';
 import { userFieldResolver } from '../consts/user-field-resolver';
+import { getWinnerAndLoserIds } from '../utils/get-winner-and-loser-ids';
 
 const headers = ['Played', 'Won', 'Lost', '% Won', '% Lost', 'HCP', 'Money'];
 
@@ -40,6 +41,16 @@ const GET_USERS = gql`
       description
       location
     }
+    activeWeek {
+      id
+      rounds {
+        id
+        user {
+          id
+        }
+        score
+      }
+    }
   }
 `;
 
@@ -53,6 +64,7 @@ export const TableSection = () => {
       </View>
     )
   }
+  const { winnerId, loserId } = getWinnerAndLoserIds(data.activeWeek.rounds);
   const userFieldToFilter = userFieldResolver[selectedHeader];
   const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']).reverse();
   const filteredUsers = sortedUsers.filter(user => user.id !== '1');
@@ -78,8 +90,8 @@ export const TableSection = () => {
             hcp={user.handicap}
             firstName={user.firstName}
             lastName={user.lastName}
-            isWinner={index === 0}
-            isLooser={sortedUsers.length === index + 1}
+            isWinner={user.id === winnerId}
+            isLooser={user.id === loserId}
             location={user.location}
             description={user.description}
           />

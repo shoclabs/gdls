@@ -48,7 +48,7 @@ interface  IHeaderSection {
 
 export const HeaderSection = ({ imageUrl }: IHeaderSection) => {
   const { data, loading, error } = useQuery(GET_ACTIVE_WEEK);
-  if (loading) {
+  if (loading || !data) {
     return null;
   }
   return (
