@@ -102,6 +102,7 @@ export const LoginForm = ({ onLogin }) => {
                 keyboardType="email-address"
                 onChangeText={handleChange('email')}
                 selectionColor={colors.darkBlue}
+                autoCapitalize="none"
               />
             </Item>
             <Item regular style={inputContainerStyle}>

@@ -6,15 +6,20 @@ export const calculateScoreOnHole = (score, holeIndex, handicap) => {
   }
   const par = parList[holeIndex - 1];
   const index = indexList[holeIndex - 1];
-  const numOfFreeShots = Math.floor(handicap / 18) + (18 % handicap >= index ? 1 : 0);
+  const numOfFreeShots = Math.floor(handicap / 18) + (handicap % 18 >= index ? 1 : 0);
   const totalShots = score - numOfFreeShots;
+  let finalScore;
   if (par === totalShots) {
-    return 2;
+    finalScore = 2;
   } else if (par === totalShots - 1) {
-    return 1;
+    finalScore = 1;
   } else if (par < totalShots - 1) {
-    return 0;
+    finalScore = 0;
   } else {
-    return par - totalShots + 2;
+    finalScore = par - totalShots + 2;
   }
+  if (finalScore > 6) {
+    finalScore = 6;
+  }
+  return finalScore;
 };

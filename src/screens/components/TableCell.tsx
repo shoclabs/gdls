@@ -21,6 +21,6 @@ const textStyle = css`
 
 export const TableCell = ({ value }) => (
   <View style={dataCellStyle}>
-    <Text style={[textStyle, centerTextStyle]}>{value}</Text>
+    <Text style={[textStyle, centerTextStyle]}>{value.toFixed(0)}</Text>
   </View>
 );

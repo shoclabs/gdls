@@ -55,6 +55,7 @@ export const TableSection = () => {
   }
   const userFieldToFilter = userFieldResolver[selectedHeader];
   const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']).reverse();
+  const filteredUsers = sortedUsers.filter(user => user.id !== '1');
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={contentStyle}>
@@ -64,7 +65,7 @@ export const TableSection = () => {
           selectedHeader={selectedHeader}
           onSelectHeader={setSelected}
         />
-        {sortedUsers.map((user, index) => (
+        {filteredUsers.map((user, index) => (
           <TableRow
             key={user.id}
             rank={index + 1}
