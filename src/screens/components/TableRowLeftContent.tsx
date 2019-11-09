@@ -32,7 +32,6 @@ const avatarPlaceholderStyle = css`
 const playerStyle = css`
   width: 138px;
   flex-direction: row;
-  padding-left: 16px;
   align-items: center;
   justify-content: space-between;
 `;

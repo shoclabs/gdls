@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, getApolloContext } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { HeaderSection } from './components/HeaderSection';
@@ -35,11 +35,16 @@ const GET_ROUNDS = gql`
 `;
 
 export const WeeklyBoardsScreen = () => {
+  const { client } = React.useContext(getApolloContext());
+  useEffect(() => {
+    client.resetStore();
+  }, []);
   const [selectedWeek, setSelectedWeek] = useState();
   const { data, loading, error } = useQuery(GET_ROUNDS);
+
   return (
     <View>
-      {loading ?
+      {loading || !data ?
         <BoardLoader /> :
         <>
           <HeaderSection
