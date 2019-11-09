@@ -78,9 +78,9 @@ export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLos
       <View style={rightSeparatorStyle}>
         <Text style={valueStyle}>{won}</Text>
       </View>
-      <Text style={valueStyle}>{percentWon}</Text>
+      <Text style={valueStyle}>{percentWon.toFixed(0)}</Text>
       <View style={leftSeparatorStyle}>
-        <Text style={valueStyle}>{percentLost}</Text>
+        <Text style={valueStyle}>{percentLost.toFixed(0)}</Text>
       </View>
     </View>
     <View style={rowStyle}>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { withRouter } from 'react-router';
 
 import { HeaderSection } from './components/HeaderSection';

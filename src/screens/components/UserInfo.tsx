@@ -1,15 +1,17 @@
 import React from 'react';
 import { css } from 'css-rn';
-import { Text, View } from 'native-base';
+import { Image } from 'react-native';
+import { Text } from 'native-base';
 
 import { colors } from '../../theme/colors';
+
+const avatarPlaceholderIcon = require('./icons/avatar-placeholder5x.png');
 
 const avatarStyle = css`
   margin-top: 40px;
   width: 100px;
   height: 100px;
   border-radius: 50px;
-  background-color: black;
 `;
 
 const firstNameStyle = css`
@@ -44,7 +46,7 @@ const lastNameStyle = css`
 export const UserInfo = ({ firstName, lastName, location, description }) => {
   return (
     <>
-      <View style={avatarStyle} />
+      <Image style={avatarStyle} source={avatarPlaceholderIcon} />
       <Text style={firstNameStyle}>
         {firstName} <Text style={lastNameStyle}>{lastName}</Text>
       </Text>

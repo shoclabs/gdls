@@ -5,7 +5,7 @@ import { css } from 'css-rn';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-const imagePlaceholder = require('../assets/test-img.png');
+const dumbHatPlaceholder = require('../assets/dumb-hat-placeholder.png');
 
 const containerStyle = css`
   height: 214px;
@@ -55,7 +55,7 @@ export const HeaderSection = ({ imageUrl }: IHeaderSection) => {
     <View style={containerStyle}>
       {imageUrl ?
         <Image style={imageStyle} source={imageUrl} /> :
-        <Image style={placeholderStyle} source={imagePlaceholder} resizeMode="cover" />}
+        <Image style={placeholderStyle} source={dumbHatPlaceholder} resizeMode="cover" />}
       <Text style={titleStyle}>WEEK {data.activeWeek.weekNumber}</Text>
     </View>
   );

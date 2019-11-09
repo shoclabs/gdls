@@ -10,6 +10,7 @@ import { colors } from '../../theme/colors';
 
 const crownIcon = require('./icons/crown.png');
 const dumbhatIcon = require('./icons/dumbhat.png');
+const avatarPlaceholderIcon = require('./icons/avatar-placeholder.png');
 
 const containerStyle = removeRank => css`
   flex-direction: row;
@@ -23,7 +24,6 @@ const avatarContainerStyle = css`
 `;
 
 const avatarPlaceholderStyle = css`
-  background-color: black;
   width: 32px;
   height: 32px;
   border-radius: 16px;
@@ -70,7 +70,7 @@ export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, remove
       {!removeRank && <Rank rank={rank} />}
       <View style={avatarContainerStyle}>
         <Button transparent onPress={() => setShowUserModal(true)}>
-          <View style={avatarPlaceholderStyle} />
+          <Image style={avatarPlaceholderStyle} source={avatarPlaceholderIcon} />
         </Button>
       </View>
       <View style={playerStyle}>
