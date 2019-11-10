@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'css-rn';
 import { Image } from 'react-native';
-import { Button, Text, View } from 'native-base';
+import { Button, Text, View, Icon } from 'native-base';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 const holeInOneIcon = require('../assets/hole-in-one.png');
@@ -12,13 +12,27 @@ const itemStyle = css`
   margin-left: 90px;
   display: flex;
   flex-direction: row;
-  width: 145px;
+  width: 175px;
   justify-content: flex-start;
 `;
 
 const iconStyle = css`
   height: 24px;
   width: 24px;
+`;
+
+const passwordContainerStyle = css`
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const passwordIconStyle = css`
+  color: white;
+  font-size: 24px;
+  padding-left: 2px;
+  margin: 0;
 `;
 
 const textStyle = css`
@@ -49,6 +63,12 @@ export const MenuSection = withRouter<IMenuSectionProps, any>(({ history, onClos
       <Button transparent style={itemStyle}>
         <Image style={iconStyle} source={sideBetsIcon} />
         <Text style={textStyle}>SIDE BETS</Text>
+      </Button>
+      <Button transparent style={itemStyle} onPress={handleOpenScreen('/change-password')}>
+        <View style={passwordContainerStyle}>
+          <Icon style={passwordIconStyle} name="lock" />
+        </View>
+        <Text style={textStyle}>CHANGE PASSWORD</Text>
       </Button>
       <Button transparent style={itemStyle} onPress={handleOpenScreen('/settings-screen')}>
         <Image style={iconStyle} source={sideBetsIcon} />
