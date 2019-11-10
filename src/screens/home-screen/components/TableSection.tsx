@@ -16,6 +16,14 @@ import { getWinnerAndLoserIds } from '../utils/get-winner-and-loser-ids';
 
 const headers = ['Played', 'Won', 'Lost', '% Won', '% Lost', 'HCP', 'Money'];
 
+const containerStyle = css`
+  flex-direction: row; 
+`;
+
+const leftContentStyle = css`
+  width: 200px;
+`;
+
 const contentStyle = css`
   flex-direction: column;
 `;
@@ -55,7 +63,7 @@ const GET_USERS = gql`
 `;
 
 export const TableSection = () => {
-  const { data, loading, error } = useQuery(GET_USERS);
+  const { data, loading, error } = useQuery(GET_USERS, { fetchPolicy: 'network-only' });
   const [selectedHeader, setSelected] = useState('Won');
   if (loading) {
     return (
@@ -69,34 +77,53 @@ export const TableSection = () => {
   const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']).reverse();
   const filteredUsers = sortedUsers.filter(user => user.id !== '1');
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View style={contentStyle}>
+    <View style={containerStyle}>
+      <View style={leftContentStyle}>
         <TableHeader
-          headers={headers}
+          headers={[]}
           removeRank
-          selectedHeader={selectedHeader}
-          onSelectHeader={setSelected}
         />
         {filteredUsers.map((user, index) => (
           <TableRow
             key={user.id}
             rank={index + 1}
-            played={user.finishedRoundsCount}
-            won={user.winCount}
-            lost={user.loseCount}
-            percentWon={user.winPercentage}
-            percentLost={user.losePercentage}
-            money={user.money}
-            hcp={user.handicap}
             firstName={user.firstName}
             lastName={user.lastName}
             isWinner={user.id === winnerId}
             isLooser={user.id === loserId}
             location={user.location}
             description={user.description}
+            disableRightContent
           />
         ))}
       </View>
-    </ScrollView>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={contentStyle}>
+          <TableHeader
+            headers={headers}
+            removeRank
+            selectedHeader={selectedHeader}
+            onSelectHeader={setSelected}
+            removeLeftContent
+          />
+          {filteredUsers.map((user, index) => (
+            <TableRow
+              key={user.id}
+              rank={index + 1}
+              played={user.finishedRoundsCount}
+              won={user.winCount}
+              lost={user.loseCount}
+              percentWon={user.winPercentage}
+              percentLost={user.losePercentage}
+              money={user.money}
+              hcp={user.handicap}
+              location={user.location}
+              description={user.description}
+              disableLeftContent
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 };

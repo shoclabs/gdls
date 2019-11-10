@@ -4,9 +4,9 @@ import { View } from 'native-base';
 import { css } from 'css-rn';
 
 import { TableRowLeftContent } from '../../components/TableRowLeftContent';
+import { TableCell } from '../../components/TableCell';
 
 import { colors } from '../../../theme/colors';
-import { TableCell } from '../../components/TableCell';
 
 const containerStyle = isGrey => css`
   height: 46px;
@@ -21,39 +21,43 @@ const rightContentStyle = css`
 
 interface ITableRow {
   rank: number;
-  played: number;
-  won: number;
-  lost: number;
-  percentWon: number;
-  percentLost: number;
-  money: number;
-  hcp: number;
-  firstName: string;
-  lastName: string;
+  played?: number;
+  won?: number;
+  lost?: number;
+  percentWon?: number;
+  percentLost?: number;
+  money?: number;
+  hcp?: number;
+  firstName?: string;
+  lastName?: string;
   isWinner?: boolean;
   isLooser?: boolean;
   location: string;
   description: string;
+  disableRightContent?: boolean;
+  disableLeftContent?: boolean;
 }
 
-export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinner, isLooser, percentWon, percentLost, money, hcp, location, description }: ITableRow) => (
+export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinner, isLooser, percentWon, percentLost, money, hcp, location, description, disableRightContent, disableLeftContent }: ITableRow) => (
   <NativeView style={containerStyle(rank % 2 === 1)}>
-    <TableRowLeftContent
-      isWinner={isWinner}
-      isLooser={isLooser}
-      rank={rank}
-      fullName={`${firstName} ${lastName}`}
-      removeRank
-      userStatistics={{ won, played, percentWon, percentLost, hcp, money, firstName, lastName, description, location }}
-    />
-    <View style={rightContentStyle}>
-      <TableCell value={played} />
-      <TableCell value={won} />
-      <TableCell value={lost} />
-      <TableCell value={percentWon} />
-      <TableCell value={percentLost} />
-      <TableCell value={hcp} />
-      <TableCell value={money} />
-    </View>
+    {!disableLeftContent && (
+      <TableRowLeftContent
+        isWinner={isWinner}
+        isLooser={isLooser}
+        rank={rank}
+        fullName={`${firstName} ${lastName}`}
+        removeRank
+        userStatistics={{ won, played, percentWon, percentLost, hcp, money, firstName, lastName, description, location }}
+      />)}
+    {!disableRightContent && (
+      <View style={rightContentStyle}>
+        <TableCell value={played} />
+        <TableCell value={won} />
+        <TableCell value={lost} />
+        <TableCell value={percentWon} />
+        <TableCell value={percentLost} />
+        <TableCell value={hcp} />
+        <TableCell value={money} />
+      </View>)}
   </NativeView>
 );

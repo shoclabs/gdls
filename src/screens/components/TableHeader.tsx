@@ -66,9 +66,10 @@ interface ITableHeader {
   removeRank?: boolean;
   selectedHeader?: string;
   onSelectHeader?(header: string): void;
+  removeLeftContent?: boolean;
 }
 
-export const TableHeader = ({ headers, removeRank, selectedHeader, onSelectHeader }: ITableHeader) => {
+export const TableHeader = ({ headers, removeRank, selectedHeader, onSelectHeader, removeLeftContent }: ITableHeader) => {
   const handleSelect = header => {
     if (selectedHeader) {
       onSelectHeader(header);
@@ -76,15 +77,16 @@ export const TableHeader = ({ headers, removeRank, selectedHeader, onSelectHeade
   };
   return (
     <View style={containerStyle}>
-      <View style={leftHeaderStyle(removeRank)}>
-        {!removeRank &&
-        <View style={rankStyle}>
-          <Text style={[textStyle, centerTextStyle]}>Rank</Text>
-        </View>}
-        <View style={playerStyle}>
-          <Text style={textStyle}>Player</Text>
-        </View>
-      </View>
+      {!removeLeftContent && (
+        <View style={leftHeaderStyle(removeRank)}>
+          {!removeRank &&
+          <View style={rankStyle}>
+              <Text style={[textStyle, centerTextStyle]}>Rank</Text>
+          </View>}
+          <View style={playerStyle}>
+            <Text style={textStyle}>Player</Text>
+          </View>
+        </View>)}
       <View style={rightHeaderStyle}>
         {headers.map(header => (
           <View style={cellHeaderStyle} key={header}>

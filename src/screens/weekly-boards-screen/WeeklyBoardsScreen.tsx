@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
-import { useQuery, getApolloContext } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import { HeaderSection } from './components/HeaderSection';
@@ -13,12 +13,15 @@ const GET_ROUNDS = gql`
       id
       score
       user {
+        id
         firstName
         lastName
       }
       week {
+        id
         weekNumber
         year {
+          id
           year
         }
       }
@@ -28,6 +31,7 @@ const GET_ROUNDS = gql`
       weekNumber
       isActive
       year {
+        id
         year
       }
     }
@@ -35,29 +39,23 @@ const GET_ROUNDS = gql`
 `;
 
 export const WeeklyBoardsScreen = () => {
-  const { client } = React.useContext(getApolloContext());
-  useEffect(() => {
-    client.resetStore();
-  }, []);
   const [selectedWeek, setSelectedWeek] = useState();
-  const { data, loading, error } = useQuery(GET_ROUNDS);
+  const { data, loading, error } = useQuery(GET_ROUNDS, { fetchPolicy: 'network-only' } );
+  if (loading || !data) {
+    return <BoardLoader />;
+  }
 
   return (
     <View>
-      {loading || !data ?
-        <BoardLoader /> :
-        <>
-          <HeaderSection
-            activeWeek={selectedWeek || data.activeWeek.weekNumber}
-            activeYear={data.activeWeek.year.year}
-            onWeekSelect={setSelectedWeek}
-          />
-          <TableBody
-            rounds={data.rounds}
-            week={selectedWeek || data.activeWeek.weekNumber}
-          />
-        </>
-      }
+      <HeaderSection
+        activeWeek={selectedWeek || data.activeWeek.weekNumber}
+        activeYear={data.activeWeek.year.year}
+        onWeekSelect={setSelectedWeek}
+      />
+      <TableBody
+        rounds={data.rounds}
+        week={selectedWeek || data.activeWeek.weekNumber}
+      />
     </View>
   );
 };
