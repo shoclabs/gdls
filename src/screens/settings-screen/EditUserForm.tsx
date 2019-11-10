@@ -51,6 +51,16 @@ export const EditUserForm = ({ formik, loading, error }) => {
   const { handleChange, values, handleSubmit } = formik;
   return (
     <View style={containerStyle}>
+      <Text style={labelStyle}>Email</Text>
+      <Item regular style={inputContainerStyle}>
+        <Input
+          style={inputStyle}
+          placeholder=""
+          onChangeText={handleChange('email')}
+          selectionColor={colors.darkBlue}
+          value={values.email}
+        />
+      </Item>
       <Text style={labelStyle}>First name</Text>
       <Item regular style={inputContainerStyle}>
         <Input

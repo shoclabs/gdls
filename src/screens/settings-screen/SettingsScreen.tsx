@@ -26,18 +26,20 @@ const QUERY_ME = gql`
       lastName
       location
       description
+      email
     }
   }
 `;
 
 const UPDATE_USER = gql`
-  mutation UPDATE_USER($firstName: String!, $lastName: String!, $description: String, $location: String!, $userId: EntityId!) {
-    updateUser(input: { id: $userId, firstName: $firstName, lastName: $lastName, description: $description, location: $location }) {
+  mutation UPDATE_USER($firstName: String!, $lastName: String!, $description: String, $location: String!, $userId: EntityId!, $email: String!) {
+    updateUser(input: { id: $userId, firstName: $firstName, lastName: $lastName, description: $description, location: $location, email: $email }) {
       id
       firstName
       lastName
       location
       description
+      email
     }
   }
 `;
@@ -46,6 +48,7 @@ const validationSchema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   location: yup.string().required(),
+  email: yup.string().required(),
 });
 
 export const SettingsScreen = ({ history }) => {
@@ -64,15 +67,17 @@ export const SettingsScreen = ({ history }) => {
     lastName: me.lastName,
     description: me.description,
     location: me.location,
+    email: me.email,
   };
   const handleSubmit = async (values) => {
     const userId = await AsyncStorage.getItem('userId');
     const variables = { userId, ...values };
-    updateUserMutation({ variables });
+    const result = await updateUserMutation({ variables });
+    if (get(result, 'data.updateUser.id')) {
+      await client.resetStore();
+      history.push('/my-profile');
+    }
   };
-  if (get(updateUserData, 'updateUser.id')) {
-    client.resetStore();
-  }
   return (
     <Container>
       <Content>
