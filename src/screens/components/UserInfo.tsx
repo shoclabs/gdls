@@ -4,6 +4,7 @@ import { Image } from 'react-native';
 import { Text } from 'native-base';
 
 import { colors } from '../../theme/colors';
+import { countryIconResolver } from './resolvers/country-icon-resolver';
 
 const avatarPlaceholderIcon = require('./icons/avatar-placeholder5x.png');
 
@@ -43,6 +44,12 @@ const lastNameStyle = css`
   color: ${colors.darkBlue};
 `;
 
+const flagStyle = css`
+  width: 25px;
+  height: 25px;
+  margin-top: 5px;
+`;
+
 export const UserInfo = ({ firstName, lastName, location, description }) => {
   return (
     <>
@@ -50,7 +57,9 @@ export const UserInfo = ({ firstName, lastName, location, description }) => {
       <Text style={firstNameStyle}>
         {firstName} <Text style={lastNameStyle}>{lastName}</Text>
       </Text>
-      <Text style={locationStyle}>{location || 'Location not provided'}</Text>
+      {countryIconResolver[location.toLowerCase()] ?
+        <Image source={countryIconResolver[location.toLowerCase()]} style={flagStyle} /> :
+        <Text style={locationStyle}>{location || 'Location not provided'}</Text>}
       <Text style={descriptionStyle}>
         {description || 'Description not provided'}
       </Text>
