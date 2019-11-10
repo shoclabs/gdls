@@ -5,8 +5,11 @@ import { ApolloProvider } from '@apollo/react-hooks';
 
 import { MainRouter } from './src/screens/MainRouter';
 
+const productionAPIUrl = 'https://gdls-backend.herokuapp.com/graphql';
+const localhostAPIUrl = 'http://localhost:5001/graphql';
+
 export const apolloClient = new ApolloClient({
-  uri: 'https://gdls-backend.herokuapp.com/graphql',
+  uri: productionAPIUrl,
 });
 
 export default function App() {

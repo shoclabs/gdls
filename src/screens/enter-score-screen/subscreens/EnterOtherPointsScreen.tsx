@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { Image } from 'react-native';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
 
 import { GoBackBar } from '../../components/GoBackBar';
 import { Checkbox } from '../components/Checkbox';
-
-import { colors } from '../../../theme/colors';
 import { ConfirmationDialog } from '../components/ConfirmationDialog';
 import { SuccessDialog } from '../components/SuccessDialog';
+import { SearchUsersSection } from '../components/search-users-section/SearchUsersSection';
 
-const searchIcon = require('../assets/search-icon.png');
+import { colors } from '../../../theme/colors';
 
 const descriptionStyle = css`
   margin-top: 40px;
@@ -64,26 +62,6 @@ const inputStyle = css`
   text-align: center;
 `;
 
-const searchStyle = css`
-  color: ${colors.darkBlue};
-  margin-left: 6px;
-`;
-
-const searchIconStyle = css`
-  width: 30px;
-  height: 30px;
-  margin-left: 10px;
-`;
-
-const searchContainerStyle = css`
-  margin: 40px 50px 0 50px;
-  border: solid 2px ${colors.darkBlue};
-  border-radius: 4px;
-  height: 48px;
-  align-items: center;
-  flex-direction: row;
-`;
-
 const checkboxStyle = css`
   margin: 50px 30px 0 30px;
 `;
@@ -102,17 +80,7 @@ export const EnterOtherPointsScreen = () => {
   return (
     <Content>
       <GoBackBar />
-      <View style={searchContainerStyle}>
-        <Image source={searchIcon} style={searchIconStyle} />
-        <Input
-          style={searchStyle}
-          selectionColor={colors.darkBlue}
-          placeholder="Player name"
-          placeholderTextColor={colors.darkBlue}
-          value={userId}
-          onChangeText={text => setUserId(text)}
-        />
-      </View>
+      <SearchUsersSection onSetUserId={setUserId} userId={userId} />
       <View style={descriptionStyle}>
         <Text style={textStyle}>ENTER OTHERS PLAYER'S</Text>
         <Text style={textStyle}>TOTAL <Text style={markedTextStyle}>STABLEFORD</Text> POINTS:</Text>
