@@ -92,6 +92,13 @@ export const TableSection = () => {
             isWinner={user.id === winnerId}
             isLooser={user.id === loserId}
             location={user.location}
+            played={user.finishedRoundsCount}
+            won={user.winCount}
+            lost={user.loseCount}
+            percentWon={user.winPercentage}
+            percentLost={user.losePercentage}
+            money={user.money}
+            hcp={user.handicap}
             description={user.description}
             disableRightContent
           />
