@@ -31,7 +31,6 @@ const passwordContainerStyle = css`
 const passwordIconStyle = css`
   color: white;
   font-size: 24px;
-  padding-left: 2px;
   margin: 0;
 `;
 

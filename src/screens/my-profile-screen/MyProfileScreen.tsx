@@ -14,6 +14,10 @@ const contentStyle = css`
   align-items: center;
 `;
 
+const loaderStyle = css`
+  margin-top: 30px;
+`;
+
 const QUERY_ME = gql`
   {
     me {
@@ -39,7 +43,9 @@ export const MyProfileScreen = () => {
   if (loading) {
     return (
       <Container>
-        <Loader color={colors.green} />
+        <Content contentContainerStyle={[contentStyle, loaderStyle]}>
+          <Loader color={colors.green} />
+        </Content>
       </Container>
     );
   }
