@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Route } from 'react-native';
 import { Button, Text, View } from 'native-base';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { css } from 'css-rn';
 
 import { Badge } from './Badge';
@@ -49,15 +49,27 @@ const nextIconStyle = css`
   height: 25px;
 `;
 
-export const HolesInOneRow = withRouter(({ history }) => {
+interface IHolesInOneRow extends RouteComponentProps<any> {
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    contentBase64: string;
+    numberOfHolesInOne: string;
+    totalAmountPaid: number;
+  }
+}
+
+export const HolesInOneRow = withRouter<IHolesInOneRow, any>(({ history, user }) => {
+  const { firstName, lastName, contentBase64, numberOfHolesInOne, totalAmountPaid } = user;
   return (
     <View style={containerStyle}>
       <View style={leftContentStyle}>
-        <Badge rank={1} />
-        <PlayerCell firstName="Johnny" lastName="Morton" />
+        <Badge rank={numberOfHolesInOne} />
+        <PlayerCell firstName={firstName} lastName={lastName} contentBase64={contentBase64} />
       </View>
       <View style={rightContentStyle}>
-        <Text style={textMoneyStyle}>60,000</Text>
+        <Text style={textMoneyStyle}>{totalAmountPaid}</Text>
         <Button style={nextButton} transparent onPress={() => history.push('/holes-in-one-by-player')}>
           <Image style={nextIconStyle} source={nextIcon} />
         </Button>

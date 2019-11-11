@@ -1,9 +1,11 @@
 import React from 'react';
-import { Text, View } from 'native-base';
+import { ImageBackground } from 'react-native';
+import { Text } from 'native-base';
 import { css } from 'css-rn';
 
+const backgroundImage = require('../assets/hole-in-one-background.jpg');
+
 const containerStyle = css`
-  background-color: black;
   height: 214px;
 `;
 
@@ -16,8 +18,8 @@ const textStyle = css`
 
 export const HeaderSection = () => {
   return (
-    <View style={containerStyle}>
+    <ImageBackground style={containerStyle} source={backgroundImage}>
       <Text style={textStyle}>HOLES-IN-ONE</Text>
-    </View>
+    </ImageBackground>
   );
 };

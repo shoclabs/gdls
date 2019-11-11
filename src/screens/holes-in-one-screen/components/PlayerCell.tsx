@@ -1,8 +1,11 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
 
 import { colors } from '../../../theme/colors';
+
+const avatarPlaceholderIcon = require('../../components/icons/avatar-placeholder5x.png');
 
 const containerStyle = css`
   flex-direction: row;
@@ -24,10 +27,13 @@ const textStyle = css`
   margin-left: 16px;
 `;
 
-export const PlayerCell = ({ firstName, lastName }) => {
+export const PlayerCell = ({ firstName, lastName, contentBase64 }) => {
   return (
     <View style={containerStyle}>
-      <View style={avatarStyle} />
+      <Image
+        style={avatarStyle}
+        source={contentBase64 ? { uri: `data:image/png;base64,${contentBase64}` } : avatarPlaceholderIcon}
+      />
       <Text style={textStyle}>{`${firstName} ${lastName}`}</Text>
     </View>
   );
