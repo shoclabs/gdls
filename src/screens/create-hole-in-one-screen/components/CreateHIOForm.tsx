@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Input, Item, Text, View } from 'native-base';
 import { css } from 'css-rn';
+import { filter, get } from 'lodash';
 
 import { DatePickerInput } from '../../components/DatePickerInput';
 import { Separator } from '../../components/Separator';
 
 import { colors } from '../../../theme/colors';
 import { Loader } from '../../components/Loader';
+import { Picker } from '../../components/Picker';
 
 const containerStyle = css`
   margin-top: 55px;
@@ -39,8 +41,9 @@ const buttonTextStyle = css`
   font-family: open-sans-extra-bold;
 `;
 
-export const CreateHIOForm = ({ loading, formik }) => {
+export const CreateHIOForm = ({ loading, formik, clubsData }) => {
   const { values, handleSubmit, handleChange, errors } = formik;
+  const pickerData = clubsData.map(({ id, name }) => ({ value: id, label: name }));
   return (
     <View style={containerStyle}>
       <DatePickerInput date={values.date} onChange={handleChange('date')} />
@@ -60,17 +63,25 @@ export const CreateHIOForm = ({ loading, formik }) => {
           onChangeText={handleChange('holeNumber')}
           selectionColor={colors.darkBlue}
           placeholderTextColor={colors.darkBlue}
+          keyboardType="numeric"
         />
       </Item>
-      <Item regular style={inputContainerStyle}>
-        <Input
-          style={inputStyle}
-          placeholder="Club"
-          onChangeText={handleChange('club')}
-          selectionColor={colors.darkBlue}
-          placeholderTextColor={colors.darkBlue}
-        />
-      </Item>
+      <Picker
+        items={pickerData}
+        onWeekSelect={clubId => handleChange('club')(clubId)}
+        initialValue={undefined}
+        customSelector={
+          <Item regular style={inputContainerStyle}>
+            <Input
+              style={inputStyle}
+              placeholder="Club"
+              selectionColor={colors.darkBlue}
+              placeholderTextColor={colors.darkBlue}
+              value={get(filter(pickerData, data => data.value === values.club), '[0].label') || ''}
+            />
+          </Item>
+        }
+      />
       <Separator />
       <Button style={buttonStyle} onPress={handleSubmit}>
         {loading ? <Loader /> : <Text style={buttonTextStyle}>Log in</Text>}

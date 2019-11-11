@@ -4,19 +4,13 @@ import { css } from 'css-rn';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-import { Loader } from '../components/Loader';
 import { UserInfo } from '../components/UserInfo';
 import { UserStatistics } from '../components/UserStatistics';
 import { AvatarPicker } from './components/AvatarPicker';
-
-import { colors } from '../../theme/colors';
+import { PageLoader } from '../components/PageLoader';
 
 const contentStyle = css`
   align-items: center;
-`;
-
-const loaderStyle = css`
-  margin-top: 30px;
 `;
 
 const QUERY_ME = gql`
@@ -47,11 +41,7 @@ export const MyProfileScreen = () => {
   const { data, loading, error } = useQuery(QUERY_ME);
   if (loading) {
     return (
-      <Container>
-        <Content contentContainerStyle={[contentStyle, loaderStyle]}>
-          <Loader color={colors.green} />
-        </Content>
-      </Container>
+      <PageLoader />
     );
   }
   const { me } = data;

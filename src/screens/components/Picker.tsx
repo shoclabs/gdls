@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Platform } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { css } from 'css-rn';
 
 import { colors } from '../../theme/colors';
 
