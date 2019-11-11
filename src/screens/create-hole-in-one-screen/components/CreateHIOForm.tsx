@@ -86,7 +86,7 @@ export const CreateHIOForm = ({ loading, formik, clubsData, error }) => {
       <Separator />
       {error && <ErrorMessage text="Unable to create new hole in One." />}
       <Button style={buttonStyle} onPress={handleSubmit}>
-        {loading ? <Loader /> : <Text style={buttonTextStyle}>Log in</Text>}
+        {loading ? <Loader /> : <Text style={buttonTextStyle}>SUBMIT</Text>}
       </Button>
     </View>
   );
