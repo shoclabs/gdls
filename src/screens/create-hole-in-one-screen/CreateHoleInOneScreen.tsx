@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { Container, Content } from 'native-base';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -6,11 +7,16 @@ import { getApolloContext, useMutation, useQuery } from '@apollo/react-hooks';
 import { get } from 'lodash';
 import { gql } from 'apollo-boost';
 import { withRouter } from 'react-router-native';
+import { css } from 'css-rn';
 
 import { GoBackBar } from '../components/GoBackBar';
 import { CreateHIOHeaderSection } from './components/CreateHIOHeaderSection';
 import { CreateHIOForm } from './components/CreateHIOForm';
 import { PageLoader } from '../components/PageLoader';
+
+const containerStyle = css`
+  ${Platform.OS === 'android' ? 'height: 1000px' : ''}
+`;
 
 const initialValues = {
   date: '',
@@ -71,7 +77,7 @@ export const CreateHoleInOneScreen = withRouter(({ history }) => {
     );
   }
   return (
-    <Container>
+    <Container style={containerStyle}>
       <Content>
         <GoBackBar />
         <CreateHIOHeaderSection />
