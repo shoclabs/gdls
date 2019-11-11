@@ -13,7 +13,7 @@ export const TableBody = ({ rounds, week }) => {
     <>
       <TableHeader headers={headers} />
       {sortedRounds.map((round, index) => {
-        const { user: { firstName, lastName }, score , id } = round;
+        const { user: { firstName, lastName, avatar }, score , id } = round;
         return (
           <TableRow
             key={id}
@@ -22,6 +22,7 @@ export const TableBody = ({ rounds, week }) => {
             isLooser={index === sortedRounds.length - 1}
             rank={index + 1}
             score={score}
+            avatar={avatar}
           />
         );
       })}

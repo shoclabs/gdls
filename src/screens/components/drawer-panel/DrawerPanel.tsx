@@ -48,6 +48,10 @@ const GET_ME = gql`
       firstName
       lastName
       location
+      avatar {
+        id
+        contentBase64
+      }
     }
   }
 `;

@@ -16,6 +16,10 @@ const GET_ROUNDS = gql`
         id
         firstName
         lastName
+        avatar {
+          id
+          contentBase64
+        }
       }
       week {
         id

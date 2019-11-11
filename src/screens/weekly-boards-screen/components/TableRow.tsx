@@ -19,7 +19,7 @@ const rightContentStyle = css`
   flex-direction: row;
 `;
 
-export const TableRow = ({ rank, isWinner, isLooser, fullName, score }) => {
+export const TableRow = ({ rank, isWinner, isLooser, fullName, score, avatar }) => {
   return (
     <View style={containerStyle(rank % 2 === 1)}>
       <TableRowLeftContent
@@ -27,6 +27,7 @@ export const TableRow = ({ rank, isWinner, isLooser, fullName, score }) => {
         isLooser={isLooser}
         rank={rank}
         fullName={fullName}
+        avatar={avatar}
       />
       <View style={rightContentStyle}>
         <TableCell value={score} />

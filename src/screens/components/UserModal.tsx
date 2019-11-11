@@ -11,7 +11,7 @@ const containerStyle = css`
   align-items: center;
 `;
 
-export const UserModal = ({ isVisible, onClose, userStatistics }) => {
+export const UserModal = ({ isVisible, onClose, userStatistics, avatarBase64 }) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -25,6 +25,7 @@ export const UserModal = ({ isVisible, onClose, userStatistics }) => {
           lastName={userStatistics.lastName}
           description={userStatistics.description}
           location={userStatistics.location}
+          avatarBase64={avatarBase64}
         />
         <UserStatistics {...userStatistics} />
       </View>

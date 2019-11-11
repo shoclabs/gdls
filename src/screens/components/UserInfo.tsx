@@ -56,12 +56,17 @@ interface IUserInfo {
   location: string;
   description: string;
   hideImage?: boolean;
+  avatarBase64?: string;
 }
 
-export const UserInfo = ({ firstName, lastName, location, description, hideImage }: IUserInfo) => {
+export const UserInfo = ({ firstName, lastName, location, description, hideImage, avatarBase64 }: IUserInfo) => {
   return (
     <>
-      {!hideImage && <Image style={avatarStyle} source={avatarPlaceholderIcon} />}
+      {!hideImage &&
+        <Image
+          style={avatarStyle}
+          source={avatarBase64 ? { uri: `data:image/png;base64,${avatarBase64}` } : avatarPlaceholderIcon}
+        />}
       <Text style={firstNameStyle}>
         {firstName} <Text style={lastNameStyle}>{lastName}</Text>
       </Text>

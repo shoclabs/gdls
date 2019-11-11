@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Text, View } from 'native-base';
 import { Image } from 'react-native';
 import { css } from 'css-rn';
+import { get } from 'lodash';
 
 import { Rank } from './Rank';
 import { UserModal } from './UserModal';
@@ -60,16 +61,21 @@ interface ITableRowLeftContent {
   fullName: string;
   removeRank?: boolean;
   userStatistics?: any;
+  avatar?: any;
 }
 
-export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, removeRank, userStatistics }: ITableRowLeftContent) => {
+export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, removeRank, userStatistics, avatar }: ITableRowLeftContent) => {
   const [showUserModal, setShowUserModal] = useState(false);
+  const avatarBase64 = get(avatar, 'contentBase64');
   return (
     <View style={containerStyle(removeRank)}>
       {!removeRank && <Rank rank={rank} />}
       <View style={avatarContainerStyle}>
         <Button transparent onPress={() => setShowUserModal(true)}>
-          <Image style={avatarPlaceholderStyle} source={avatarPlaceholderIcon} />
+          <Image
+            style={avatarPlaceholderStyle}
+            source={avatarBase64 ? { uri: `data:image/png;base64,${avatarBase64}` } : avatarPlaceholderIcon}
+          />
         </Button>
       </View>
       <View style={playerStyle}>
@@ -80,7 +86,12 @@ export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, remove
         {isLooser && <Image style={dumbhatStyle} source={dumbhatIcon} />}
       </View>
       {userStatistics &&
-        <UserModal isVisible={showUserModal} onClose={() => setShowUserModal(false)} userStatistics={userStatistics} />}
+        <UserModal
+          avatarBase64={avatarBase64}
+          isVisible={showUserModal}
+          onClose={() => setShowUserModal(false)}
+          userStatistics={userStatistics}
+        />}
     </View>
   );
 };

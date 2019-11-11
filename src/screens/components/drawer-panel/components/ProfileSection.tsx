@@ -45,18 +45,23 @@ const flagStyle = css`
   margin-top: 5px;
 `;
 
-export const ProfileSection = ({ user }) => (
-  <View style={containerStyle}>
-    <Image style={imageContainerStyle} source={profileImagePlaceholder} />
-    <View style={descriptionContainerStyle}>
-      <Text style={nameStyle}>
-        {get(user, 'firstName')} <Text style={surnameStyle}>{get(user, 'lastName')}</Text>
-      </Text>
-      {get(user, 'location') && countryIconResolver[user.location.toLowerCase()] ?
-        <Image source={countryIconResolver[user.location.toLowerCase()]} style={flagStyle} /> :
-        <Text style={locationStyle}>
-          {get(user, 'location') || 'Location not provided'}
-        </Text>}
+export const ProfileSection = ({ user }) => {
+  const avatarBase64 = get(user, 'avatar.contentBase64');
+  return (
+    <View style={containerStyle}>
+      <Image
+        style={imageContainerStyle}
+        source={avatarBase64 ? { uri: `data:image/png;base64,${avatarBase64}` } : profileImagePlaceholder}
+      />
+      <View style={descriptionContainerStyle}>
+        <Text style={nameStyle}>
+          {get(user, 'firstName')} <Text style={surnameStyle}>{get(user, 'lastName')}</Text>
+        </Text>
+        {get(user, 'location') && countryIconResolver[user.location.toLowerCase()] ?
+          <Image source={countryIconResolver[user.location.toLowerCase()]} style={flagStyle} /> :
+          <Text style={locationStyle}>
+            {get(user, 'location') || 'Location not provided'}
+          </Text>}
+      </View>
     </View>
-  </View>
-);
+)};
