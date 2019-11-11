@@ -32,7 +32,7 @@ interface IHeaderProps extends RouteComponentProps<any>{
   onOpenDrawer(): void;
 }
 
-export const Header = withRouter<IHeaderProps, any>(({ location: { pathname }, onOpenDrawer }) => {
+export const Header = withRouter<IHeaderProps, any>(({ location: { pathname }, onOpenDrawer, history }) => {
   return (
     <NativeHeader
       style={containerStyle(pathname === '/')}
@@ -44,7 +44,7 @@ export const Header = withRouter<IHeaderProps, any>(({ location: { pathname }, o
       </Left>
       <Right>
         {pathname === '/holes-in-one' &&
-          <Button transparent>
+          <Button transparent onPress={() => history.push('/create-hole-in-one')}>
             <Image source={plusIcon} style={plusIconStyle} />
           </Button>}
       </Right>
