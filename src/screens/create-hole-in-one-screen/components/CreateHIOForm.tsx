@@ -9,6 +9,7 @@ import { Separator } from '../../components/Separator';
 import { colors } from '../../../theme/colors';
 import { Loader } from '../../components/Loader';
 import { Picker } from '../../components/Picker';
+import { ErrorMessage } from '../../components/ErrorMessage';
 
 const containerStyle = css`
   margin-top: 55px;
@@ -41,8 +42,8 @@ const buttonTextStyle = css`
   font-family: open-sans-extra-bold;
 `;
 
-export const CreateHIOForm = ({ loading, formik, clubsData }) => {
-  const { values, handleSubmit, handleChange, errors } = formik;
+export const CreateHIOForm = ({ loading, formik, clubsData, error }) => {
+  const { values, handleSubmit, handleChange } = formik;
   const pickerData = clubsData.map(({ id, name }) => ({ value: id, label: name }));
   return (
     <View style={containerStyle}>
@@ -83,6 +84,7 @@ export const CreateHIOForm = ({ loading, formik, clubsData }) => {
         }
       />
       <Separator />
+      {error && <ErrorMessage text="Unable to create new hole in One." />}
       <Button style={buttonStyle} onPress={handleSubmit}>
         {loading ? <Loader /> : <Text style={buttonTextStyle}>Log in</Text>}
       </Button>

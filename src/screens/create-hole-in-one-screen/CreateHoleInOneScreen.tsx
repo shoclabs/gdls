@@ -2,9 +2,10 @@ import React from 'react';
 import { Container, Content } from 'native-base';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { useQuery } from '@apollo/react-hooks';
+import { getApolloContext, useMutation, useQuery } from '@apollo/react-hooks';
 import { get } from 'lodash';
 import { gql } from 'apollo-boost';
+import { withRouter } from 'react-router-native';
 
 import { GoBackBar } from '../components/GoBackBar';
 import { CreateHIOHeaderSection } from './components/CreateHIOHeaderSection';
@@ -34,10 +35,35 @@ const CLUBS_QUERY = gql`
   }
 `;
 
-export const CreateHoleInOneScreen = () => {
+const CREATE_CLUB_MUTATION = gql`
+  mutation CREATE_CLUB($date: DateTime!, $courseName: String!, $holeNumber: Float!, $club: EntityId!) {
+    createHoleInOne(input: { date: $date, courseName: $courseName, holeNumber: $holeNumber, club: { id: $club } }) {
+      id
+      date
+      courseName
+      holeNumber
+      club {
+        id
+      }
+      winner {
+        id
+        email
+      }
+    }
+  }
+`;
+
+export const CreateHoleInOneScreen = withRouter(({ history }) => {
   const { data: clubsData, loading } = useQuery(CLUBS_QUERY);
-  const handleSubmit = values => {
-    console.log('handleSubmit values', values);
+  const [createClubMutation, { loading: loadingCreateClub, error }] = useMutation(CREATE_CLUB_MUTATION);
+  const { client } = React.useContext(getApolloContext());
+  const handleSubmit = async values => {
+    const variables = { ...values, holeNumber: parseInt(values.holeNumber) };
+    const result = await createClubMutation({ variables });
+    if (get(result, 'data.createHoleInOne.id')) {
+      await client.resetStore();
+      history.push('/holes-in-one');
+    }
   };
   if (loading) {
     return (
@@ -57,11 +83,12 @@ export const CreateHoleInOneScreen = () => {
           {formik => (
             <CreateHIOForm
               formik={formik}
-              loading={false}
+              loading={loadingCreateClub}
+              error={error}
               clubsData={get(clubsData, 'clubs') || []}
             />)}
         </Formik>
       </Content>
     </Container>
   );
-};
+});
