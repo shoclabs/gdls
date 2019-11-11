@@ -9,7 +9,7 @@ const productionAPIUrl = 'https://gdls-backend.herokuapp.com/graphql';
 const localhostAPIUrl = 'http://localhost:5001/graphql';
 
 export const apolloClient = new ApolloClient({
-  uri: productionAPIUrl,
+  uri: localhostAPIUrl,
 });
 
 export default function App() {

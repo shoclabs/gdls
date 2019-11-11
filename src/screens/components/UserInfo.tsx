@@ -50,10 +50,18 @@ const flagStyle = css`
   margin-top: 5px;
 `;
 
-export const UserInfo = ({ firstName, lastName, location, description }) => {
+interface IUserInfo {
+  firstName: string;
+  lastName: string;
+  location: string;
+  description: string;
+  hideImage?: boolean;
+}
+
+export const UserInfo = ({ firstName, lastName, location, description, hideImage }: IUserInfo) => {
   return (
     <>
-      <Image style={avatarStyle} source={avatarPlaceholderIcon} />
+      {!hideImage && <Image style={avatarStyle} source={avatarPlaceholderIcon} />}
       <Text style={firstNameStyle}>
         {firstName} <Text style={lastNameStyle}>{lastName}</Text>
       </Text>

@@ -7,6 +7,7 @@ import { gql } from 'apollo-boost';
 import { Loader } from '../components/Loader';
 import { UserInfo } from '../components/UserInfo';
 import { UserStatistics } from '../components/UserStatistics';
+import { AvatarPicker } from './components/AvatarPicker';
 
 import { colors } from '../../theme/colors';
 
@@ -34,6 +35,10 @@ const QUERY_ME = gql`
       winPercentage
       losePercentage
       money
+      avatar {
+        id
+        contentBase64
+      }
     }
   }
 `;
@@ -53,11 +58,13 @@ export const MyProfileScreen = () => {
   return (
     <Container>
       <Content contentContainerStyle={contentStyle}>
+        <AvatarPicker avatar={me.avatar} />
         <UserInfo
           firstName={me.firstName}
           lastName={me.lastName}
           description={me.description}
           location={me.location}
+          hideImage
         />
         <UserStatistics
           won={me.winCount}
