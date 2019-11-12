@@ -5,8 +5,11 @@ import { css } from 'css-rn';
 import { TableRowLeftContent } from '../../components/TableRowLeftContent';
 import { Checkbox } from '../../enter-score-screen/components/Checkbox';
 
-const rowStyle = css`
+import { colors } from '../../../theme/colors';
+
+const rowStyle = hasBackground => css`
   flex-direction: row;
+  ${hasBackground ? `background-color: ${colors.lightGrey}` : ''}
 `;
 
 const leftRowContentStyle = css`
@@ -19,18 +22,37 @@ const rightRowContentStyle = css`
   justify-content: center;
 `;
 
-export const HIORow = () => {
-  const [value, setValue] = useState(false);
+export interface IPaymentObligation {
+  id: string;
+  didPay: boolean;
+  userWithPaymentObligation: {
+    firstName: string;
+    lastName: string;
+    avatar: {
+      contentBase64: string;
+    };
+  };
+}
+
+interface IHIORow {
+  paymentObligation: IPaymentObligation;
+  index: number;
+}
+
+export const HIORow = ({ paymentObligation, index }: IHIORow) => {
+  const { didPay, userWithPaymentObligation } = paymentObligation;
+  const { firstName, lastName, avatar } = userWithPaymentObligation;
+  const [value, setValue] = useState(didPay);
   return (
-    <View style={rowStyle}>
+    <View style={rowStyle(index % 2 === 0)}>
       <View style={leftRowContentStyle}>
         <TableRowLeftContent
           isWinner={false}
           isLooser={false}
           removeRank={true}
-          fullName="Johny Morton"
+          fullName={`${firstName} ${lastName}`}
           rank={undefined}
-          avatar={undefined}
+          avatar={avatar}
         />
       </View>
       <View style={rightRowContentStyle}>

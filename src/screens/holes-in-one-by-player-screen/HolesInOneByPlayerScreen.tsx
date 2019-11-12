@@ -66,7 +66,6 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
         <Text style={headerStyle}>CURRENT HOLES-IN-ONE:</Text>
         {user.holesInOne.map(hio => {
           const paidObligations = hio.paymentObligations.filter(paymentObligation => paymentObligation.didPay);
-          const money = paidObligations.reduce((sum, paidObligation) => sum + paidObligation, 0);
           return (
             <HoleInOne
               key={hio.id}
@@ -75,7 +74,7 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
               courseName={hio.courseName}
               holeNumber={hio.holeNumber}
               description={hio.club.name}
-              money={money}
+              money={hio.totalAmountPaid}
               numberOfPeoplePaid={paidObligations.length}
               disabled={me.id !== user.id}
             />
