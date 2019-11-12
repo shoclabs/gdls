@@ -41,6 +41,14 @@ const HIO_BY_PLAYER_QUERY = gql`
         }
       }
     }
+    me {
+      id
+      avatar {
+        id
+        contentBase64
+        url
+      }
+    }
   }
 `;
 
@@ -50,12 +58,13 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
   if (loading) {
     return <PageLoader />;
   }
+  const { user, me } = data;
   return (
     <Container>
       <Content>
         <GoBackBar />
         <Text style={headerStyle}>CURRENT HOLES-IN-ONE:</Text>
-        {data.user.holesInOne.map(hio => {
+        {user.holesInOne.map(hio => {
           const paidObligations = hio.paymentObligations.filter(paymentObligation => paymentObligation.didPay);
           const money = paidObligations.reduce((sum, paidObligation) => sum + paidObligation, 0);
           return (
@@ -68,6 +77,7 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
               description={hio.club.name}
               money={money}
               numberOfPeoplePaid={paidObligations.length}
+              disabled={me.id !== user.id}
             />
           )
         })}

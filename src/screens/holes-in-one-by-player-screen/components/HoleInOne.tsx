@@ -89,11 +89,12 @@ interface IHeaderProps extends RouteComponentProps<any>{
   description: string;
   numberOfPeoplePaid: number;
   money: number;
+  disabled: boolean;
 }
 
-export const HoleInOne = withRouter<IHeaderProps, any>(({ date, history, holeNumber, description, numberOfPeoplePaid, money, courseName, holeId }) => {
+export const HoleInOne = withRouter<IHeaderProps, any>(({ date, history, holeNumber, description, numberOfPeoplePaid, money, courseName, holeId, disabled }) => {
   return (
-    <TouchableOpacity style={containerStyle} onPress={() => history.push(`/hole-in-one/${holeId}`)}>
+    <TouchableOpacity style={containerStyle} onPress={() => history.push(`/hole-in-one/${holeId}`)} disabled={disabled}>
       <View style={topContentStyle}>
         <View style={dateContainerStyle}>
           <Text style={dateStyle}>{date}</Text>
@@ -109,9 +110,11 @@ export const HoleInOne = withRouter<IHeaderProps, any>(({ date, history, holeNum
           <Image style={moneyIconStyle} source={moneyIcon} />
           <Text style={bottomTextStyle}>{money}</Text>
         </View>
-        <View style={rightBottomStyle}>
-          <Image style={nextIconStyle} source={nextIcon} />
-        </View>
+        {!disabled && (
+          <View style={rightBottomStyle}>
+            <Image style={nextIconStyle} source={nextIcon} />
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
