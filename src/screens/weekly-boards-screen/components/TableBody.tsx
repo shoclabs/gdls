@@ -17,7 +17,7 @@ export const TableBody = ({ rounds, week }) => {
         return (
           <TableRow
             key={id}
-            fullName={`${firstName} ${lastName}`}
+            fullName={`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
             isWinner={index === 0}
             isLooser={index === sortedRounds.length - 1}
             rank={index + 1}

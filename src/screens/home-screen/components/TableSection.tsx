@@ -91,8 +91,8 @@ export const TableSection = () => {
           <TableRow
             key={user.id}
             rank={index + 1}
-            firstName={user.firstName}
-            lastName={user.lastName}
+            firstName={user.firstName.toUpperCase()}
+            lastName={user.lastName.toUpperCase()}
             isWinner={user.id === winnerId}
             isLooser={user.id === loserId}
             location={user.location}

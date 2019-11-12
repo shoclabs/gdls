@@ -47,6 +47,12 @@ const flagStyle = css`
 
 export const ProfileSection = ({ user }) => {
   const avatarBase64 = get(user, 'avatar.contentBase64');
+  const firstName = get(user, 'firstName') ?
+    get(user, 'firstName').toUpperCase() :
+    get(user, 'firstName');
+  const lastName = get(user, 'lastName') ?
+    get(user, 'lastName').toUpperCase() :
+    get(user, 'lastName');
   return (
     <View style={containerStyle}>
       <Image
@@ -55,7 +61,7 @@ export const ProfileSection = ({ user }) => {
       />
       <View style={descriptionContainerStyle}>
         <Text style={nameStyle}>
-          {get(user, 'firstName')} <Text style={surnameStyle}>{get(user, 'lastName')}</Text>
+          {firstName} <Text style={surnameStyle}>{lastName}</Text>
         </Text>
         {get(user, 'location') && countryIconResolver[user.location.toLowerCase()] ?
           <Image source={countryIconResolver[user.location.toLowerCase()]} style={flagStyle} /> :

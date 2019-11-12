@@ -60,6 +60,8 @@ interface IUserInfo {
 }
 
 export const UserInfo = ({ firstName, lastName, location, description, hideImage, avatarBase64 }: IUserInfo) => {
+  const firstNameUpperCase = firstName ? firstName.toUpperCase() : firstName;
+  const lastNameUpperCase = lastName ? lastName.toUpperCase() : lastName;
   return (
     <>
       {!hideImage &&
@@ -68,7 +70,7 @@ export const UserInfo = ({ firstName, lastName, location, description, hideImage
           source={avatarBase64 ? { uri: `data:image/png;base64,${avatarBase64}` } : avatarPlaceholderIcon}
         />}
       <Text style={firstNameStyle}>
-        {firstName} <Text style={lastNameStyle}>{lastName}</Text>
+        {firstNameUpperCase} <Text style={lastNameStyle}>{lastNameUpperCase}</Text>
       </Text>
       {countryIconResolver[location.toLowerCase()] ?
         <Image source={countryIconResolver[location.toLowerCase()]} style={flagStyle} /> :
