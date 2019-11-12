@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
+import { RouteComponentProps, withRouter } from 'react-router-native';
 
 import { colors } from '../../../theme/colors';
 
@@ -80,14 +81,24 @@ const nextIconStyle = css`
   height: 22px;
 `;
 
-export const HoleInOne = ({ date, location, holeNumber, description, numberOfPeoplePaid, money }) => {
+interface IHeaderProps extends RouteComponentProps<any>{
+  holeId: string;
+  date: string;
+  courseName: string;
+  holeNumber: number;
+  description: string;
+  numberOfPeoplePaid: number;
+  money: number;
+}
+
+export const HoleInOne = withRouter<IHeaderProps, any>(({ date, history, holeNumber, description, numberOfPeoplePaid, money, courseName, holeId }) => {
   return (
-    <TouchableOpacity style={containerStyle}>
+    <TouchableOpacity style={containerStyle} onPress={() => history.push(`/hole-in-one/${holeId}`)}>
       <View style={topContentStyle}>
         <View style={dateContainerStyle}>
           <Text style={dateStyle}>{date}</Text>
         </View>
-        <Text style={infoTextStyle}>{location}</Text>
+        <Text style={infoTextStyle}>{courseName}</Text>
         <Text style={infoTextStyle}>HOLE {holeNumber}</Text>
         <Text style={infoTextStyle}>{description}</Text>
       </View>
@@ -104,4 +115,4 @@ export const HoleInOne = ({ date, location, holeNumber, description, numberOfPeo
       </View>
     </TouchableOpacity>
   );
-};
+});

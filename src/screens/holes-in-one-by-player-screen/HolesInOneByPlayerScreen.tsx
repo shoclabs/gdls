@@ -61,8 +61,9 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
           return (
             <HoleInOne
               key={hio.id}
+              holeId={hio.id}
               date={moment(hio.date).format('DD/MM/YYYY')}
-              location={hio.courseName}
+              courseName={hio.courseName}
               holeNumber={hio.holeNumber}
               description={hio.club.name}
               money={money}

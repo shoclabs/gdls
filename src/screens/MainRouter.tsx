@@ -17,6 +17,7 @@ import { HolesInOneByPlayerScreen } from './holes-in-one-by-player-screen/HolesI
 import { HolesInOneScreen } from './holes-in-one-screen/HolesInOneScreen';
 import { ChangePasswordScreen } from './change-password-screen/ChangePasswordScreen';
 import { CreateHoleInOneScreen } from './create-hole-in-one-screen/CreateHoleInOneScreen';
+import { HoleInOneScreen } from './hole-in-one-screen/HoleInOneScreen';
 
 export class MainRouter extends Component {
   state = { fontLoaded: false, isLoggedIn: false };
@@ -93,8 +94,9 @@ export class MainRouter extends Component {
             <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
             <Route path="/my-profile" component={MyProfileScreen} />
             <Route path="/settings-screen" component={SettingsScreen} />
-            <Route path="/holes-in-one/:playerId" component={HolesInOneByPlayerScreen} />
-            <Route path="/holes-in-one" component={HolesInOneScreen} />
+            <Route exact path="/holes-in-one/:playerId" component={HolesInOneByPlayerScreen} />
+            <Route exact path="/hole-in-one/:holeId" component={HoleInOneScreen} />
+            <Route exact path="/holes-in-one" component={HolesInOneScreen} />
             <Route path="/create-hole-in-one" component={CreateHoleInOneScreen} />
             <Route path="/change-password" component={ChangePasswordScreen} />
           </Content>
