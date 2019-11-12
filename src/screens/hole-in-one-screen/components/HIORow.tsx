@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View } from 'native-base';
 import { css } from 'css-rn';
+import { gql } from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
+import { get } from 'lodash';
+import { Loader } from '../../components/Loader';
 
 import { TableRowLeftContent } from '../../components/TableRowLeftContent';
 import { Checkbox } from '../../enter-score-screen/components/Checkbox';
@@ -20,6 +24,15 @@ const rightRowContentStyle = css`
   flex: 1;
   align-items: center;
   justify-content: center;
+`;
+
+const UPDATE_OBLIGATION_MUTATION = gql`
+  mutation updateObligation($obligationId: EntityId!, $didPay: Boolean!) {
+    updateHoleInOnePaymentObligation(input: { id: $obligationId, didPay: $didPay }) {
+      id
+      didPay
+    }
+  }
 `;
 
 export interface IPaymentObligation {
@@ -43,6 +56,15 @@ export const HIORow = ({ paymentObligation, index }: IHIORow) => {
   const { didPay, userWithPaymentObligation } = paymentObligation;
   const { firstName, lastName, avatar } = userWithPaymentObligation;
   const [value, setValue] = useState(didPay);
+  const [updateObligation, { loading }] = useMutation(UPDATE_OBLIGATION_MUTATION);
+  const handleChange = async value => {
+    setValue(value);
+    const variables = { obligationId: paymentObligation.id, didPay: value };
+    const result = await updateObligation({ variables });
+    if (!get(result, 'data.updateHoleInOnePaymentObligation.id')) {
+      setValue(!value);
+    }
+  };
   return (
     <View style={rowStyle(index % 2 === 0)}>
       <View style={leftRowContentStyle}>
@@ -56,11 +78,13 @@ export const HIORow = ({ paymentObligation, index }: IHIORow) => {
         />
       </View>
       <View style={rightRowContentStyle}>
-        <Checkbox
-          value={value}
-          text=""
-          onChange={() => setValue(!value)}
-        />
+        {!loading && (
+          <Checkbox
+            value={value}
+            text=""
+            onChange={() => handleChange(!value)}
+          />)}
+        {loading && <Loader color={colors.darkBlue} />}
       </View>
     </View>
   );
