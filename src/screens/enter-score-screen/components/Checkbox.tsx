@@ -31,9 +31,10 @@ export const Checkbox = ({ text, value, onChange }) => {
       <TouchableOpacity onPress={() => onChange(!value)}>
         <Image source={value ? onIcon : offIcon} style={checkboxStyle} />
       </TouchableOpacity>
-      <Text style={textStyle}>
-        {text}
-      </Text>
+      {text !== '' && (
+        <Text style={textStyle}>
+          {text}
+        </Text>)}
     </View>
   );
 };

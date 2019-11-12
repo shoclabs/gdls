@@ -14,10 +14,18 @@ const textStyle = css`
   font-size: 18px;
 `;
 
-export const HIOHeader = () => {
+const textContainerStyle = css`
+  margin: 22px 0 22px 30px;
+`;
+
+export const HIOHeader = ({ date, description }) => {
   return (
     <View style={containerStyle}>
-      <Text style={textStyle}>HOLE-IN-ONE</Text>
+      <View style={textContainerStyle}>
+        <Text style={textStyle}>HOLE-IN-ONE</Text>
+        <Text style={textStyle}>MADE {date}</Text>
+        <Text style={textStyle}>{description}</Text>
+      </View>
     </View>
   );
 };
