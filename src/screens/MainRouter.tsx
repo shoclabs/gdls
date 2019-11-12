@@ -93,7 +93,7 @@ export class MainRouter extends Component {
             <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
             <Route path="/my-profile" component={MyProfileScreen} />
             <Route path="/settings-screen" component={SettingsScreen} />
-            <Route path="/holes-in-one-by-player" component={HolesInOneByPlayerScreen} />
+            <Route path="/holes-in-one/:playerId" component={HolesInOneByPlayerScreen} />
             <Route path="/holes-in-one" component={HolesInOneScreen} />
             <Route path="/create-hole-in-one" component={CreateHoleInOneScreen} />
             <Route path="/change-password" component={ChangePasswordScreen} />

@@ -70,7 +70,7 @@ export const HolesInOneRow = withRouter<IHolesInOneRow, any>(({ history, user })
       </View>
       <View style={rightContentStyle}>
         <Text style={textMoneyStyle}>{totalAmountPaid}</Text>
-        <Button style={nextButton} transparent onPress={() => history.push('/holes-in-one-by-player')}>
+        <Button style={nextButton} transparent onPress={() => history.push(`/holes-in-one/${user.id}`)}>
           <Image style={nextIconStyle} source={nextIcon} />
         </Button>
       </View>
