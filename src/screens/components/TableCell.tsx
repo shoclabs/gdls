@@ -26,6 +26,8 @@ interface ITableCell {
 
 export const TableCell = ({ value, fixedDecimals }: ITableCell) => (
   <View style={dataCellStyle}>
-    <Text style={[textStyle, centerTextStyle]}>{value.toFixed(fixedDecimals || 0)}</Text>
+    <Text style={[textStyle, centerTextStyle]}>
+      {parseInt(value.toFixed(fixedDecimals || 0)).toLocaleString()}
+    </Text>
   </View>
 );
