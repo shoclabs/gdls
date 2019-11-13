@@ -34,9 +34,9 @@ const placeholderStyle = css`
 
 const GET_ACTIVE_WEEK = gql`
   {
-    activeWeek {
+    activeYear {
       id
-      weekNumber
+      year
       isActive
     }
   }
@@ -56,7 +56,7 @@ export const HeaderSection = ({ imageUrl }: IHeaderSection) => {
       {imageUrl ?
         <Image style={imageStyle} source={imageUrl} /> :
         <Image style={placeholderStyle} source={dumbHatPlaceholder} resizeMode="cover" />}
-      <Text style={titleStyle}>WEEK {data.activeWeek.weekNumber}</Text>
+      <Text style={titleStyle}>{data.activeYear.year}</Text>
     </View>
   );
 };
