@@ -36,10 +36,11 @@ interface ITableRow {
   description: string;
   disableRightContent?: boolean;
   disableLeftContent?: boolean;
+  averageScore?: number;
   avatar?: any;
 }
 
-export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinner, isLooser, percentWon, percentLost, money, hcp, location, description, disableRightContent, disableLeftContent, avatar }: ITableRow) => (
+export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinner, isLooser, percentWon, percentLost, money, hcp, location, description, disableRightContent, disableLeftContent, avatar, averageScore }: ITableRow) => (
   <NativeView style={containerStyle(rank % 2 === 1)}>
     {!disableLeftContent && (
       <TableRowLeftContent
@@ -61,6 +62,7 @@ export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinne
         <TableCell value={percentLost} />
         <TableCell value={hcp} />
         <TableCell value={money} />
+        <TableCell value={averageScore} fixedDecimals={1} />
       </View>)}
   </NativeView>
 );

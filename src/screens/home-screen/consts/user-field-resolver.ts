@@ -6,4 +6,5 @@ export const userFieldResolver = {
   '% Lost': 'losePercentage',
   HCP: 'handicap',
   Money: 'money',
+  'Pts Avg': 'averageScore',
 };

@@ -14,7 +14,7 @@ import { colors } from '../../../theme/colors';
 import { userFieldResolver } from '../consts/user-field-resolver';
 import { getWinnerAndLoserIds } from '../utils/get-winner-and-loser-ids';
 
-const headers = ['Played', 'Won', 'Lost', '% Won', '% Lost', 'HCP', 'Money'];
+const headers = ['Played', 'Won', 'Lost', '% Won', '% Lost', 'HCP', 'Money', 'Pts Avg'];
 
 const containerStyle = css`
   flex-direction: row; 
@@ -48,6 +48,7 @@ const GET_USERS = gql`
       money
       description
       location
+      averageScore
     }
     activeWeek {
       id
@@ -126,6 +127,7 @@ export const TableSection = () => {
               hcp={user.handicap}
               location={user.location}
               description={user.description}
+              averageScore={user.averageScore}
               disableLeftContent
             />
           ))}

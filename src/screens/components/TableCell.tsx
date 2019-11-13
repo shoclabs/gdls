@@ -19,8 +19,13 @@ const textStyle = css`
   padding-right: 10px;
 `;
 
-export const TableCell = ({ value }) => (
+interface ITableCell {
+  value: number;
+  fixedDecimals?: number;
+}
+
+export const TableCell = ({ value, fixedDecimals }: ITableCell) => (
   <View style={dataCellStyle}>
-    <Text style={[textStyle, centerTextStyle]}>{value.toFixed(0)}</Text>
+    <Text style={[textStyle, centerTextStyle]}>{value.toFixed(fixedDecimals || 0)}</Text>
   </View>
 );
