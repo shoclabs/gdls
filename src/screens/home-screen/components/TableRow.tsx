@@ -50,6 +50,7 @@ export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinne
         removeRank
         userStatistics={{ won, played, percentWon, percentLost, hcp, money, firstName, lastName, description, location }}
         avatar={avatar}
+        location={location}
       />)}
     {!disableRightContent && (
       <View style={rightContentStyle}>

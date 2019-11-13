@@ -8,6 +8,7 @@ import { Rank } from './Rank';
 import { UserModal } from './UserModal';
 
 import { colors } from '../../theme/colors';
+import { countryIconResolver } from './resolvers/country-icon-resolver';
 
 const crownIcon = require('./icons/crown.png');
 const dumbhatIcon = require('./icons/dumbhat.png');
@@ -54,6 +55,11 @@ const dumbhatStyle = css`
   height: 12px;
 `;
 
+const countryIconStyle = css`
+  width: 25px;
+  height: 25px;
+`;
+
 interface ITableRowLeftContent {
   isWinner: boolean;
   isLooser: boolean;
@@ -62,20 +68,27 @@ interface ITableRowLeftContent {
   removeRank?: boolean;
   userStatistics?: any;
   avatar?: any;
+  location?: string;
 }
 
-export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, removeRank, userStatistics, avatar }: ITableRowLeftContent) => {
+export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, removeRank, userStatistics, avatar, location }: ITableRowLeftContent) => {
   const [showUserModal, setShowUserModal] = useState(false);
   const avatarBase64 = get(avatar, 'contentBase64');
+  const countryIcon = location && get(countryIconResolver, location.toLowerCase());
   return (
     <View style={containerStyle(removeRank)}>
       {!removeRank && <Rank rank={rank} />}
       <View style={avatarContainerStyle}>
         <Button transparent onPress={() => setShowUserModal(true)}>
-          <Image
-            style={avatarPlaceholderStyle}
-            source={avatarBase64 ? { uri: `data:image/png;base64,${avatarBase64}` } : avatarPlaceholderIcon}
-          />
+          {countryIcon ?
+            <Image
+              style={countryIconStyle}
+              source={countryIcon}
+            /> :
+            <Image
+              style={avatarPlaceholderStyle}
+              source={avatarBase64 ? { uri: `data:image/png;base64,${avatarBase64}` } : avatarPlaceholderIcon}
+            />}
         </Button>
       </View>
       <View style={playerStyle}>

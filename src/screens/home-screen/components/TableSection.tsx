@@ -48,10 +48,6 @@ const GET_USERS = gql`
       money
       description
       location
-      avatar {
-        id
-        contentBase64
-      }
     }
     activeWeek {
       id
@@ -105,7 +101,6 @@ export const TableSection = () => {
             hcp={user.handicap}
             description={user.description}
             disableRightContent
-            avatar={user.avatar}
           />
         ))}
       </View>
