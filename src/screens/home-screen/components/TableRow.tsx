@@ -55,14 +55,14 @@ export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinne
       />)}
     {!disableRightContent && (
       <View style={rightContentStyle}>
+        <TableCell value={hcp} />
+        <TableCell value={averageScore} fixedDecimals={1} />
         <TableCell value={played} />
         <TableCell value={won} />
         <TableCell value={lost} />
         <TableCell value={percentWon} />
         <TableCell value={percentLost} />
-        <TableCell value={hcp} />
         <TableCell value={money} />
-        <TableCell value={averageScore} fixedDecimals={1} />
       </View>)}
   </NativeView>
 );

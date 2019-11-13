@@ -14,7 +14,7 @@ import { colors } from '../../../theme/colors';
 import { userFieldResolver } from '../consts/user-field-resolver';
 import { getWinnerAndLoserIds } from '../utils/get-winner-and-loser-ids';
 
-const headers = ['Played', 'Won', 'Lost', '% Won', '% Lost', 'HCP', 'Money', 'Pts Avg'];
+const headers = ['HCP', 'Pts Avg', 'Played', 'Won', 'Lost', '% Won', '% Lost', 'Money'];
 
 const containerStyle = css`
   flex-direction: row; 
@@ -65,7 +65,7 @@ const GET_USERS = gql`
 
 export const TableSection = () => {
   const { data, loading, error } = useQuery(GET_USERS, { fetchPolicy: 'network-only' });
-  const [selectedHeader, setSelected] = useState('Won');
+  const [selectedHeader, setSelected] = useState('Pts Avg');
   if (loading) {
     return (
       <View style={loaderStyle}>
