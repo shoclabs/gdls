@@ -11,10 +11,12 @@ import { colors } from '../../../theme/colors';
 
 const nextIcon = require('../assets/next.png');
 
-const containerStyle = css`
+const containerStyle = isGrey => css`
   flex-direction: row;
   height: 46px;
   justify-content: space-between;
+  align-items: center;
+  ${isGrey ? `background-color: ${colors.lightGrey};` : ''}
 `;
 
 const leftContentStyle = css`
@@ -57,13 +59,14 @@ interface IHolesInOneRow extends RouteComponentProps<any> {
     contentBase64: string;
     numberOfHolesInOne: string;
     totalAmountPaid: number;
-  }
+  },
+  index: number;
 }
 
-export const HolesInOneRow = withRouter<IHolesInOneRow, any>(({ history, user }) => {
+export const HolesInOneRow = withRouter<IHolesInOneRow, any>(({ history, user, index }) => {
   const { firstName, lastName, contentBase64, numberOfHolesInOne, totalAmountPaid } = user;
   return (
-    <View style={containerStyle}>
+    <View style={containerStyle(index % 2 === 0)}>
       <View style={leftContentStyle}>
         <Badge rank={numberOfHolesInOne} />
         <PlayerCell firstName={firstName} lastName={lastName} contentBase64={contentBase64} />
