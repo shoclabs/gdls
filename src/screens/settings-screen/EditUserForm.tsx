@@ -5,8 +5,17 @@ import { css } from 'css-rn';
 
 import { Loader } from '../components/Loader';
 import { ErrorMessage } from '../components/ErrorMessage';
+import { Picker } from '../components/Picker';
 
 import { colors } from '../../theme/colors';
+
+const countriesData = [
+  { value: 'sweden', label: 'Sweden' },
+  { value: 'mexico', label: 'Mexico' },
+  { value: 'peru', label: 'Peru' },
+  { value: 'argentina', label: 'Argentina' },
+  { value: 'venezuela', label: 'Venezuela' },
+];
 
 const containerStyle = css`
   margin: 0 20px;
@@ -81,16 +90,25 @@ export const EditUserForm = ({ formik, loading, error }) => {
           value={values.lastName}
         />
       </Item>
-      <Text style={labelStyle}>Location</Text>
-      <Item regular style={inputContainerStyle}>
-        <Input
-          style={inputStyle}
-          placeholder=""
-          onChangeText={handleChange('location')}
-          selectionColor={colors.darkBlue}
-          value={values.location}
-        />
-      </Item>
+      <Picker
+        items={countriesData}
+        onWeekSelect={country => handleChange('location')(country)}
+        initialValue={undefined}
+        customSelector={
+          <View>
+            <Text style={labelStyle}>Country</Text>
+            <Item regular style={inputContainerStyle}>
+              <Input
+                style={inputStyle}
+                placeholder=""
+                onChangeText={handleChange('location')}
+                selectionColor={colors.darkBlue}
+                value={values.location.toUpperCase()}
+              />
+            </Item>
+          </View>
+        }
+      />
       <Text style={labelStyle}>Nickname</Text>
       <Item regular style={inputContainerStyle}>
         <Input
