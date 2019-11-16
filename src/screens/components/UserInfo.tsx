@@ -76,7 +76,7 @@ export const UserInfo = ({ firstName, lastName, location, description, hideImage
         <Image source={countryIconResolver[location.toLowerCase()]} style={flagStyle} /> :
         <Text style={locationStyle}>{location || 'Location not provided'}</Text>}
       <Text style={descriptionStyle}>
-        {description || 'Description not provided'}
+        {description || ''}
       </Text>
     </>
   );

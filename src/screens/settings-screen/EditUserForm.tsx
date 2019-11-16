@@ -91,7 +91,7 @@ export const EditUserForm = ({ formik, loading, error }) => {
           value={values.location}
         />
       </Item>
-      <Text style={labelStyle}>Description</Text>
+      <Text style={labelStyle}>Nickname</Text>
       <Item regular style={inputContainerStyle}>
         <Input
           style={inputStyle}
