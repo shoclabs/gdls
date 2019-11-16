@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'native-base';
 import { css } from 'css-rn';
 import { gql } from 'apollo-boost';
-import { useMutation } from '@apollo/react-hooks';
+import { getApolloContext, useMutation } from '@apollo/react-hooks';
 import { get } from 'lodash';
 import { Loader } from '../../components/Loader';
 
@@ -57,12 +57,14 @@ export const HIORow = ({ paymentObligation, index }: IHIORow) => {
   const { firstName, lastName, avatar } = userWithPaymentObligation;
   const [value, setValue] = useState(didPay);
   const [updateObligation, { loading }] = useMutation(UPDATE_OBLIGATION_MUTATION);
+  const { client } = React.useContext(getApolloContext());
   const handleChange = async value => {
     setValue(value);
     const variables = { obligationId: paymentObligation.id, didPay: value };
     const result = await updateObligation({ variables });
     if (!get(result, 'data.updateHoleInOnePaymentObligation.id')) {
       setValue(!value);
+      await client.resetStore();
     }
   };
   return (

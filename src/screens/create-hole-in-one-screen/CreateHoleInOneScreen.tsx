@@ -8,6 +8,7 @@ import { get } from 'lodash';
 import { gql } from 'apollo-boost';
 import { withRouter } from 'react-router-native';
 import { css } from 'css-rn';
+import moment from 'moment';
 
 import { GoBackBar } from '../components/GoBackBar';
 import { CreateHIOHeaderSection } from './components/CreateHIOHeaderSection';
@@ -64,7 +65,8 @@ export const CreateHoleInOneScreen = withRouter(({ history }) => {
   const [createClubMutation, { loading: loadingCreateClub, error }] = useMutation(CREATE_CLUB_MUTATION);
   const { client } = React.useContext(getApolloContext());
   const handleSubmit = async values => {
-    const variables = { ...values, holeNumber: parseInt(values.holeNumber) };
+    const date = moment(values.date, 'DD-MM-YYYY').format('MM-DD-YYYY');
+    const variables = { ...values, holeNumber: parseInt(values.holeNumber), date };
     const result = await createClubMutation({ variables });
     if (get(result, 'data.createHoleInOne.id')) {
       await client.resetStore();
