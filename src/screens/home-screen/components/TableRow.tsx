@@ -49,7 +49,7 @@ export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinne
         rank={rank}
         fullName={`${firstName} ${lastName}`}
         removeRank
-        userStatistics={{ won, played, percentWon, percentLost, hcp, money, firstName, lastName, description, location }}
+        userStatistics={{ won, played, percentWon, percentLost, hcp, money, firstName, lastName, description, location, averageScore }}
         avatar={avatar}
         location={location}
       />)}

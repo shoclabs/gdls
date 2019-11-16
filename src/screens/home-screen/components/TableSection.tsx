@@ -102,6 +102,7 @@ export const TableSection = () => {
             hcp={user.handicap}
             description={user.description}
             disableRightContent
+            averageScore={user.averageScore}
           />
         ))}
       </View>

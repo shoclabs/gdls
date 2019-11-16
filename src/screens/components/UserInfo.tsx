@@ -35,7 +35,7 @@ const descriptionStyle = css`
   font-size: 14px;
   color: ${colors.darkBlue};
   text-align: center;
-  margin-top: 33px;
+  margin-top: 4px;
 `;
 
 const lastNameStyle = css`

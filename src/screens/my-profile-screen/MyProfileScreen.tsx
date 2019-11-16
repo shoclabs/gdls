@@ -28,6 +28,7 @@ const QUERY_ME = gql`
       loseCount
       winPercentage
       losePercentage
+      averageScore
       money
       avatar {
         id
@@ -63,6 +64,7 @@ export const MyProfileScreen = () => {
           played={me.finishedRoundsCount}
           percentWon={me.winPercentage}
           percentLost={me.losePercentage}
+          averageScore={me.averageScore}
         />
       </Content>
     </Container>
