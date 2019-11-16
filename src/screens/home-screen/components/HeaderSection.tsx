@@ -5,7 +5,7 @@ import { css } from 'css-rn';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-const dumbHatPlaceholder = require('../assets/dumb-hat-placeholder.png');
+const dumbHatPlaceholder = require('../assets/dumb-hat-placeholder-2.png');
 
 const containerStyle = css`
   height: 214px;

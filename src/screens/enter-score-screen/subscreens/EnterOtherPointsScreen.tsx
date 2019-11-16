@@ -106,13 +106,15 @@ export const EnterOtherPointsScreen = () => {
           <Text style={buttonTextStyle}>SUBMIT</Text>
         </Button>
       </View>
-      <ConfirmationDialog
-        visible={showConfirmationDialog}
-        onClose={() => setShowConfirmationDialog(false)}
-        score={score}
-        onSuccess={() => setShowSuccessDialog(true)}
-        id={userId}
-      />
+      {userId !== '' && (
+        <ConfirmationDialog
+          visible={showConfirmationDialog}
+          onClose={() => setShowConfirmationDialog(false)}
+          score={score}
+          onSuccess={() => setShowSuccessDialog(true)}
+          id={userId}
+        />
+      )}
       <SuccessDialog visible={showSuccessDialog} onClose={() => setShowSuccessDialog(false)} />
     </Content>
   );

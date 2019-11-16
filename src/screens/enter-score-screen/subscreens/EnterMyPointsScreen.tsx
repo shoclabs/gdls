@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
+import { AsyncStorage } from 'react-native';
 
 import { GoBackBar } from '../../components/GoBackBar';
 import { ConfirmationDialog } from '../components/ConfirmationDialog';
@@ -62,6 +63,14 @@ const inputStyle = css`
 
 export const EnterMyPointsScreen = () => {
   const [score, setScore] = useState('');
+  const [userId, setUserId] = useState();
+  useEffect( () => {
+    const asyncUseEffect = async () => {
+      const userId = await AsyncStorage.getItem('userId');
+      setUserId(userId);
+    };
+    asyncUseEffect();
+  }, []);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const handleSubmit = () => {
@@ -90,12 +99,14 @@ export const EnterMyPointsScreen = () => {
           <Text style={buttonTextStyle}>SUBMIT</Text>
         </Button>
       </View>
-      <ConfirmationDialog
-        visible={showConfirmationDialog}
-        onClose={() => setShowConfirmationDialog(false)}
-        score={score}
-        onSuccess={() => setShowSuccessDialog(true)}
-      />
+      {userId &&
+        <ConfirmationDialog
+          visible={showConfirmationDialog}
+          onClose={() => setShowConfirmationDialog(false)}
+          score={score}
+          onSuccess={() => setShowSuccessDialog(true)}
+          userId={userId}
+        />}
       <SuccessDialog visible={showSuccessDialog} onClose={() => setShowSuccessDialog(false)} />
     </Content>
   );

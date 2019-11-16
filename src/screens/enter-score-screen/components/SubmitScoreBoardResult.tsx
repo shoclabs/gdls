@@ -24,7 +24,7 @@ const buttonTextStyle = css`
   color: white;
 `;
 
-export const SubmitScoreBoardResult = ({ result }) => {
+export const SubmitScoreBoardResult = ({ result, userId }) => {
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   return (
@@ -35,6 +35,7 @@ export const SubmitScoreBoardResult = ({ result }) => {
         </Button>
       </View>
       <ConfirmationDialog
+        userId={userId}
         visible={showConfirmationDialog}
         onClose={() => setShowConfirmationDialog(false)}
         score={result}

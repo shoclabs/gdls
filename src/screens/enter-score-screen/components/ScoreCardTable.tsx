@@ -6,6 +6,7 @@ import { get } from 'lodash';
 
 import { ScoreCardHeader } from './ScoreCardHeader';
 import { ScoreCardBody } from './ScoreCardBody';
+import { PageLoader } from '../../components/PageLoader';
 
 const GET_ME = gql`
   {
@@ -21,11 +22,16 @@ const GET_ME = gql`
 `;
 
 export const ScoreCardTable = () => {
-  const { data } = useQuery(GET_ME);
+  const { data, loading } = useQuery(GET_ME);
+  if (loading) {
+    return (
+      <PageLoader />
+    );
+  }
   return (
     <View>
       <ScoreCardHeader />
-      <ScoreCardBody handicap={get(data, 'me.handicap')} />
+      <ScoreCardBody handicap={get(data, 'me.handicap')} userId={get(data, 'me.id')} />
     </View>
   );
 };

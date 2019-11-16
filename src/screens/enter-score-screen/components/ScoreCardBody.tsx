@@ -66,7 +66,7 @@ const flagTextStyle = css`
 const initialResult = times(18, () => '');
 const initialScorePerHole = times(18, () => 0);
 
-export const ScoreCardBody = ({ handicap }) => {
+export const ScoreCardBody = ({ handicap, userId }) => {
   const [results, setResults] = useState(initialResult);
   const [scorePerHole, setScorePerHole] = useState(initialScorePerHole);
   const updateScorePerHole = (score, holeIndex) => {
@@ -129,7 +129,7 @@ export const ScoreCardBody = ({ handicap }) => {
           </View>
         </View>
       ))}
-      <SubmitScoreBoardResult result={scorePerHole.reduce((sum, item) => sum + item, 0)} />
+      <SubmitScoreBoardResult result={scorePerHole.reduce((sum, item) => sum + item, 0)} userId={userId} />
     </View>
   );
 };
