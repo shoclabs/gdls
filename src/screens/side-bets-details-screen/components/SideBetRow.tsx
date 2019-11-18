@@ -3,6 +3,10 @@ import { Image } from 'react-native';
 import { View, Text, Button } from 'native-base';
 import { css } from 'css-rn';
 import moment from 'moment';
+import { gql } from 'apollo-boost';
+import { getApolloContext, useMutation } from '@apollo/react-hooks';
+
+import { Loader } from '../../components/Loader';
 
 import { colors } from '../../../theme/colors';
 
@@ -51,6 +55,12 @@ const closeIconStyle = css`
   height: 30px;
 `;
 
+const DELETE_BET_MUTATION = gql`
+  mutation DELETE_BET($ids: [ID!]!) {
+    deleteBets(ids: $ids)
+  }
+`;
+
 export interface IBet {
   id: string;
   date: string;
@@ -64,6 +74,14 @@ interface ISideBetRow {
 }
 
 export const SideBetRow = ({ bet, index }: ISideBetRow) => {
+  const [deleteBetMutation, { loading }] = useMutation(DELETE_BET_MUTATION);
+  const { client } = React.useContext(getApolloContext());
+  const handleDeleteBet = async () => {
+    const result = await deleteBetMutation({ variables: { ids: [bet.id] } });
+    if (result.data.deleteBets) {
+      await client.resetStore();
+    }
+  };
   const { date, course, amount } = bet;
   const isGrey = index % 2 === 0;
   const isNegative = amount < 0;
@@ -81,9 +99,11 @@ export const SideBetRow = ({ bet, index }: ISideBetRow) => {
         </View>
       </View>
       <View style={closeStyle}>
-        <Button transparent onPress={() => {}}>
-          <Image source={isGrey ? whiteCloseIcon : greyCloseIcon} style={closeIconStyle} />
-        </Button>
+        {loading ?
+          <Loader color={colors.red} /> :
+          <Button transparent onPress={handleDeleteBet}>
+            <Image source={isGrey ? whiteCloseIcon : greyCloseIcon} style={closeIconStyle} />
+          </Button>}
       </View>
     </View>
   );
