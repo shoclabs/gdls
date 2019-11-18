@@ -16,10 +16,10 @@ const textStyle = css`
   margin: 10px 0 0 17px;
 `;
 
-export const HeaderSection = () => {
+export const HeaderSection = ({ label }) => {
   return (
     <ImageBackground style={containerStyle} source={backgroundImage}>
-      <Text style={textStyle}>HOLES-IN-ONE</Text>
+      <Text style={textStyle}>{label}</Text>
     </ImageBackground>
   );
 };

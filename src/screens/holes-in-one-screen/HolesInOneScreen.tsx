@@ -46,7 +46,7 @@ export const HolesInOneScreen = () => {
     }));
   return (
     <Container>
-      <HeaderSection />
+      <HeaderSection label="HOLES-IN-ONE" />
       <HolesInOneTableHeader />
       {sortBy(users, 'numberOfHolesInOne').reverse()
         .map((user, index) => <HolesInOneRow user={user} key={user.id} index={index} />)}
