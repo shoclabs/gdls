@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Input, Item, Text, View } from 'native-base';
 import { css } from 'css-rn';
+import { gql } from 'apollo-boost';
+import { getApolloContext, useMutation, useQuery } from '@apollo/react-hooks';
+import moment from 'moment';
+import { useHistory } from 'react-router';
+import { get } from 'lodash';
 
 import { DatePickerInput } from '../../components/DatePickerInput';
 import { Loader } from '../../components/Loader';
 import { Separator } from '../../components/Separator';
 import { ErrorMessage } from '../../components/ErrorMessage';
+import { PageLoader } from '../../components/PageLoader';
+import { SearchResultList } from '../../enter-score-screen/components/search-users-section/SearchResultList';
 
 import { colors } from '../../../theme/colors';
 
@@ -40,8 +47,59 @@ const buttonTextStyle = css`
   font-family: open-sans-extra-bold;
 `;
 
+const customSearchStyle = css`
+  margin: -3px 30px 0 30px;
+  border: solid 2px ${colors.green};
+`;
+
+const MY_BETS_QUERY = gql`
+  {
+    me {
+      id
+      betsGroups {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const ADD_BET_TO_BETS_GROUP = gql`
+  mutation ADD_BET_TO_BETS($date: DateTime!, $amount: Float!, $betsGroupId: EntityId!, $course: String!) {
+    createBet(input: { date: $date, amount: $amount, betsGroup: { id: $betsGroupId }, course: $course}) {
+      id
+    }
+  }
+`;
+
 export const CreateBetForm = ({ formik, loading, error }) => {
   const { values, handleSubmit, handleChange } = formik;
+  const [nameIsSelected, setNameIsSelected] = useState(false);
+  const { data, loading: dataLoading } = useQuery(MY_BETS_QUERY);
+  const { client } = React.useContext(getApolloContext());
+  const history = useHistory();
+  const [addBetToBetsGroup, { loading: addBetToBetsLoading, error: addBetToBetsError }]
+    = useMutation(ADD_BET_TO_BETS_GROUP);
+  if (dataLoading) {
+    return <PageLoader />;
+  }
+  const { me: { betsGroups } } = data;
+  const handleAddBetToBetsGroup = async () => {
+    const { course, amount } = values;
+    const betsGroupId = betsGroups.filter(betGroup => betGroup.name === values.name)[0].id;
+    const date = moment(values.date, 'DD-MM-YYYY').format('MM-DD-YYYY');
+    const betVariables = { date, amount: parseInt(amount), course, betsGroupId };
+    const betResult = await addBetToBetsGroup({ variables: betVariables });
+    if (get(betResult, 'data.createBet.id')) {
+      await client.resetStore();
+      history.push('/side-bets');
+    }
+  };
+  const namesResult = values.name.length > 0 ?
+    betsGroups
+    .map(betsGroup => betsGroup.name)
+    .filter(name => name.toUpperCase().indexOf(values.name.toUpperCase()) > -1) :
+    [];
   return (
     <View style={containerStyle}>
       <DatePickerInput date={values.date} onChange={handleChange('date')} />
@@ -49,11 +107,18 @@ export const CreateBetForm = ({ formik, loading, error }) => {
         <Input
           style={inputStyle}
           placeholder="Enter new or select existing name"
-          onChangeText={handleChange('name')}
+          onChangeText={(value) => { handleChange('name')(value); setNameIsSelected(false);}}
           selectionColor={colors.darkBlue}
           placeholderTextColor={colors.darkBlue}
+          value={values.name}
         />
       </Item>
+      <SearchResultList
+        users={nameIsSelected ? [] : namesResult.map((name: string) => ({ id: name, firstName: name, lastName: '' }))}
+        loading={false}
+        onSelect={value => { handleChange('name')(value); setNameIsSelected(true) }}
+        customContainerStyle={customSearchStyle}
+      />
       <Item regular style={inputContainerStyle}>
         <Input
           style={inputStyle}
@@ -73,9 +138,9 @@ export const CreateBetForm = ({ formik, loading, error }) => {
         />
       </Item>
       <Separator />
-      {error && <ErrorMessage text="Unable to create new bet." />}
-      <Button style={buttonStyle} onPress={handleSubmit}>
-        {loading ? <Loader /> : <Text style={buttonTextStyle}>SUBMIT</Text>}
+      {(error || addBetToBetsError) && <ErrorMessage text="Unable to create new bet." />}
+      <Button style={buttonStyle} onPress={nameIsSelected ? handleAddBetToBetsGroup : handleSubmit}>
+        {(loading || addBetToBetsLoading) ? <Loader /> : <Text style={buttonTextStyle}>SUBMIT</Text>}
       </Button>
     </View>
   );

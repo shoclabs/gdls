@@ -44,9 +44,10 @@ interface ISearchResultListProps {
   users: IUser[];
   loading: boolean;
   onSelect(id: string, fullName: string): void;
+  customContainerStyle?: string;
 }
 
-export const SearchResultList = ({ users, loading, onSelect }: ISearchResultListProps) => {
+export const SearchResultList = ({ users, loading, onSelect, customContainerStyle }: ISearchResultListProps) => {
   if (loading) {
     return (
       <View style={[containerStyle, loaderContainerStyle]}>
@@ -55,7 +56,7 @@ export const SearchResultList = ({ users, loading, onSelect }: ISearchResultList
     );
   }
   return (
-    <View style={containerStyle}>
+    <View style={[containerStyle, customContainerStyle]}>
       {slice(users, 0, 6).map(({ id, firstName, lastName }, index) => (
         <Button
           transparent
