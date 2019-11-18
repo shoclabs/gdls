@@ -33,6 +33,13 @@ interface IHeaderProps extends RouteComponentProps<any>{
 }
 
 export const Header = withRouter<IHeaderProps, any>(({ location: { pathname }, onOpenDrawer, history }) => {
+  const handleClickPlusIcon = () => {
+    if (pathname === '/holes-in-one') {
+      return history.push('/create-hole-in-one');
+    }
+    history.push('/create-side-bet');
+  };
+  const displayPlusIcon = pathname === '/holes-in-one' || pathname === '/side-bets';
   return (
     <NativeHeader
       style={containerStyle(pathname === '/')}
@@ -43,8 +50,8 @@ export const Header = withRouter<IHeaderProps, any>(({ location: { pathname }, o
         </Button>
       </Left>
       <Right>
-        {pathname === '/holes-in-one' &&
-          <Button transparent onPress={() => history.push('/create-hole-in-one')}>
+        {displayPlusIcon &&
+          <Button transparent onPress={handleClickPlusIcon}>
             <Image source={plusIcon} style={plusIconStyle} />
           </Button>}
       </Right>

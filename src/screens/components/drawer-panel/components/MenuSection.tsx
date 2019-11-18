@@ -59,7 +59,7 @@ export const MenuSection = withRouter<IMenuSectionProps, any>(({ history, onClos
         <Image style={iconStyle} source={holeInOneIcon} />
         <Text style={textStyle}>HOLES-IN-ONE</Text>
       </Button>
-      <Button transparent style={itemStyle}>
+      <Button transparent style={itemStyle} onPress={handleOpenScreen('/side-bets')}>
         <Image style={iconStyle} source={sideBetsIcon} />
         <Text style={textStyle}>SIDE BETS</Text>
       </Button>
