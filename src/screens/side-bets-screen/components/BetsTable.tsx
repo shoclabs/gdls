@@ -69,7 +69,7 @@ export const BetsTable = () => {
       {data.me.betsGroups.map(({ id, name, bets }, index) => (
         <BetRow
           key={id}
-          betGroup={{ name, amount: bets.reduce((sum, bet) => sum + bet.amount, 0) }}
+          betGroup={{ id, name, amount: bets.reduce((sum, bet) => sum + bet.amount, 0) }}
           index={index}
         />
       ))}

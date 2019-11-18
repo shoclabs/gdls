@@ -20,6 +20,7 @@ import { CreateHoleInOneScreen } from './create-hole-in-one-screen/CreateHoleInO
 import { HoleInOneScreen } from './hole-in-one-screen/HoleInOneScreen';
 import { SideBetsScreen } from './side-bets-screen/SideBetsScreen';
 import { CreateBetScreen } from './create-bet-screen/CreateBetScreen';
+import { SideBetsDetailsScreen } from './side-bets-details-screen/SideBetsDetailsScreen';
 
 export class MainRouter extends Component {
   state = { fontLoaded: false, isLoggedIn: false };
@@ -100,6 +101,7 @@ export class MainRouter extends Component {
             <Route exact path="/hole-in-one/:holeId" component={HoleInOneScreen} />
             <Route exact path="/holes-in-one" component={HolesInOneScreen} />
             <Route exact path="/side-bets" component={SideBetsScreen} />
+            <Route exact path="/side-bets/:sideBetsId" component={SideBetsDetailsScreen} />
             <Route path="/create-side-bet" component={CreateBetScreen} />
             <Route path="/create-hole-in-one" component={CreateHoleInOneScreen} />
             <Route path="/change-password" component={ChangePasswordScreen} />

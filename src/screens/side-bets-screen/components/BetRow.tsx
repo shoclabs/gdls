@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Text, View } from 'native-base';
 import { Image } from 'react-native';
 import { css } from 'css-rn';
+import { useHistory } from 'react-router-native';
 
 import { colors } from '../../../theme/colors';
 
@@ -51,6 +52,7 @@ const nextIconStyle = css`
 
 interface IBetRow {
   betGroup: {
+    id: string;
     name: string;
     amount: number;
   };
@@ -58,6 +60,7 @@ interface IBetRow {
 }
 
 export const BetRow = ({ betGroup, index }: IBetRow) => {
+  const history = useHistory();
   const isGrey = index % 2 === 0;
   return (
     <View style={containerStyle(isGrey)}>
@@ -66,7 +69,7 @@ export const BetRow = ({ betGroup, index }: IBetRow) => {
       </View>
       <View style={rightContentStyle}>
         <Text style={textStyle}>{betGroup.amount.toFixed(2)}</Text>
-        <Button style={nextButton} transparent onPress={() => {}}>
+        <Button style={nextButton} transparent onPress={() => history.push(`/side-bets/${betGroup.id}`)}>
           <Image style={nextIconStyle} source={isGrey ? rightArrowGrey : rightArrowWhite} />
         </Button>
       </View>
