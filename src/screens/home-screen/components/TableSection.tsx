@@ -66,6 +66,15 @@ const GET_USERS = gql`
 export const TableSection = () => {
   const { data, loading, error } = useQuery(GET_USERS, { fetchPolicy: 'network-only' });
   const [selectedHeader, setSelected] = useState('Pts Avg');
+  const [order, setOrder] = useState<'desc' | 'asc'>('desc');
+  const handleSelectHeader = (header: string) => {
+    if (header === selectedHeader) {
+      setOrder(order === 'desc' ? 'asc' : 'desc');
+      return;
+    }
+    setSelected(header);
+    setOrder('desc');
+  };
   if (loading) {
     return (
       <View style={loaderStyle}>
@@ -75,8 +84,9 @@ export const TableSection = () => {
   }
   const { winnerId, loserId } = getWinnerAndLoserIds(data.activeWeek.rounds);
   const userFieldToFilter = userFieldResolver[selectedHeader];
-  const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']).reverse();
-  const filteredUsers = sortedUsers.filter(user => user.id !== '1');
+  const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']);
+  const orderedUsers = order === 'desc' ? sortedUsers.reverse() : sortedUsers;
+  const filteredUsers = orderedUsers.filter(user => user.id !== '1');
   return (
     <View style={containerStyle}>
       <View style={leftContentStyle}>
@@ -112,7 +122,7 @@ export const TableSection = () => {
             headers={headers}
             removeRank
             selectedHeader={selectedHeader}
-            onSelectHeader={setSelected}
+            onSelectHeader={handleSelectHeader}
             removeLeftContent
           />
           {filteredUsers.map((user, index) => (
