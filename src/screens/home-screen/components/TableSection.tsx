@@ -14,7 +14,7 @@ import { colors } from '../../../theme/colors';
 import { userFieldResolver } from '../consts/user-field-resolver';
 import { getWinnerAndLoserIds } from '../utils/get-winner-and-loser-ids';
 
-const headers = ['HCP', 'Pts Avg', 'Played', 'Won', 'Lost', '% Won', '% Lost', 'Money'];
+const headers = ['HCP', 'Pts Avg', 'Played', 'Won', 'MP', '% Won', '% MP', 'Money'];
 
 const containerStyle = css`
   flex-direction: row; 

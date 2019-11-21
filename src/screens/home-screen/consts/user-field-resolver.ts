@@ -1,9 +1,9 @@
 export const userFieldResolver = {
   Played: 'finishedRoundsCount',
   Won: 'winCount',
-  Lost: 'loseCount',
+  MP: 'loseCount',
   '% Won': 'winPercentage',
-  '% Lost': 'losePercentage',
+  '% MP': 'losePercentage',
   HCP: 'handicap',
   Money: 'money',
   'Pts Avg': 'averageScore',

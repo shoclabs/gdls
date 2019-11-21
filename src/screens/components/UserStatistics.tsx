@@ -77,7 +77,7 @@ export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLos
   return (
     <View style={containerStyle}>
       <Text style={pointAverageValueStyle}>{averageScore.toFixed(0)}</Text>
-      <Text style={pointAverageHeaderStyle}>POINT AVERAGE</Text>
+      <Text style={pointAverageHeaderStyle}>POINTS AVERAGE</Text>
       <View style={rowStyle}>
         <View style={rightSeparatorStyle}>
           <Text style={valueStyle}>{played}</Text>
@@ -105,7 +105,7 @@ export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLos
       <View style={rowStyle}>
         <Text style={headerStyle}>WIN</Text>
         <Text style={headerStyle}>WIN %</Text>
-        <Text style={headerStyle}>LOSS %</Text>
+        <Text style={headerStyle}>MP %</Text>
       </View>
     </View>
   );
