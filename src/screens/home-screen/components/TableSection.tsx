@@ -49,6 +49,10 @@ const GET_USERS = gql`
       description
       location
       averageScore
+      avatar {
+        id
+        contentBase64
+      }
     }
     activeWeek {
       id
@@ -98,6 +102,7 @@ export const TableSection = () => {
           <TableRow
             key={user.id}
             rank={index + 1}
+            avatar={user.avatar}
             firstName={user.firstName.toUpperCase()}
             lastName={user.lastName.toUpperCase()}
             isWinner={user.id === winnerId}
