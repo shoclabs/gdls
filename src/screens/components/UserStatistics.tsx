@@ -2,10 +2,16 @@ import React from 'react';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
 
+import { HIOStatistics } from '../my-profile-screen/components/HIOStatistics';
+
 import { colors } from '../../theme/colors';
 
 const containerStyle = css`
   margin: 8px 0 24px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const rowStyle = css`
@@ -74,6 +80,15 @@ const partialContentStyle = css`
   width: 80px;
 `;
 
+const shadowRowStyle = css`
+  padding: 12px 0;
+  background-color: ${colors.lightGrey}; 
+`;
+
+const nonShadowRowStyle = css`
+  padding: 12px 0;
+`;
+
 interface IUserStatistics {
   won: number;
   money: number;
@@ -82,10 +97,13 @@ interface IUserStatistics {
   percentWon: number;
   percentLost: number;
   averageScore: number;
+  loseCount?: number;
+  hioCount?: number;
+  hioOwed?: number;
   type?: 'full' | 'partial'
 }
 
-export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLost, averageScore, type }: IUserStatistics) => {
+export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLost, averageScore, type, loseCount, hioCount, hioOwed }: IUserStatistics) => {
   const finalType = type || 'full';
   return (
     <View style={containerStyle}>
@@ -102,37 +120,45 @@ export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLos
         </View>}
       {finalType === 'full' &&
         <>
-          <Text style={pointAverageValueStyle}>{averageScore.toFixed(0)}</Text>
-          <Text style={pointAverageHeaderStyle}>POINTS AVERAGE</Text>
-          <View style={rowStyle}>
-              <View style={rightSeparatorStyle}>
-                  <Text style={valueStyle}>{played}</Text>
-              </View>
-              <Text style={valueStyle}>{money}</Text>
-              <View style={leftSeparatorStyle}>
-                  <Text style={valueStyle}>{hcp}</Text>
-              </View>
-          </View>
-          <View style={rowStyle}>
-              <Text style={headerStyle}>PLAYED</Text>
-              <Text style={headerStyle}>$</Text>
-              <Text style={headerStyle}>HCP</Text>
-          </View>
-          <View style={dividerStyle} />
-          <View style={rowStyle}>
-            <View style={rightSeparatorStyle}>
-              <Text style={valueStyle}>{won}</Text>
+          <View style={nonShadowRowStyle}>
+            <View style={rowStyle}>
+              <View style={rightSeparatorStyle}><Text style={valueStyle}>{hcp}</Text></View>
+              <Text style={valueStyle}>{played}</Text>
+              <View style={leftSeparatorStyle}><Text style={valueStyle}>{averageScore.toFixed(0)}</Text></View>
             </View>
-            <Text style={valueStyle}>{percentWon.toFixed(0)}</Text>
-            <View style={leftSeparatorStyle}>
+            <View style={rowStyle}>
+              <Text style={headerStyle}>HCP</Text>
+              <Text style={headerStyle}>PLAYED</Text>
+              <Text style={headerStyle}>PTS AVG</Text>
+            </View>
+          </View>
+
+          <View style={shadowRowStyle}>
+            <View style={rowStyle}>
+              <View style={rightSeparatorStyle}><Text style={valueStyle}>{won}</Text></View>
+              <Text style={valueStyle}>{percentWon.toFixed(0)}</Text>
+              <View style={leftSeparatorStyle}>
+                <Text style={valueStyle}>{parseInt(money.toFixed(0)).toLocaleString()}</Text>
+              </View>
+            </View>
+            <View style={rowStyle}>
+              <Text style={headerStyle}>WIN</Text>
+              <Text style={headerStyle}>WIN %</Text>
+              <Text style={headerStyle}>$</Text>
+            </View>
+          </View>
+
+          <View style={nonShadowRowStyle}>
+            <View style={rowStyle}>
+              <View style={rightSeparatorStyle}><Text style={valueStyle}>{loseCount}</Text></View>
               <Text style={valueStyle}>{percentLost.toFixed(0)}</Text>
             </View>
+            <View style={rowStyle}>
+              <Text style={headerStyle}>MP</Text>
+              <Text style={headerStyle}>MP %</Text>
+            </View>
           </View>
-          <View style={rowStyle}>
-            <Text style={headerStyle}>WIN</Text>
-            <Text style={headerStyle}>WIN %</Text>
-            <Text style={headerStyle}>MP %</Text>
-          </View>
+          <HIOStatistics hioCount={hioCount} hioOwed={hioOwed} />
         </>}
     </View>
   );

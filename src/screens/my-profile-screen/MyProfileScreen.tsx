@@ -30,6 +30,13 @@ const QUERY_ME = gql`
       losePercentage
       averageScore
       money
+      holesInOne {
+        id
+      }
+      paymentObligations {
+        id
+        didPay
+      }
       avatar {
         id
         contentBase64
@@ -46,6 +53,7 @@ export const MyProfileScreen = () => {
     );
   }
   const { me } = data;
+  const owedPaymentObligations = me.paymentObligations.filter(item => !item.didPay);
   return (
     <Container>
       <Content contentContainerStyle={contentStyle}>
@@ -65,6 +73,9 @@ export const MyProfileScreen = () => {
           percentWon={me.winPercentage}
           percentLost={me.losePercentage}
           averageScore={me.averageScore}
+          loseCount={me.loseCount}
+          hioCount={me.holesInOne.length}
+          hioOwed={owedPaymentObligations.length}
         />
       </Content>
     </Container>
