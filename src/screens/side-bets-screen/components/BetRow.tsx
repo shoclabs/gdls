@@ -5,6 +5,7 @@ import { css } from 'css-rn';
 import { useHistory } from 'react-router-native';
 
 import { colors } from '../../../theme/colors';
+import { numberToString } from '../../../utils/number-to-string';
 
 const rightArrowGrey = require('../assets/arrow-white.png');
 const rightArrowWhite = require('../assets/arrow-grey.png');
@@ -68,7 +69,7 @@ export const BetRow = ({ betGroup, index }: IBetRow) => {
         <Text style={textStyle}>{betGroup.name}</Text>
       </View>
       <View style={rightContentStyle}>
-        <Text style={textStyle}>{betGroup.amount.toFixed(2)}</Text>
+        <Text style={textStyle}>{numberToString(parseFloat(betGroup.amount.toFixed(2)))}</Text>
         <Button style={nextButton} transparent onPress={() => history.push(`/side-bets/${betGroup.id}`)}>
           <Image style={nextIconStyle} source={isGrey ? rightArrowGrey : rightArrowWhite} />
         </Button>

@@ -42,7 +42,7 @@ export const SideBetsDetailsTable = ({ bets }: ISideBetsDetailsTable) => {
         <View style={courseStyle}><Text style={textStyle}>COURSE</Text></View>
         <View style={amountStyle}><Text style={textStyle}>AMOUNT</Text></View>
       </View>
-      {bets.map((bet, index) => <SideBetRow bet={bet} index={index} key={bet.id} />)}
+      {bets.reverse().map((bet, index) => <SideBetRow bet={bet} index={index} key={bet.id} />)}
     </>
   );
 };
