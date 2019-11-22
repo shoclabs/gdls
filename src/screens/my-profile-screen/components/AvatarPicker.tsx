@@ -65,7 +65,7 @@ export const AvatarPicker = ({ avatar }) => {
       allowsEditing: true,
       aspect: [1, 1],
       base64: true,
-      quality: 0,
+      quality: Platform.OS === 'android' ? 0.16 : 0,
     });
 
     if (result.cancelled) {
@@ -92,7 +92,7 @@ export const AvatarPicker = ({ avatar }) => {
       allowsEditing: true,
       aspect: [1, 1],
       base64: true,
-      quality: 0,
+      quality: Platform.OS === 'android' ? 0.16 : 0,
     });
 
     if (result.cancelled) {
