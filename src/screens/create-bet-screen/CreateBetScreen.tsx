@@ -18,6 +18,8 @@ const initialValues = {
   name: '',
   course: '',
   amount: '',
+  currentAdvantage: '',
+  nextAdvantage: '',
 };
 
 const validationSchema = yup.object().shape({
@@ -25,6 +27,8 @@ const validationSchema = yup.object().shape({
   name: yup.string().required(),
   course: yup.string().required(),
   amount: yup.number().required(),
+  currentAdvantage: yup.number().required(),
+  nextAdvantage: yup.number().required(),
 });
 
 const CREATE_BETS_GROUP_MUTATION = gql`
@@ -37,8 +41,8 @@ const CREATE_BETS_GROUP_MUTATION = gql`
 `;
 
 const CREATE_BET_MUTATION = gql`
-  mutation CREATE_BET($date: DateTime!, $amount: Float!, $betsGroupId: EntityId, $course: String!) {
-    createBet(input: { date: $date, amount: $amount, betsGroup: { id: $betsGroupId }, course: $course}) {
+  mutation CREATE_BET($date: DateTime!, $amount: Float!, $betsGroupId: EntityId, $course: String!, $currentAdvantage: Float!, $nextAdvantage: Float!) {
+    createBet(input: { date: $date, amount: $amount, betsGroup: { id: $betsGroupId }, course: $course, currentAdvantage: $currentAdvantage, nextAdvantage: $nextAdvantage}) {
       id
     }
   }
@@ -55,9 +59,16 @@ export const CreateBetScreen = () => {
     const groupResult = await createGroup({ variables: groupVariables });
     const betsGroupId = get(groupResult, 'data.createBetsGroup.id');
     if (betsGroupId) {
-      const { amount, course } = values;
+      const { amount, course, currentAdvantage, nextAdvantage } = values;
       const date = moment(values.date, 'DD-MM-YYYY').format('MM-DD-YYYY');
-      const betVariables = { date, amount: parseInt(amount), course, betsGroupId };
+      const betVariables = {
+        date,
+        amount: parseInt(amount),
+        currentAdvantage: parseInt(currentAdvantage),
+        nextAdvantage: parseInt(nextAdvantage),
+        course,
+        betsGroupId,
+      };
       const betResult = await createBet({ variables: betVariables });
       if (get(betResult, 'data.createBet.id')) {
         await client.resetStore();

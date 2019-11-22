@@ -65,8 +65,8 @@ const MY_BETS_QUERY = gql`
 `;
 
 const ADD_BET_TO_BETS_GROUP = gql`
-  mutation ADD_BET_TO_BETS($date: DateTime!, $amount: Float!, $betsGroupId: EntityId!, $course: String!) {
-    createBet(input: { date: $date, amount: $amount, betsGroup: { id: $betsGroupId }, course: $course}) {
+  mutation ADD_BET_TO_BETS($date: DateTime!, $amount: Float!, $betsGroupId: EntityId!, $course: String!, $currentAdvantage: Float!, $nextAdvantage: Float!) {
+    createBet(input: { date: $date, amount: $amount, betsGroup: { id: $betsGroupId }, course: $course, currentAdvantage: $currentAdvantage, nextAdvantage: $nextAdvantage }) {
       id
     }
   }
@@ -85,10 +85,17 @@ export const CreateBetForm = ({ formik, loading, error }) => {
   }
   const { me: { betsGroups } } = data;
   const handleAddBetToBetsGroup = async () => {
-    const { course, amount } = values;
+    const { course, amount, currentAdvantage, nextAdvantage } = values;
     const betsGroupId = betsGroups.filter(betGroup => betGroup.name === values.name)[0].id;
     const date = moment(values.date, 'DD-MM-YYYY').format('MM-DD-YYYY');
-    const betVariables = { date, amount: parseInt(amount), course, betsGroupId };
+    const betVariables = {
+      date,
+      amount: parseInt(amount),
+      course,
+      betsGroupId,
+      currentAdvantage: parseInt(currentAdvantage),
+      nextAdvantage: parseInt(nextAdvantage),
+    };
     const betResult = await addBetToBetsGroup({ variables: betVariables });
     if (get(betResult, 'data.createBet.id')) {
       await client.resetStore();
@@ -133,6 +140,24 @@ export const CreateBetForm = ({ formik, loading, error }) => {
           style={inputStyle}
           placeholder="Amount"
           onChangeText={handleChange('amount')}
+          selectionColor={colors.darkBlue}
+          placeholderTextColor={colors.darkBlue}
+        />
+      </Item>
+      <Item regular style={inputContainerStyle}>
+        <Input
+          style={inputStyle}
+          placeholder="Current Advantage"
+          onChangeText={handleChange('currentAdvantage')}
+          selectionColor={colors.darkBlue}
+          placeholderTextColor={colors.darkBlue}
+        />
+      </Item>
+      <Item regular style={inputContainerStyle}>
+        <Input
+          style={inputStyle}
+          placeholder="Next Advantage"
+          onChangeText={handleChange('nextAdvantage')}
           selectionColor={colors.darkBlue}
           placeholderTextColor={colors.darkBlue}
         />
