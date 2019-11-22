@@ -69,9 +69,10 @@ interface ITableRowLeftContent {
   userStatistics?: any;
   avatar?: any;
   location?: string;
+  type?: 'full' | 'partial';
 }
 
-export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, removeRank, userStatistics, avatar, location }: ITableRowLeftContent) => {
+export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, removeRank, userStatistics, avatar, location, type }: ITableRowLeftContent) => {
   const [showUserModal, setShowUserModal] = useState(false);
   const avatarBase64 = get(avatar, 'contentBase64');
   const countryIcon = location && get(countryIconResolver, location.toLowerCase());
@@ -104,6 +105,7 @@ export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, remove
           isVisible={showUserModal}
           onClose={() => setShowUserModal(false)}
           userStatistics={userStatistics}
+          type={type || 'full'}
         />}
     </View>
   );

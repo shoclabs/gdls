@@ -11,7 +11,15 @@ const containerStyle = css`
   align-items: center;
 `;
 
-export const UserModal = ({ isVisible, onClose, userStatistics, avatarBase64 }) => {
+interface IUserModal {
+  isVisible: boolean;
+  onClose(): void;
+  userStatistics: any;
+  avatarBase64?: string;
+  type?: 'full' | 'partial';
+}
+
+export const UserModal = ({ isVisible, onClose, userStatistics, avatarBase64, type }: IUserModal) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -27,7 +35,7 @@ export const UserModal = ({ isVisible, onClose, userStatistics, avatarBase64 }) 
           location={userStatistics.location}
           avatarBase64={avatarBase64}
         />
-        <UserStatistics {...userStatistics} />
+        <UserStatistics {...userStatistics} type={type || 'full'} />
       </View>
     </Modal>
   );

@@ -63,6 +63,17 @@ const pointAverageHeaderStyle = css`
   margin-bottom: 24px;
 `;
 
+const partialContainerStyle = css`
+  display: flex;
+  flex-direction: row;
+`;
+
+const partialContentStyle = css`
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+`;
+
 interface IUserStatistics {
   won: number;
   money: number;
@@ -71,42 +82,58 @@ interface IUserStatistics {
   percentWon: number;
   percentLost: number;
   averageScore: number;
+  type?: 'full' | 'partial'
 }
 
-export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLost, averageScore }: IUserStatistics) => {
+export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLost, averageScore, type }: IUserStatistics) => {
+  const finalType = type || 'full';
   return (
     <View style={containerStyle}>
-      <Text style={pointAverageValueStyle}>{averageScore.toFixed(0)}</Text>
-      <Text style={pointAverageHeaderStyle}>POINTS AVERAGE</Text>
-      <View style={rowStyle}>
-        <View style={rightSeparatorStyle}>
-          <Text style={valueStyle}>{played}</Text>
-        </View>
-        <Text style={valueStyle}>{money}</Text>
-        <View style={leftSeparatorStyle}>
-          <Text style={valueStyle}>{hcp}</Text>
-        </View>
-      </View>
-      <View style={rowStyle}>
-        <Text style={headerStyle}>PLAYED</Text>
-        <Text style={headerStyle}>$</Text>
-        <Text style={headerStyle}>HCP</Text>
-      </View>
-      <View style={dividerStyle} />
-      <View style={rowStyle}>
-        <View style={rightSeparatorStyle}>
-          <Text style={valueStyle}>{won}</Text>
-        </View>
-        <Text style={valueStyle}>{percentWon.toFixed(0)}</Text>
-        <View style={leftSeparatorStyle}>
-          <Text style={valueStyle}>{percentLost.toFixed(0)}</Text>
-        </View>
-      </View>
-      <View style={rowStyle}>
-        <Text style={headerStyle}>WIN</Text>
-        <Text style={headerStyle}>WIN %</Text>
-        <Text style={headerStyle}>MP %</Text>
-      </View>
+      {finalType === 'partial' &&
+        <View style={partialContainerStyle}>
+          <View style={partialContentStyle}>
+            <Text style={pointAverageValueStyle}>{averageScore.toFixed(0)}</Text>
+            <Text style={pointAverageHeaderStyle}>POINTS AVERAGE</Text>
+          </View>
+          <View style={partialContentStyle}>
+            <Text style={pointAverageValueStyle}>{hcp.toFixed(0)}</Text>
+            <Text style={pointAverageHeaderStyle}>HCP</Text>
+          </View>
+        </View>}
+      {finalType === 'full' &&
+        <>
+          <Text style={pointAverageValueStyle}>{averageScore.toFixed(0)}</Text>
+          <Text style={pointAverageHeaderStyle}>POINTS AVERAGE</Text>
+          <View style={rowStyle}>
+              <View style={rightSeparatorStyle}>
+                  <Text style={valueStyle}>{played}</Text>
+              </View>
+              <Text style={valueStyle}>{money}</Text>
+              <View style={leftSeparatorStyle}>
+                  <Text style={valueStyle}>{hcp}</Text>
+              </View>
+          </View>
+          <View style={rowStyle}>
+              <Text style={headerStyle}>PLAYED</Text>
+              <Text style={headerStyle}>$</Text>
+              <Text style={headerStyle}>HCP</Text>
+          </View>
+          <View style={dividerStyle} />
+          <View style={rowStyle}>
+            <View style={rightSeparatorStyle}>
+              <Text style={valueStyle}>{won}</Text>
+            </View>
+            <Text style={valueStyle}>{percentWon.toFixed(0)}</Text>
+            <View style={leftSeparatorStyle}>
+              <Text style={valueStyle}>{percentLost.toFixed(0)}</Text>
+            </View>
+          </View>
+          <View style={rowStyle}>
+            <Text style={headerStyle}>WIN</Text>
+            <Text style={headerStyle}>WIN %</Text>
+            <Text style={headerStyle}>MP %</Text>
+          </View>
+        </>}
     </View>
   );
 };

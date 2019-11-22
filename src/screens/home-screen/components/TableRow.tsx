@@ -52,6 +52,7 @@ export const TableRow = ({ rank, played, won, lost, firstName, lastName, isWinne
         userStatistics={{ won, played, percentWon, percentLost, hcp, money, firstName, lastName, description, location, averageScore }}
         avatar={avatar}
         location={location}
+        type="partial"
       />)}
     {!disableRightContent && (
       <View style={rightContentStyle}>
