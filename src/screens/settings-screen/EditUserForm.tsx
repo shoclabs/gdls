@@ -15,6 +15,16 @@ const countriesData = [
   { value: 'peru', label: 'Peru' },
   { value: 'argentina', label: 'Argentina' },
   { value: 'venezuela', label: 'Venezuela' },
+  { value: 'brazil', label: 'Brazil' },
+  { value: 'canada', label: 'Canada' },
+  { value: 'chile', label: 'Chile' },
+  { value: 'colombia', label: 'Colombia' },
+  { value: 'france', label: 'France' },
+  { value: 'italy', label: 'Italy' },
+  { value: 'netherlands', label: 'Netherlands' },
+  { value: 'spain', label: 'Spain' },
+  { value: 'uk', label: 'UK' },
+  { value: 'usa', label: 'USA' },
 ];
 
 const containerStyle = css`
