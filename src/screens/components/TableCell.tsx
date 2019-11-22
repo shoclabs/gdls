@@ -3,6 +3,7 @@ import { css } from 'css-rn';
 import { Text, View } from 'native-base';
 
 import { colors } from '../../theme/colors';
+import { numberToString } from '../../utils/number-to-string';
 
 const centerTextStyle = css`
   text-align: center;
@@ -27,7 +28,7 @@ interface ITableCell {
 export const TableCell = ({ value, fixedDecimals }: ITableCell) => (
   <View style={dataCellStyle}>
     <Text style={[textStyle, centerTextStyle]}>
-      {parseInt(value.toFixed(fixedDecimals || 0)).toLocaleString()}
+      {numberToString(parseInt(value.toFixed(fixedDecimals || 0)))}
     </Text>
   </View>
 );

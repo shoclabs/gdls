@@ -9,6 +9,7 @@ import { getApolloContext, useMutation } from '@apollo/react-hooks';
 import { Loader } from '../../components/Loader';
 
 import { colors } from '../../../theme/colors';
+import { numberToString } from '../../../utils/number-to-string';
 
 const greyCloseIcon = require('../assets/grey-close.png');
 const whiteCloseIcon = require('../assets/white-close.png');
@@ -95,7 +96,9 @@ export const SideBetRow = ({ bet, index }: ISideBetRow) => {
           <Text style={textStyle(false)}>{course}</Text>
         </View>
         <View style={amountStyle}>
-          <Text style={textStyle(isNegative)}>{parseInt(amount.toFixed(2)).toLocaleString()}</Text>
+          <Text style={textStyle(isNegative)}>
+            {numberToString(parseInt(amount.toFixed(2)))}
+          </Text>
         </View>
       </View>
       <View style={closeStyle}>

@@ -3,6 +3,7 @@ import { View, Text } from 'native-base';
 import { css } from 'css-rn';
 
 import { colors } from '../../../theme/colors';
+import { numberToString } from '../../../utils/number-to-string';
 
 const containerStyle = css`
   margin: 0 15px;
@@ -39,7 +40,7 @@ export const SideBetsDetailsHeader = ({ name, balance }: ISideBetsDetailsHeader)
   return (
     <View style={containerStyle}>
       <Text style={nameStyle}>{name.toUpperCase()}</Text>
-      <Text style={balanceStyle}>{`$${parseInt(balance.toFixed(2)).toLocaleString()}`}</Text>
+      <Text style={balanceStyle}>{`$${numberToString(parseInt(balance.toFixed(2)))}`}</Text>
       <Text style={subHeaderStyle}>BALANCE</Text>
     </View>
   );
