@@ -67,6 +67,8 @@ export interface IBet {
   date: string;
   course: string;
   amount: number;
+  currentAdvantage: number;
+  nextAdvantage: number;
 }
 
 interface ISideBetRow {
