@@ -31,15 +31,15 @@ const dateStyle = css`
 `;
 
 const courseStyle = css`
-  width: 140px;
+  width: 110px;
 `;
 
 const amountStyle = css`
-  width: 120px;
+  width: 60px;
 `;
 
 const closeStyle = css`
-  width: 80px;
+  width: 60px;
   align-items: flex-end;
   padding-right: 20px;
 `;
@@ -83,7 +83,7 @@ export const SideBetRow = ({ bet, index }: ISideBetRow) => {
       await client.resetStore();
     }
   };
-  const { date, course, amount } = bet;
+  const { date, course, amount, currentAdvantage, nextAdvantage } = bet;
   const isGrey = index % 2 === 0;
   const isNegative = amount < 0;
   return (
@@ -99,6 +99,12 @@ export const SideBetRow = ({ bet, index }: ISideBetRow) => {
           <Text style={textStyle(isNegative)}>
             {numberToString(parseInt(amount.toFixed(2)))}
           </Text>
+        </View>
+        <View style={amountStyle}>
+          <Text style={textStyle(false)}>{currentAdvantage}</Text>
+        </View>
+        <View style={amountStyle}>
+          <Text style={textStyle(false)}>{nextAdvantage}</Text>
         </View>
       </View>
       <View style={closeStyle}>

@@ -19,6 +19,8 @@ const BETS_GROUP_QUERY = gql`
         date
         amount
         course
+        currentAdvantage
+        nextAdvantage
       }
     }
   }
