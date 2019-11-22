@@ -14,7 +14,7 @@ const containerStyle = (isGrey: boolean) => css`
   height: 45px;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   ${isGrey ? `background-color: ${colors.lightGrey}`: ''}
 `;
 
@@ -28,7 +28,13 @@ const leftContentStyle = css`
 const rightContentStyle = css`
   display: flex;
   align-items: center;
-  width: 200px;
+  width: 100px;
+`;
+
+const fullRightContentStyle = css`
+  display: flex;
+  align-items: center;
+  width: 60px;
   justify-content: space-between;
   flex-direction: row;
   padding-left: 5px;
@@ -56,6 +62,7 @@ interface IBetRow {
     id: string;
     name: string;
     amount: number;
+    nextAdvantage: number;
   };
   index: number;
 }
@@ -70,6 +77,11 @@ export const BetRow = ({ betGroup, index }: IBetRow) => {
       </View>
       <View style={rightContentStyle}>
         <Text style={textStyle}>{numberToString(parseFloat(betGroup.amount.toFixed(2)))}</Text>
+      </View>
+      <View style={rightContentStyle}>
+        <Text style={textStyle}>{betGroup.nextAdvantage}</Text>
+      </View>
+      <View style={fullRightContentStyle}>
         <Button style={nextButton} transparent onPress={() => history.push(`/side-bets/${betGroup.id}`)}>
           <Image style={nextIconStyle} source={isGrey ? rightArrowGrey : rightArrowWhite} />
         </Button>

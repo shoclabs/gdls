@@ -3,6 +3,7 @@ import { View, Text } from 'native-base';
 import { css } from 'css-rn';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
+import { get } from 'lodash';
 
 import { BetRow } from './BetRow';
 import { PageLoader } from '../../components/PageLoader';
@@ -13,7 +14,7 @@ const containerStyle = css`
   height: 60px;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 `;
 
 const leftContentStyle = css`
@@ -25,8 +26,8 @@ const leftContentStyle = css`
 
 const rightContentStyle = css`
   display: flex;
-  align-items: flex-start;
-  width: 200px;
+  align-items: center;
+  width: 100px;
 `;
 
 const headerStyle = css`
@@ -45,6 +46,7 @@ const MY_BETS_QUERY = gql`
         bets {
           id
           amount
+          nextAdvantage
         }
       }
     }
@@ -63,13 +65,21 @@ export const BetsTable = () => {
           <Text style={headerStyle}>PLAYER</Text>
         </View>
         <View style={rightContentStyle}>
-          <Text style={headerStyle}>TOTAL</Text>
+          <Text style={headerStyle}>$</Text>
+        </View>
+        <View style={rightContentStyle}>
+          <Text style={headerStyle}>N. ADV</Text>
         </View>
       </View>
       {data.me.betsGroups.map(({ id, name, bets }, index) => (
         <BetRow
           key={id}
-          betGroup={{ id, name, amount: bets.reduce((sum, bet) => sum + bet.amount, 0) }}
+          betGroup={{
+            id,
+            name,
+            amount: bets.reduce((sum, bet) => sum + bet.amount, 0),
+            nextAdvantage: get(bets, `[${bets.length - 1}].nextAdvantage`),
+          }}
           index={index}
         />
       ))}
