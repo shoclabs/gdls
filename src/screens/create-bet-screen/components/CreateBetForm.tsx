@@ -6,6 +6,7 @@ import { getApolloContext, useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { useHistory } from 'react-router';
 import { get } from 'lodash';
+import { Platform } from 'react-native';
 
 import { DatePickerInput } from '../../components/DatePickerInput';
 import { Loader } from '../../components/Loader';
@@ -18,6 +19,7 @@ import { colors } from '../../../theme/colors';
 
 const containerStyle = css`
   margin-top: 55px;
+  ${Platform.OS === 'android' ? 'height: 1300px;' : ''}
 `;
 
 const inputStyle = css`

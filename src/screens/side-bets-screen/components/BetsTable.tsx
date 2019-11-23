@@ -7,6 +7,7 @@ import { get } from 'lodash';
 
 import { BetRow } from './BetRow';
 import { PageLoader } from '../../components/PageLoader';
+import { HeaderSection } from '../../holes-in-one-screen/components/HeaderSection';
 
 import { colors } from '../../../theme/colors';
 
@@ -58,8 +59,15 @@ export const BetsTable = () => {
   if (loading) {
     return <PageLoader />
   }
+  let totalAmount = 0;
+  data.me.betsGroups.forEach(group => {
+    group.bets.forEach(bet => {
+      totalAmount += bet.amount;
+    });
+  });
   return (
     <>
+      <HeaderSection label="SIDE BETS" totalAmount={totalAmount} />
       <View style={containerStyle}>
         <View style={leftContentStyle}>
           <Text style={headerStyle}>PLAYER</Text>
