@@ -33,13 +33,21 @@ const bottomTextMarkedStyle = css`
   color: white;
 `;
 
-export const HeaderSection = ({ label, totalAmount }) => {
+interface IHeaderSection {
+  label: string;
+  totalAmount?: number;
+}
+
+export const HeaderSection = ({ label, totalAmount }: IHeaderSection) => {
+  console.log('totalAmount', totalAmount);
   return (
     <ImageBackground style={containerStyle} source={backgroundImage}>
       <Text style={textStyle}>{label}</Text>
-      <Text style={bottomTextStyle}>GRAND TOTAL:
-        <Text style={bottomTextMarkedStyle}>{` $${numberToString(totalAmount)}`}</Text>
-      </Text>
+      {totalAmount !== undefined && (
+        <Text style={bottomTextStyle}>GRAND TOTAL:
+          <Text style={bottomTextMarkedStyle}>{` $${numberToString(totalAmount)}`}</Text>
+        </Text>
+      )}
     </ImageBackground>
   );
 };
