@@ -39,7 +39,6 @@ interface IHeaderSection {
 }
 
 export const HeaderSection = ({ label, totalAmount }: IHeaderSection) => {
-  console.log('totalAmount', totalAmount);
   return (
     <ImageBackground style={containerStyle} source={backgroundImage}>
       <Text style={textStyle}>{label}</Text>
