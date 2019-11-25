@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-native';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
+import { get } from 'lodash';
 
 import { GoBackBar } from '../components/GoBackBar';
 import { HoleInOne } from './components/HoleInOne';
@@ -38,6 +39,9 @@ const HIO_BY_PLAYER_QUERY = gql`
           id
           didPay
           amountToPay
+          userWithPaymentObligation {
+            id
+          }
         }
       }
     }
@@ -59,6 +63,7 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
     return <PageLoader />;
   }
   const { user, me } = data;
+  const hioIsMine = me.id === user.id;
   return (
     <Container>
       <Content>
@@ -67,6 +72,10 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
         {user.holesInOne.map(hio => {
           const paidObligations = hio.paymentObligations.filter(paymentObligation => paymentObligation.didPay);
           const totalAmountPaid = paidObligations.reduce((sum, item) => sum + item.amountToPay, 0);
+          const myPaymentObligation =
+            hio.paymentObligations.filter(item => item.userWithPaymentObligation.id === me.id);
+          const paid = get(myPaymentObligation, '[0].didPay') === true;
+          const notPaid = get(myPaymentObligation, '[0].didPay') === false;
           return (
             <HoleInOne
               key={hio.id}
@@ -77,7 +86,9 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
               description={hio.club.name}
               money={totalAmountPaid}
               numberOfPeoplePaid={hio.paymentObligations.length - paidObligations.length}
-              disabled={me.id !== user.id}
+              disabled={!hioIsMine}
+              paid={paid}
+              notPaid={notPaid}
             />
           )
         })}

@@ -47,7 +47,6 @@ export const HIOCell = (props: IHIOCell) => {
       <View>
         <Text style={valueStyle}>{value}</Text>
         <Text style={labelStyle}>{label}</Text>
-        <Text style={detailStyle}>DETAIL</Text>
       </View>
     </View>
   );

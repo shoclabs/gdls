@@ -10,9 +10,9 @@ const moneyIcon = require('../../components/icons/money.png');
 const nextIcon = require('../../components/icons/next.png');
 const peopleIcon = require('../../components/icons/people.png');
 
-const containerStyle = css`
+const containerStyle = notPaid => css`
   height: 130px;
-  background-color: ${colors.blue};
+  background-color: ${notPaid ? colors.red : colors.blue};
   border-radius: 10px;
   margin: 0 30px 20px 30px;
   overflow: hidden;
@@ -22,9 +22,9 @@ const topContentStyle = css`
   height: 95px;
 `;
 
-const bottomContentStyle = css`
+const bottomContentStyle = (notPaid) => css`
   height: 35px;
-  background-color: ${colors.darkBlue};
+  background-color: ${notPaid ? colors.darkRed : colors.darkBlue};
   flex-direction: row;
   padding-left: 15px;
   justify-content: space-between;
@@ -90,11 +90,15 @@ interface IHeaderProps extends RouteComponentProps<any>{
   numberOfPeoplePaid: number;
   money: number;
   disabled: boolean;
+  paid: boolean;
+  notPaid: boolean;
 }
 
-export const HoleInOne = withRouter<IHeaderProps, any>(({ date, history, holeNumber, description, numberOfPeoplePaid, money, courseName, holeId, disabled }) => {
+export const HoleInOne = withRouter<IHeaderProps, any>((props) => {
+  const { date, history, holeNumber, description, numberOfPeoplePaid, money } = props;
+  const {courseName, holeId, disabled, paid, notPaid } = props;
   return (
-    <TouchableOpacity style={containerStyle} onPress={() => history.push(`/hole-in-one/${holeId}`)} disabled={disabled}>
+    <TouchableOpacity style={containerStyle(notPaid)} onPress={() => history.push(`/hole-in-one/${holeId}`)} disabled={disabled}>
       <View style={topContentStyle}>
         <View style={dateContainerStyle}>
           <Text style={dateStyle}>{date}</Text>
@@ -103,7 +107,7 @@ export const HoleInOne = withRouter<IHeaderProps, any>(({ date, history, holeNum
         <Text style={infoTextStyle}>HOLE {holeNumber}</Text>
         <Text style={infoTextStyle}>{description}</Text>
       </View>
-      <View style={bottomContentStyle}>
+      <View style={bottomContentStyle(notPaid)}>
         <View style={leftBottomStyle}>
           <Image style={peopleIconStyle} source={peopleIcon} />
           <Text style={bottomTextStyle}>{numberOfPeoplePaid}</Text>
@@ -113,6 +117,11 @@ export const HoleInOne = withRouter<IHeaderProps, any>(({ date, history, holeNum
         {!disabled && (
           <View style={rightBottomStyle}>
             <Image style={nextIconStyle} source={nextIcon} />
+          </View>
+        )}
+        {(notPaid || paid) && (
+          <View style={rightBottomStyle}>
+            <Text style={bottomTextStyle}>{notPaid ? 'Not paid' : 'Paid'}</Text>
           </View>
         )}
       </View>
