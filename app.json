@@ -24,7 +24,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon": "./assets/icon-ios.png",
+      "buildNumber": "1",
+      "bundleIdentifier": "com.shoclabs.gdls",
+      "infoPlist": {
+        "infoPlist": {
+          "NSPhotoLibraryUsageDescription": "Application needs access to your photos so you can include them in your profile."
+        }
+      }
     }
   }
 }
