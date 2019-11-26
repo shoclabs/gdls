@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 import { getApolloContext, useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { useHistory } from 'react-router';
-import { get } from 'lodash';
+import { get, isNil } from 'lodash';
 import { Platform } from 'react-native';
 
 import { DatePickerInput } from '../../components/DatePickerInput';
@@ -61,6 +61,12 @@ const MY_BETS_QUERY = gql`
       betsGroups {
         id
         name
+        bets {
+            id
+            date
+            amount
+            nextAdvantage
+        }
       }
     }
   }
@@ -109,6 +115,20 @@ export const CreateBetForm = ({ formik, loading, error }) => {
     .map(betsGroup => betsGroup.name)
     .filter(name => name.toUpperCase().indexOf(values.name.toUpperCase()) > -1) :
     [];
+  const handleChangeName = (value) => {
+    handleChange('name')(value);
+    setNameIsSelected(true);
+    const betsGroup = betsGroups.filter(item => item.name === value);
+    if (betsGroup.length > 0) {
+      const bets = get(betsGroup, `[0].bets`);
+      const betsLength = get(bets, 'length');
+      const lastBetNextAdvantage = get(bets, `[${betsLength - 1}].nextAdvantage`);
+      if (!isNil(lastBetNextAdvantage)) {
+        return handleChange('currentAdvantage')(lastBetNextAdvantage.toString());
+      }
+      handleChange('currentAdvantage')('');
+    }
+  };
   return (
     <View style={containerStyle}>
       <DatePickerInput date={values.date} onChange={handleChange('date')} />
@@ -116,7 +136,7 @@ export const CreateBetForm = ({ formik, loading, error }) => {
         <Input
           style={inputStyle}
           placeholder="Enter new or select existing name"
-          onChangeText={(value) => { handleChange('name')(value); setNameIsSelected(false);}}
+          onChangeText={value => { handleChange('name')(value); setNameIsSelected(false); }}
           selectionColor={colors.darkBlue}
           placeholderTextColor={colors.darkBlue}
           value={values.name}
@@ -125,7 +145,7 @@ export const CreateBetForm = ({ formik, loading, error }) => {
       <SearchResultList
         users={nameIsSelected ? [] : namesResult.map((name: string) => ({ id: name, firstName: name, lastName: '' }))}
         loading={false}
-        onSelect={value => { handleChange('name')(value); setNameIsSelected(true) }}
+        onSelect={handleChangeName}
         customContainerStyle={customSearchStyle}
       />
       <Item regular style={inputContainerStyle}>
@@ -153,6 +173,7 @@ export const CreateBetForm = ({ formik, loading, error }) => {
           onChangeText={handleChange('currentAdvantage')}
           selectionColor={colors.darkBlue}
           placeholderTextColor={colors.darkBlue}
+          value={values.currentAdvantage}
         />
       </Item>
       <Item regular style={inputContainerStyle}>
