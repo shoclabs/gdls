@@ -3,6 +3,7 @@ import { css } from 'css-rn';
 import { Image } from 'react-native';
 import { Button, Text, View, Icon } from 'native-base';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Linking } from 'expo';
 
 const holeInOneIcon = require('../assets/hole-in-one.png');
 const profileIcon = require('../assets/profile.png');
@@ -70,8 +71,12 @@ export const MenuSection = withRouter<IMenuSectionProps, any>(({ history, onClos
         <Text style={textStyle}>CHANGE PASSWORD</Text>
       </Button>
       <Button transparent style={itemStyle} onPress={handleOpenScreen('/settings-screen')}>
-        <Image style={iconStyle} source={sideBetsIcon} />
+        <Icon style={passwordIconStyle} name="settings" />
         <Text style={textStyle}>SETTINGS</Text>
+      </Button>
+      <Button transparent style={itemStyle} onPress={() => Linking.openURL('https://www.shoclabs.com/gdls-privacy/')}>
+        <Icon style={passwordIconStyle} name="text" />
+        <Text style={textStyle}>PRIVACY POLICY</Text>
       </Button>
     </View>
   )
