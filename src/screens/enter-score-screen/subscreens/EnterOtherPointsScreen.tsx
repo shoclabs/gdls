@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
+import { useHistory } from 'react-router-native';
 
 import { GoBackBar } from '../../components/GoBackBar';
-import { Checkbox } from '../components/Checkbox';
 import { ConfirmationDialog } from '../components/ConfirmationDialog';
 import { SuccessDialog } from '../components/SuccessDialog';
 import { SearchUsersSection } from '../components/search-users-section/SearchUsersSection';
@@ -62,19 +62,28 @@ const inputStyle = css`
   text-align: center;
 `;
 
-const checkboxStyle = css`
-  margin: 50px 30px 0 30px;
-`;
-
 export const EnterOtherPointsScreen = () => {
   const [score, setScore] = useState('');
   const [userId, setUserId] = useState('');
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [scoreIsEntered, setScoreIsEntered] = useState(false);
+  const history = useHistory();
+  useEffect(() => {
+    if (scoreIsEntered) {
+      setTimeout(() => {
+        history.push('/enter-score');
+      }, 1000);
+    }
+  }, [scoreIsEntered]);
   const handleSubmit = () => {
     if (score !== '' && userId !== '') {
       setShowConfirmationDialog(true);
     }
+  };
+  const handleCloseSuccessDialog = () => {
+    setShowSuccessDialog(false);
+    setScoreIsEntered(true);
   };
   return (
     <Content>
@@ -107,7 +116,7 @@ export const EnterOtherPointsScreen = () => {
           id={userId}
         />
       )}
-      <SuccessDialog visible={showSuccessDialog} onClose={() => setShowSuccessDialog(false)} />
+      <SuccessDialog visible={showSuccessDialog} onClose={handleCloseSuccessDialog} />
     </Content>
   );
 };

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Button, Text } from 'native-base';
 import { css } from 'css-rn';
+import { useHistory } from 'react-router-native';
 
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { SuccessDialog } from './SuccessDialog';
@@ -27,6 +28,19 @@ const buttonTextStyle = css`
 export const SubmitScoreBoardResult = ({ result, userId }) => {
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [scoreIsEntered, setScoreIsEntered] = useState(false);
+  const history = useHistory();
+  useEffect(() => {
+    if (scoreIsEntered) {
+      setTimeout(() => {
+        history.push('/enter-score');
+      }, 1000);
+    }
+  }, [scoreIsEntered]);
+  const handleCloseSuccessDialog = () => {
+    setShowSuccessDialog(false);
+    setScoreIsEntered(true);
+  };
   return (
     <>
       <View style={buttonContainerStyle}>
@@ -41,7 +55,7 @@ export const SubmitScoreBoardResult = ({ result, userId }) => {
         score={result}
         onSuccess={() => setShowSuccessDialog(true)}
       />
-      <SuccessDialog visible={showSuccessDialog} onClose={() => setShowSuccessDialog(false)} />
+      <SuccessDialog visible={showSuccessDialog} onClose={handleCloseSuccessDialog} />
     </>
   );
 };

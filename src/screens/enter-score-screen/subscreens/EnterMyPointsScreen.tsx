@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
 import { AsyncStorage } from 'react-native';
+import { useHistory } from 'react-router-native';
 
 import { GoBackBar } from '../../components/GoBackBar';
 import { ConfirmationDialog } from '../components/ConfirmationDialog';
@@ -64,19 +65,30 @@ const inputStyle = css`
 export const EnterMyPointsScreen = () => {
   const [score, setScore] = useState('');
   const [userId, setUserId] = useState();
+  const [scoreIsEntered, setScoreIsEntered] = useState(false);
+  const history = useHistory();
   useEffect( () => {
     const asyncUseEffect = async () => {
       const userId = await AsyncStorage.getItem('userId');
       setUserId(userId);
     };
     asyncUseEffect();
-  }, []);
+    if (scoreIsEntered) {
+      setTimeout(() => {
+        history.push('/enter-score');
+      }, 1000);
+    }
+  }, [scoreIsEntered]);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const handleSubmit = () => {
     if (score !== '') {
       setShowConfirmationDialog(true);
     }
+  };
+  const handleCloseSuccessDialog = () => {
+    setShowSuccessDialog(false);
+    setScoreIsEntered(true);
   };
   return (
     <Content>
@@ -107,7 +119,7 @@ export const EnterMyPointsScreen = () => {
           onSuccess={() => setShowSuccessDialog(true)}
           userId={userId}
         />}
-      <SuccessDialog visible={showSuccessDialog} onClose={() => setShowSuccessDialog(false)} />
+      <SuccessDialog visible={showSuccessDialog} onClose={handleCloseSuccessDialog} />
     </Content>
   );
 };
