@@ -4,7 +4,7 @@ import { View } from 'native-base';
 import { css } from 'css-rn';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { sortBy } from 'lodash';
+import { sortBy, get } from 'lodash';
 
 import { TableHeader } from '../../components/TableHeader';
 import { TableRow } from './TableRow';
@@ -86,7 +86,7 @@ export const TableSection = () => {
       </View>
     )
   }
-  const { winnerId, loserId } = getWinnerAndLoserIds(data.activeWeek.rounds);
+  const { winnerIds, loserIds } = getWinnerAndLoserIds(data.activeWeek.rounds);
   const userFieldToFilter = userFieldResolver[selectedHeader];
   const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']);
   const orderedUsers = order === 'desc' ? sortedUsers.reverse() : sortedUsers;
@@ -105,8 +105,8 @@ export const TableSection = () => {
             avatar={user.avatar}
             firstName={user.firstName.toUpperCase()}
             lastName={user.lastName.toUpperCase()}
-            isWinner={user.id === winnerId}
-            isLooser={user.id === loserId}
+            isWinner={winnerIds.includes(user.id)}
+            isLooser={loserIds.includes(user.id)}
             location={user.location}
             played={user.finishedRoundsCount}
             won={user.winCount}

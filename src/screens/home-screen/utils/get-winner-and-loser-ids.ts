@@ -1,8 +1,8 @@
 import { get, orderBy } from 'lodash';
 
 interface IWinnerAndLooserIds {
-    winnerId: string | undefined;
-    loserId: string | undefined;
+    winnerIds: string[] | [undefined];
+    loserIds: string[] | [undefined];
 }
 
 interface IRound {
@@ -14,12 +14,14 @@ export function getWinnerAndLoserIds(rounds: IRound[]): IWinnerAndLooserIds {
   const sortedRounds = orderBy(rounds, 'score', 'asc');
   if (sortedRounds.length < 2) {
     return ({
-      winnerId: undefined,
-      loserId: undefined,
+      winnerIds: [undefined],
+      loserIds: [undefined],
     });
   }
+  const winnerScore = get(sortedRounds, `[${sortedRounds.length - 1}].score`);
+  const loserScore = get(sortedRounds, '[0].score');
   return ({
-    winnerId: get(sortedRounds, `[${sortedRounds.length - 1}].user.id`),
-    loserId: get(sortedRounds, '[0].user.id'),
+    winnerIds: rounds.filter(r => r.score === winnerScore).map(r => r.user.id),
+    loserIds: rounds.filter(r => r.score === loserScore).map(r => r.user.id),
   });
 }
