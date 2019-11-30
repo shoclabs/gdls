@@ -69,11 +69,10 @@ const checkboxStyle = css`
 export const EnterOtherPointsScreen = () => {
   const [score, setScore] = useState('');
   const [userId, setUserId] = useState('');
-  const [confirmation, setConfirmation] = useState(false);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const handleSubmit = () => {
-    if (score !== '' && confirmation && userId !== '') {
+    if (score !== '' && userId !== '') {
       setShowConfirmationDialog(true);
     }
   };
@@ -92,13 +91,6 @@ export const EnterOtherPointsScreen = () => {
           keyboardType="numeric"
           value={score}
           onChangeText={text => setScore(text)}
-        />
-      </View>
-      <View style={checkboxStyle}>
-        <Checkbox
-          value={confirmation}
-          text="I have been authorized by other player to register his score for this week."
-          onChange={setConfirmation}
         />
       </View>
       <View style={buttonContainerStyle}>
