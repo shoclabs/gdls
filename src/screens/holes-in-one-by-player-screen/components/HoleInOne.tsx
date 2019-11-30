@@ -48,6 +48,18 @@ const infoTextStyle = css`
   margin-left: 14px;
 `;
 
+const yardageTextStyle = css`
+  font-size: 14px;
+  font-family: open-sans-regular;
+  color: white;
+  padding-left: 32px;
+`;
+
+const descriptionAndYardageStyle = css`
+  display: flex;
+  flex-direction: row;
+`;
+
 const leftBottomStyle = css`
   flex-direction: row;
   align-items: center;
@@ -92,11 +104,12 @@ interface IHeaderProps extends RouteComponentProps<any>{
   disabled: boolean;
   paid: boolean;
   notPaid: boolean;
+  yardage: number;
 }
 
 export const HoleInOne = withRouter<IHeaderProps, any>((props) => {
   const { date, history, holeNumber, description, numberOfPeoplePaid, money } = props;
-  const {courseName, holeId, disabled, paid, notPaid } = props;
+  const {courseName, holeId, disabled, paid, notPaid, yardage } = props;
   return (
     <TouchableOpacity style={containerStyle(notPaid)} onPress={() => history.push(`/hole-in-one/${holeId}`)} disabled={disabled}>
       <View style={topContentStyle}>
@@ -105,7 +118,10 @@ export const HoleInOne = withRouter<IHeaderProps, any>((props) => {
         </View>
         <Text style={infoTextStyle}>{courseName}</Text>
         <Text style={infoTextStyle}>HOLE {holeNumber}</Text>
-        <Text style={infoTextStyle}>{description}</Text>
+          <View style={descriptionAndYardageStyle}>
+            <Text style={infoTextStyle}>{description}</Text>
+            <Text style={yardageTextStyle}>{yardage} YDS</Text>
+          </View>
       </View>
       <View style={bottomContentStyle(notPaid)}>
         <View style={leftBottomStyle}>

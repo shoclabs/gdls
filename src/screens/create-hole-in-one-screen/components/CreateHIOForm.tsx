@@ -67,6 +67,16 @@ export const CreateHIOForm = ({ loading, formik, clubsData, error }) => {
           keyboardType="numeric"
         />
       </Item>
+      <Item regular style={inputContainerStyle}>
+        <Input
+          style={inputStyle}
+          placeholder="Yardage"
+          onChangeText={handleChange('yardage')}
+          selectionColor={colors.darkBlue}
+          placeholderTextColor={colors.darkBlue}
+          keyboardType="numeric"
+        />
+      </Item>
       <Picker
         items={pickerData}
         onWeekSelect={clubId => handleChange('club')(clubId)}

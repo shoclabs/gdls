@@ -16,7 +16,7 @@ import { CreateHIOForm } from './components/CreateHIOForm';
 import { PageLoader } from '../components/PageLoader';
 
 const containerStyle = css`
-  ${Platform.OS === 'android' ? 'height: 1000px' : ''}
+  ${Platform.OS === 'android' ? 'height: 1050px' : ''}
 `;
 
 const initialValues = {
@@ -24,12 +24,14 @@ const initialValues = {
   courseName: '',
   holeNumber: '',
   club: '',
+  yardage: '',
 };
 
 const validationSchema = yup.object().shape({
   date: yup.string().required(),
   courseName: yup.string().required(),
   holeNumber: yup.string().required(),
+  yardage: yup.string().required(),
   club: yup.string().required(),
 });
 
@@ -43,8 +45,8 @@ const CLUBS_QUERY = gql`
 `;
 
 const CREATE_CLUB_MUTATION = gql`
-  mutation CREATE_CLUB($date: DateTime!, $courseName: String!, $holeNumber: Float!, $club: EntityId!) {
-    createHoleInOne(input: { date: $date, courseName: $courseName, holeNumber: $holeNumber, club: { id: $club } }) {
+  mutation CREATE_CLUB($date: DateTime!, $courseName: String!, $holeNumber: Float!, $club: EntityId!, $yardage: Float!) {
+    createHoleInOne(input: { date: $date, courseName: $courseName, holeNumber: $holeNumber, yardage: $yardage, club: { id: $club } }) {
       id
       date
       courseName
@@ -66,7 +68,7 @@ export const CreateHoleInOneScreen = withRouter(({ history }) => {
   const { client } = React.useContext(getApolloContext());
   const handleSubmit = async values => {
     const date = moment(values.date, 'DD-MM-YYYY').format('MM-DD-YYYY');
-    const variables = { ...values, holeNumber: parseInt(values.holeNumber), date };
+    const variables = { ...values, holeNumber: parseInt(values.holeNumber), date, yardage: parseInt(values.yardage) };
     const result = await createClubMutation({ variables });
     if (get(result, 'data.createHoleInOne.id')) {
       await client.resetStore();

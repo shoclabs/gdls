@@ -30,6 +30,7 @@ const HIO_BY_PLAYER_QUERY = gql`
         date
         courseName
         holeNumber
+        yardage
         club {
           id
           name
@@ -84,6 +85,7 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
               courseName={hio.courseName}
               holeNumber={hio.holeNumber}
               description={hio.club.name}
+              yardage={hio.yardage}
               money={totalAmountPaid}
               numberOfPeoplePaid={hio.paymentObligations.length - paidObligations.length}
               disabled={!hioIsMine}
