@@ -9,6 +9,8 @@ const headers = ['Score'];
 export const TableBody = ({ rounds, week }) => {
   const filteredRounds = rounds.filter(round => get(round, 'week.weekNumber') === week);
   const sortedRounds = sortBy(filteredRounds, ['score', 'user.firstName', 'user.lastName']).reverse();
+  const winnerScore = get(sortedRounds, '[0].score');
+  const loserScore = get(sortedRounds, `[${get(sortedRounds, 'length') - 1}].score`);
   return (
     <>
       <TableHeader headers={headers} />
@@ -18,8 +20,8 @@ export const TableBody = ({ rounds, week }) => {
           <TableRow
             key={id}
             fullName={`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
-            isWinner={index === 0}
-            isLooser={index === sortedRounds.length - 1}
+            isWinner={index === 0 || winnerScore === round.score}
+            isLooser={index === sortedRounds.length - 1 || loserScore === round.score}
             rank={index + 1}
             score={score}
             avatar={avatar}
