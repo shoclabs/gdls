@@ -46,7 +46,7 @@ const QUERY_ME = gql`
 `;
 
 export const MyProfileScreen = () => {
-  const { data, loading, error } = useQuery(QUERY_ME);
+  const { data, loading, error } = useQuery(QUERY_ME, { fetchPolicy: 'network-only' });
   if (loading) {
     return (
       <PageLoader />
