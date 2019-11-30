@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 import { getApolloContext, useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { useHistory } from 'react-router';
-import { get, isNil } from 'lodash';
+import { get, isNil, uniq } from 'lodash';
 import { Platform } from 'react-native';
 
 import { DatePickerInput } from '../../components/DatePickerInput';
@@ -62,10 +62,11 @@ const MY_BETS_QUERY = gql`
         id
         name
         bets {
-            id
-            date
-            amount
-            nextAdvantage
+          id
+          date
+          amount
+          nextAdvantage
+          course
         }
       }
     }
@@ -83,6 +84,7 @@ const ADD_BET_TO_BETS_GROUP = gql`
 export const CreateBetForm = ({ formik, loading, error }) => {
   const { values, handleSubmit, handleChange } = formik;
   const [nameIsSelected, setNameIsSelected] = useState(false);
+  const [courseIsSelected, setCourseIsSelected] = useState(false);
   const { data, loading: dataLoading } = useQuery(MY_BETS_QUERY);
   const { client } = React.useContext(getApolloContext());
   const history = useHistory();
@@ -92,6 +94,9 @@ export const CreateBetForm = ({ formik, loading, error }) => {
     return <PageLoader />;
   }
   const { me: { betsGroups } } = data;
+  const betsGroupsCoursesTemp = [];
+  betsGroups.forEach(betsGroup => betsGroup.bets.forEach(bet => betsGroupsCoursesTemp.push(bet.course)));
+  const betsGroupsCourses = uniq(betsGroupsCoursesTemp);
   const handleAddBetToBetsGroup = async () => {
     const { course, amount, currentAdvantage, nextAdvantage } = values;
     const betsGroupId = betsGroups.filter(betGroup => betGroup.name === values.name)[0].id;
@@ -114,6 +119,9 @@ export const CreateBetForm = ({ formik, loading, error }) => {
     betsGroups
     .map(betsGroup => betsGroup.name)
     .filter(name => name.toUpperCase().indexOf(values.name.toUpperCase()) > -1) :
+    [];
+  const courseResult = values.course.length > 0 ?
+    betsGroupsCourses.filter(name => name.toUpperCase().indexOf(values.course.toUpperCase()) > -1) :
     [];
   const handleChangeName = (value) => {
     handleChange('name')(value);
@@ -152,11 +160,18 @@ export const CreateBetForm = ({ formik, loading, error }) => {
         <Input
           style={inputStyle}
           placeholder="Course"
-          onChangeText={handleChange('course')}
+          onChangeText={value => { handleChange('course')(value); setCourseIsSelected(false); }}
           selectionColor={colors.darkBlue}
           placeholderTextColor={colors.darkBlue}
+          value={values.course}
         />
       </Item>
+      <SearchResultList
+        users={courseIsSelected ? [] : courseResult.map((name: string) => ({ id: name, firstName: name, lastName: '' }))}
+        loading={false}
+        onSelect={value => { handleChange('course')(value); setCourseIsSelected(true); }}
+        customContainerStyle={customSearchStyle}
+      />
       <Item regular style={inputContainerStyle}>
         <Input
           style={inputStyle}
