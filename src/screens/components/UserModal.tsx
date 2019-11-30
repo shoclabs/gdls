@@ -17,9 +17,10 @@ interface IUserModal {
   userStatistics: any;
   avatarBase64?: string;
   type?: 'full' | 'partial';
+  hideHolesInOne?: boolean;
 }
 
-export const UserModal = ({ isVisible, onClose, userStatistics, avatarBase64, type }: IUserModal) => {
+export const UserModal = ({ isVisible, onClose, userStatistics, avatarBase64, type, hideHolesInOne = false }: IUserModal) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -35,7 +36,7 @@ export const UserModal = ({ isVisible, onClose, userStatistics, avatarBase64, ty
           location={userStatistics.location}
           avatarBase64={avatarBase64}
         />
-        <UserStatistics {...userStatistics} type={type || 'full'} />
+        <UserStatistics {...userStatistics} type={type || 'full'} hideHolesInOne />
       </View>
     </Modal>
   );

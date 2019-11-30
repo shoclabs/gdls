@@ -105,7 +105,8 @@ export const TableRowLeftContent = ({ isWinner, isLooser, rank, fullName, remove
           isVisible={showUserModal}
           onClose={() => setShowUserModal(false)}
           userStatistics={userStatistics}
-          type={type || 'full'}
+          type="full"
+          hideHolesInOne
         />}
     </View>
   );

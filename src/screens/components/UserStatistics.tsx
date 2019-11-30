@@ -102,9 +102,10 @@ interface IUserStatistics {
   hioCount?: number;
   hioOwed?: number;
   type?: 'full' | 'partial'
+  hideHolesInOne?: boolean;
 }
 
-export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLost, averageScore, type, loseCount, hioCount, hioOwed }: IUserStatistics) => {
+export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLost, averageScore, type, loseCount, hioCount, hioOwed, hideHolesInOne = false }: IUserStatistics) => {
   const finalType = type || 'full';
   return (
     <View style={containerStyle}>
@@ -159,7 +160,7 @@ export const UserStatistics = ({ won, money, hcp, played, percentWon, percentLos
               <Text style={headerStyle}>MP %</Text>
             </View>
           </View>
-          <HIOStatistics hioCount={hioCount} hioOwed={hioOwed} />
+          {!hideHolesInOne && <HIOStatistics hioCount={hioCount} hioOwed={hioOwed} />}
         </>}
     </View>
   );
