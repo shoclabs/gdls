@@ -30,9 +30,18 @@
       "bundleIdentifier": "com.shoclabs.gdls",
       "infoPlist": {
         "infoPlist": {
-          "NSPhotoLibraryUsageDescription": "Application needs access to your photos so you can include them in your profile."
+          "NSPhotoLibraryUsageDescription": "Application needs access to your photo library so you can select your profile picture.",
+          "NSCameraUsageDescription": "Application needs access to your camera so you can take a profile picture."
         }
       }
+    },
+    "android": {
+      "package": "com.shoclabs.gdls",
+      "permissions": [
+        "CAMERA"
+      ],
+      "versionCode": 1,
+      "icon": "./assets/icon-android.png"
     }
   }
 }
