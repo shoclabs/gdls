@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
 import { Container, Content, Drawer } from 'native-base';
 import { Route } from 'react-router-native';
@@ -22,93 +22,94 @@ import { SideBetsScreen } from './side-bets-screen/SideBetsScreen';
 import { CreateBetScreen } from './create-bet-screen/CreateBetScreen';
 import { SideBetsDetailsScreen } from './side-bets-details-screen/SideBetsDetailsScreen';
 
-export class MainRouter extends Component {
-  state = { fontLoaded: false, isLoggedIn: false };
-
-  async componentDidMount() {
-    await this.loadLoggedInCredentials();
-    await Font.loadAsync({
-      'Roboto_medium': require('../theme/fonts/Roboto_medium.ttf'),
-      'open-sans-bold': require('../theme/fonts/OpenSans-Bold.ttf'),
-      'open-sans-bold-italic': require('../theme/fonts/OpenSans-BoldItalic.ttf'),
-      'open-sans-extra-bold': require('../theme/fonts/OpenSans-ExtraBold.ttf'),
-      'open-sans-extra-bold-italic': require('../theme/fonts/OpenSans-ExtraBoldItalic.ttf'),
-      'open-sans-italic': require('../theme/fonts/OpenSans-Italic.ttf'),
-      'open-sans-light': require('../theme/fonts/OpenSans-Light.ttf'),
-      'open-sans-light-italic': require('../theme/fonts/OpenSans-LightItalic.ttf'),
-      'open-sans-regular': require('../theme/fonts/OpenSans-Regular.ttf'),
-      'open-sans-semi-bold': require('../theme/fonts/OpenSans-SemiBold.ttf'),
-      'open-sans-semi-bold-italic': require('../theme/fonts/OpenSans-SemiBoldItalic.ttf'),
-      'open-sans-condensed-bold': require('../theme/fonts/OpenSansCondensed-Bold.ttf'),
-      'open-sans-condensed-light': require('../theme/fonts/OpenSansCondensed-Light.ttf'),
-      'open-sans-condensed-light-italic': require('../theme/fonts/OpenSansCondensed-LightItalic.ttf'),
-    });
-    this.setState({ fontLoaded: true });
-  }
-
-  loadLoggedInCredentials = async () => {
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        this.setState({ isLoggedIn: true });
+export const MainRouter = (props) => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const asyncUseEffect = async () => {
+      await Font.loadAsync({
+        'Roboto_medium': require('../theme/fonts/Roboto_medium.ttf'),
+        'open-sans-bold': require('../theme/fonts/OpenSans-Bold.ttf'),
+        'open-sans-bold-italic': require('../theme/fonts/OpenSans-BoldItalic.ttf'),
+        'open-sans-extra-bold': require('../theme/fonts/OpenSans-ExtraBold.ttf'),
+        'open-sans-extra-bold-italic': require('../theme/fonts/OpenSans-ExtraBoldItalic.ttf'),
+        'open-sans-italic': require('../theme/fonts/OpenSans-Italic.ttf'),
+        'open-sans-light': require('../theme/fonts/OpenSans-Light.ttf'),
+        'open-sans-light-italic': require('../theme/fonts/OpenSans-LightItalic.ttf'),
+        'open-sans-regular': require('../theme/fonts/OpenSans-Regular.ttf'),
+        'open-sans-semi-bold': require('../theme/fonts/OpenSans-SemiBold.ttf'),
+        'open-sans-semi-bold-italic': require('../theme/fonts/OpenSans-SemiBoldItalic.ttf'),
+        'open-sans-condensed-bold': require('../theme/fonts/OpenSansCondensed-Bold.ttf'),
+        'open-sans-condensed-light': require('../theme/fonts/OpenSansCondensed-Light.ttf'),
+        'open-sans-condensed-light-italic': require('../theme/fonts/OpenSansCondensed-LightItalic.ttf'),
+      });
+      setFontLoaded(true);
+      try {
+        const value = await AsyncStorage.getItem('token');
+        console.log('value', value);
+        if (value !== null) {
+          console.log('setting value to true...');
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        // Error retrieving data
+        console.log('error', error);
       }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
+    };
+    asyncUseEffect();
+  }, [isLoggedIn]);
 
-  handleLogin = async (token, userId) => {
+  const handleLogin = async (token, userId) => {
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('userId', userId);
-    this.setState({ isLoggedIn: true });
+    setIsLoggedIn(true);
   };
 
-  handleLogout = async () => {
-    const { client } = this.props;
+  const handleLogout = async () => {
+    const { client } = props;
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('userId');
-    this.setState({ isLoggedIn: false });
+    setIsLoggedIn(false);
     await client.resetStore();
   };
 
-  handleOpen = () => this.drawer._root.open();
+  const handleOpen = () => this.drawer._root.open();
 
-  handleClose = () => this.drawer._root.close();
+  const handleClose = () => this.drawer._root.close();
 
-  render() {
-    const { fontLoaded, isLoggedIn } = this.state;
-    if (!fontLoaded) {
-      return null;
-    }
-    if (!isLoggedIn) {
-      return <LoginScreen onLogin={this.handleLogin} />;
-    }
-    return (
-      <Drawer
-        ref={(ref) => { this.drawer = ref; }}
-        content={<DrawerPanel onCloseDrawer={this.handleClose} onLogout={this.handleLogout} />}
-        onClose={this.handleClose}
-      >
-        <Container>
-          <Header onOpenDrawer={this.handleOpen} />
-          <Content>
-            <Route exact path="/" component={HomeScreen} />
-            <Route path="/enter-score" component={EnterScoreScreen} />
-            <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
-            <Route path="/my-profile" component={MyProfileScreen} />
-            <Route path="/settings-screen" component={SettingsScreen} />
-            <Route exact path="/holes-in-one/:playerId" component={HolesInOneByPlayerScreen} />
-            <Route exact path="/hole-in-one/:holeId" component={HoleInOneScreen} />
-            <Route exact path="/holes-in-one" component={HolesInOneScreen} />
-            <Route exact path="/side-bets" component={SideBetsScreen} />
-            <Route exact path="/side-bets/:sideBetsId" component={SideBetsDetailsScreen} />
-            <Route path="/create-side-bet" component={CreateBetScreen} />
-            <Route path="/create-hole-in-one" component={CreateHoleInOneScreen} />
-            <Route path="/change-password" component={ChangePasswordScreen} />
-          </Content>
-          <BottomNavigation />
-        </Container>
-      </Drawer>
-    );
+  if (!fontLoaded) {
+    return null;
   }
-}
+  console.log('isLoggedIn', isLoggedIn);
+  if (!isLoggedIn) {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
+
+  return (
+    <Drawer
+      ref={(ref) => { this.drawer = ref; }}
+      content={<DrawerPanel onCloseDrawer={handleClose} onLogout={handleLogout} />}
+      onClose={handleClose}
+    >
+      <Container>
+        <Header onOpenDrawer={handleOpen} />
+        <Content>
+          <Route exact path="/" component={HomeScreen} />
+          <Route path="/enter-score" component={EnterScoreScreen} />
+          <Route path="/weekly-boards" component={WeeklyBoardsScreen} />
+          <Route path="/my-profile" component={MyProfileScreen} />
+          <Route path="/settings-screen" component={SettingsScreen} />
+          <Route exact path="/holes-in-one/:playerId" component={HolesInOneByPlayerScreen} />
+          <Route exact path="/hole-in-one/:holeId" component={HoleInOneScreen} />
+          <Route exact path="/holes-in-one" component={HolesInOneScreen} />
+          <Route exact path="/side-bets" component={SideBetsScreen} />
+          <Route exact path="/side-bets/:sideBetsId" component={SideBetsDetailsScreen} />
+          <Route path="/create-side-bet" component={CreateBetScreen} />
+          <Route path="/create-hole-in-one" component={CreateHoleInOneScreen} />
+          <Route path="/change-password" component={ChangePasswordScreen} />
+        </Content>
+        <BottomNavigation />
+      </Container>
+    </Drawer>
+  );
+};
