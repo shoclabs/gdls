@@ -1,8 +1,8 @@
-import React, { Component, useState, useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+import React from 'react';
 import { Container, Content, Drawer } from 'native-base';
 import { Route } from 'react-router-native';
 import * as Font from 'expo-font';
+import { useAsync } from 'react-async-hook'
 
 import { Header } from './components/Header';
 import { BottomNavigation } from './components/BottomNavigation';
@@ -21,74 +21,47 @@ import { HoleInOneScreen } from './hole-in-one-screen/HoleInOneScreen';
 import { SideBetsScreen } from './side-bets-screen/SideBetsScreen';
 import { CreateBetScreen } from './create-bet-screen/CreateBetScreen';
 import { SideBetsDetailsScreen } from './side-bets-details-screen/SideBetsDetailsScreen';
+import { authStore } from '../stores/auth-store';
+import { observer } from 'mobx-react';
 
-export const MainRouter = (props) => {
-  const [fontLoaded, setFontLoaded] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    const asyncUseEffect = async () => {
-      await Font.loadAsync({
-        'Roboto_medium': require('../theme/fonts/Roboto_medium.ttf'),
-        'open-sans-bold': require('../theme/fonts/OpenSans-Bold.ttf'),
-        'open-sans-bold-italic': require('../theme/fonts/OpenSans-BoldItalic.ttf'),
-        'open-sans-extra-bold': require('../theme/fonts/OpenSans-ExtraBold.ttf'),
-        'open-sans-extra-bold-italic': require('../theme/fonts/OpenSans-ExtraBoldItalic.ttf'),
-        'open-sans-italic': require('../theme/fonts/OpenSans-Italic.ttf'),
-        'open-sans-light': require('../theme/fonts/OpenSans-Light.ttf'),
-        'open-sans-light-italic': require('../theme/fonts/OpenSans-LightItalic.ttf'),
-        'open-sans-regular': require('../theme/fonts/OpenSans-Regular.ttf'),
-        'open-sans-semi-bold': require('../theme/fonts/OpenSans-SemiBold.ttf'),
-        'open-sans-semi-bold-italic': require('../theme/fonts/OpenSans-SemiBoldItalic.ttf'),
-        'open-sans-condensed-bold': require('../theme/fonts/OpenSansCondensed-Bold.ttf'),
-        'open-sans-condensed-light': require('../theme/fonts/OpenSansCondensed-Light.ttf'),
-        'open-sans-condensed-light-italic': require('../theme/fonts/OpenSansCondensed-LightItalic.ttf'),
-      });
-      setFontLoaded(true);
-      try {
-        const value = await AsyncStorage.getItem('token');
-        console.log('value', value);
-        if (value !== null) {
-          console.log('setting value to true...');
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        // Error retrieving data
-        console.log('error', error);
-      }
-    };
-    asyncUseEffect();
-  }, [isLoggedIn]);
+async function loadFonts() {
+  await Font.loadAsync({
+    'Roboto_medium': require('../theme/fonts/Roboto_medium.ttf'),
+    'open-sans-bold': require('../theme/fonts/OpenSans-Bold.ttf'),
+    'open-sans-bold-italic': require('../theme/fonts/OpenSans-BoldItalic.ttf'),
+    'open-sans-extra-bold': require('../theme/fonts/OpenSans-ExtraBold.ttf'),
+    'open-sans-extra-bold-italic': require('../theme/fonts/OpenSans-ExtraBoldItalic.ttf'),
+    'open-sans-italic': require('../theme/fonts/OpenSans-Italic.ttf'),
+    'open-sans-light': require('../theme/fonts/OpenSans-Light.ttf'),
+    'open-sans-light-italic': require('../theme/fonts/OpenSans-LightItalic.ttf'),
+    'open-sans-regular': require('../theme/fonts/OpenSans-Regular.ttf'),
+    'open-sans-semi-bold': require('../theme/fonts/OpenSans-SemiBold.ttf'),
+    'open-sans-semi-bold-italic': require('../theme/fonts/OpenSans-SemiBoldItalic.ttf'),
+    'open-sans-condensed-bold': require('../theme/fonts/OpenSansCondensed-Bold.ttf'),
+    'open-sans-condensed-light': require('../theme/fonts/OpenSansCondensed-Light.ttf'),
+    'open-sans-condensed-light-italic': require('../theme/fonts/OpenSansCondensed-LightItalic.ttf'),
+  });
+}
 
-  const handleLogin = async (token, userId) => {
-    await AsyncStorage.setItem('token', token);
-    await AsyncStorage.setItem('userId', userId);
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = async () => {
-    const { client } = props;
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('userId');
-    setIsLoggedIn(false);
-    await client.resetStore();
-  };
+export const MainRouter = observer((props) => {
+  const { loading: loadingFonts } = useAsync(loadFonts, []);
 
   const handleOpen = () => this.drawer._root.open();
 
   const handleClose = () => this.drawer._root.close();
 
-  if (!fontLoaded) {
+  if (loadingFonts) {
     return null;
   }
-  console.log('isLoggedIn', isLoggedIn);
-  if (!isLoggedIn) {
-    return <LoginScreen onLogin={handleLogin} />;
+
+  if (!authStore.isLoggedIn) {
+    return <LoginScreen />;
   }
 
   return (
     <Drawer
       ref={(ref) => { this.drawer = ref; }}
-      content={<DrawerPanel onCloseDrawer={handleClose} onLogout={handleLogout} />}
+      content={<DrawerPanel onCloseDrawer={handleClose} />}
       onClose={handleClose}
     >
       <Container>
@@ -112,4 +85,4 @@ export const MainRouter = (props) => {
       </Container>
     </Drawer>
   );
-};
+});

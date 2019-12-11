@@ -1,5 +1,4 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
 import { Container, Content } from 'native-base';
 import { gql } from 'apollo-boost';
 import { useQuery, useMutation, getApolloContext } from '@apollo/react-hooks';
@@ -7,11 +6,13 @@ import * as yup from 'yup';
 import { Formik } from 'formik';
 import { css } from 'css-rn';
 import { get } from 'lodash';
+import { observer } from 'mobx-react';
 
-import { Loader } from '../components/Loader';
 import { EditUserForm } from './EditUserForm';
+import { Loader } from '../components/Loader';
 
 import { colors } from '../../theme/colors';
+import { authStore } from '../../stores/auth-store';
 
 const loaderStyle = css`
   align-items: center;
@@ -51,7 +52,7 @@ const validationSchema = yup.object().shape({
   email: yup.string().required(),
 });
 
-export const SettingsScreen = ({ history }) => {
+export const SettingsScreen = observer(({ history }) => {
   const { data, loading, error } = useQuery(QUERY_ME);
   const [
     updateUserMutation,
@@ -70,7 +71,7 @@ export const SettingsScreen = ({ history }) => {
     email: me.email,
   };
   const handleSubmit = async (values) => {
-    const userId = await AsyncStorage.getItem('userId');
+    const { userId } = authStore;
     const variables = { userId, ...values };
     const result = await updateUserMutation({ variables });
     if (get(result, 'data.updateUser.id')) {
@@ -91,4 +92,4 @@ export const SettingsScreen = ({ history }) => {
       </Content>
     </Container>
   );
-};
+});

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import { Text, View, Button } from 'native-base';
 import { css } from 'css-rn';
@@ -6,13 +6,13 @@ import gql from 'graphql-tag';
 import { useMutation, getApolloContext, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { get } from 'lodash';
-import { AsyncStorage } from 'react-native';
 
 import { Loader } from '../../components/Loader';
 import { ErrorMessage } from '../../components/ErrorMessage';
 
 import { colors } from '../../../theme/colors';
 import { alreadyEnteredRoundId } from '../utils/already-entered-round-id';
+import { authStore } from '../../../stores/auth-store';
 
 const buttonStyle = css`
   height: 48px;
@@ -94,7 +94,7 @@ export const ConfirmationDialog = ({ visible, onClose, score, onSuccess, id, use
   const handleSubmit = async () => {
     const { user, activeWeek } = userRoundsData;
     const roundId = alreadyEnteredRoundId(user.rounds, activeWeek.weekNumber);
-    const userId = id || await AsyncStorage.getItem('userId');
+    const userId = id || authStore.userId;
     if (!roundId) {
       const variables = {
         score: parseInt(score),

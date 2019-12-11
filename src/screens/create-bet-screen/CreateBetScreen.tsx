@@ -4,7 +4,6 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { gql } from 'apollo-boost';
 import { getApolloContext, useMutation } from '@apollo/react-hooks';
-import { AsyncStorage } from 'react-native';
 import { get } from 'lodash';
 import { useHistory } from 'react-router-native';
 import moment from 'moment';
@@ -12,6 +11,7 @@ import moment from 'moment';
 import { CreateBetHeader } from './components/CreateBetHeader';
 import { GoBackBar } from '../components/GoBackBar';
 import { CreateBetForm } from './components/CreateBetForm';
+import { authStore } from '../../stores/auth-store';
 
 const initialValues = {
   date: '',
@@ -54,7 +54,7 @@ export const CreateBetScreen = () => {
   const { client } = React.useContext(getApolloContext());
   const history = useHistory();
   const handleSubmit = async values => {
-    const userId = await AsyncStorage.getItem('userId');
+    const { userId } = authStore;
     const groupVariables = { name: values.name, userId };
     const groupResult = await createGroup({ variables: groupVariables });
     const betsGroupId = get(groupResult, 'data.createBetsGroup.id');

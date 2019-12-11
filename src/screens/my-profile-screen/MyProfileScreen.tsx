@@ -47,11 +47,10 @@ const QUERY_ME = gql`
 
 export const MyProfileScreen = () => {
   const { data, loading, error } = useQuery(QUERY_ME, { fetchPolicy: 'network-only' });
-  if (loading) {
-    return (
-      <PageLoader />
-    );
+  if (!data) {
+    return <PageLoader />;
   }
+
   const { me } = data;
   const owedPaymentObligations = me.paymentObligations.filter(item => !item.didPay);
   return (

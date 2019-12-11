@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Content, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
-import { AsyncStorage } from 'react-native';
 import { useHistory } from 'react-router-native';
 
 import { GoBackBar } from '../../components/GoBackBar';
@@ -9,6 +8,7 @@ import { ConfirmationDialog } from '../components/ConfirmationDialog';
 import { SuccessDialog } from '../components/SuccessDialog';
 
 import { colors } from '../../../theme/colors';
+import { authStore } from '../../../stores/auth-store';
 
 const descriptionStyle = css`
   margin-top: 65px;
@@ -64,15 +64,10 @@ const inputStyle = css`
 
 export const EnterMyPointsScreen = () => {
   const [score, setScore] = useState('');
-  const [userId, setUserId] = useState();
+  const { userId } = authStore;
   const [scoreIsEntered, setScoreIsEntered] = useState(false);
   const history = useHistory();
   useEffect( () => {
-    const asyncUseEffect = async () => {
-      const userId = await AsyncStorage.getItem('userId');
-      setUserId(userId);
-    };
-    asyncUseEffect();
     if (scoreIsEntered) {
       setTimeout(() => {
         history.push('/enter-score');

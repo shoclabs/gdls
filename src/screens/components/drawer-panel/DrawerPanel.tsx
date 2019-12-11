@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { Button, Container, Content, Icon, View } from 'native-base';
 import { css } from 'css-rn';
-import { useQuery } from '@apollo/react-hooks';
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { get } from 'lodash';
 
@@ -11,6 +11,7 @@ import { MenuSection } from './components/MenuSection';
 import { LogoutSection } from './components/LogoutSection';
 
 import { colors } from '../../../theme/colors';
+import { authStore } from '../../../stores/auth-store';
 
 const containerStyle = css`
   background-color: ${colors.darkBlue};
@@ -56,11 +57,20 @@ const GET_ME = gql`
   }
 `;
 
-export const DrawerPanel = ({ onCloseDrawer, onLogout }) => {
-  const { loading, error, data } = useQuery(GET_ME);
-  if (get(data, 'me') === null) {
-    onLogout();
+export const DrawerPanel = ({ onCloseDrawer }) => {
+  const { data } = useQuery(GET_ME);
+
+  const apolloClient = useApolloClient();
+
+  if (!data) {
+    return null;
   }
+
+  async function handleLogout() {
+    authStore.setAuthData(undefined, undefined);
+    await apolloClient.resetStore();
+  }
+
   return (
     <Container style={containerStyle}>
       <Content
@@ -79,7 +89,7 @@ export const DrawerPanel = ({ onCloseDrawer, onLogout }) => {
           <MenuSection onClose={onCloseDrawer} />
         </View>
       </Content>
-      <LogoutSection onLogout={onLogout} />
+      <LogoutSection onLogout={handleLogout} />
     </Container>
   );
 };

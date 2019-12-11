@@ -6,6 +6,7 @@ import { css } from 'css-rn';
 import { LoginForm } from './components/LoginForm';
 
 import { colors } from '../../theme/colors';
+import { authStore } from '../../stores/auth-store';
 
 const headerImage = require('./images/login-header.png');
 
@@ -33,7 +34,7 @@ const markedTextStyle = css`
   font-family: open-sans-bold;
 `;
 
-export const LoginScreen = ({ onLogin }) => {
+export const LoginScreen = () => {
   return (
     <Container>
       <View style={headerContainerStyle}>
@@ -47,7 +48,7 @@ export const LoginScreen = ({ onLogin }) => {
             password provided by an administrator:
           </Text>
         </View>
-        <LoginForm onLogin={onLogin} />
+        <LoginForm onLogin={authStore.setAuthData} />
       </Content>
     </Container>
   );

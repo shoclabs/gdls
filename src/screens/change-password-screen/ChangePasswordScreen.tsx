@@ -5,10 +5,10 @@ import { Container, Content } from 'native-base';
 import * as yup from 'yup';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
-import { AsyncStorage } from 'react-native';
 import { withRouter } from 'react-router-native';
 
 import { ChangePasswordForm } from './components/ChangePasswordForm';
+import { authStore } from '../../stores/auth-store';
 
 const UPDATE_PASSWORD = gql`
   mutation UPDATE_PASSWORD($id: EntityId!, $password: String!) {
@@ -37,7 +37,7 @@ export const ChangePasswordScreen = withRouter(({ history }) => {
       return;
     }
     setError(undefined);
-    const id = await AsyncStorage.getItem('userId');
+    const { userId: id } = authStore;
     const result = await updatePasswordMutation({ variables: { id, password: newPassword } });
     if (get(result, 'data.updateUser.id')) {
       history.push('/my-profile');

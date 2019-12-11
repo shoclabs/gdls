@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AsyncStorage, Image, Platform } from 'react-native';
+import { Image, Platform } from 'react-native';
 import { Button } from 'native-base';
 import { get } from 'lodash';
 import { css } from 'css-rn';
@@ -9,6 +9,7 @@ import { gql } from 'apollo-boost';
 import { getApolloContext, useMutation } from '@apollo/react-hooks';
 
 import { PickSelectImageOptionDialog } from './PickSelectImageOptionDialog';
+import { authStore } from '../../../stores/auth-store';
 
 const avatarPlaceholderIcon = require('../../components/icons/avatar-placeholder5x.png');
 
@@ -43,7 +44,7 @@ export const AvatarPicker = ({ avatar }) => {
   const { client } = React.useContext(getApolloContext());
   const changeAvatarImage = async (result) => {
     setSelectedImage(get(result, 'base64'));
-    const userId = await AsyncStorage.getItem('userId');
+    const { userId } = authStore;
     const variables = { id: userId, contentBase64: get(result, 'base64') };
     const mutationResult = await updateAvatarMutation({ variables });
     if (get(mutationResult, 'data.updateUser.avatar.id')) {
