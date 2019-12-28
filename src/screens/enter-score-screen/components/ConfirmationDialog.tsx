@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import { Text, View, Button } from 'native-base';
 import { css } from 'css-rn';
@@ -87,12 +87,16 @@ interface IConfirmationDialog {
 
 export const ConfirmationDialog = ({ visible, onClose, score, onSuccess, id, userId }: IConfirmationDialog) => {
   const [createScoreMutation, { data, loading, error }] = useMutation(CREATE_SCORE_MUTATION);
+  const [showCustomError, setShowCustomError] = useState(false);
   const [updateScoreMutation, { data: updateScoreData, loading: loadingScoreData }] = useMutation(UPDATE_SCORE_MUTATION);
   const { data: userRoundsData, loading: userRoundsLoading } =
     useQuery(ROUNDS_AND_ACTIVE_WEEK_QUERY, { variables: { userId: (id || userId) } });
   const { client } = React.useContext(getApolloContext());
   const handleSubmit = async () => {
     const { user, activeWeek } = userRoundsData;
+    if (moment().day() !== 6) {
+      return setShowCustomError(true);
+    }
     const roundId = alreadyEnteredRoundId(user.rounds, activeWeek.weekNumber);
     const userId = id || authStore.userId;
     if (!roundId) {
@@ -127,6 +131,7 @@ export const ConfirmationDialog = ({ visible, onClose, score, onSuccess, id, use
   const { user, activeWeek } = userRoundsData;
   const roundId = alreadyEnteredRoundId(user.rounds, activeWeek.weekNumber);
   const errorMessage = 'Sorry, weekly results can only be entered once. Please contact the administrator.';
+  const customErrorMessage = 'Sorry, results can only be entered on Saturdays.';
   return (
     <Dialog visible={visible} onTouchOutside={onClose}>
       <DialogContent>
@@ -134,6 +139,7 @@ export const ConfirmationDialog = ({ visible, onClose, score, onSuccess, id, use
           <Text style={descriptionStyle}>ARE YOU SURE YOU WISH</Text>
           <Text style={descriptionStyle}>TO {roundId ? 'RESUBMIT' : 'SUBMIT'} YOUR SCORE?</Text>
           {error && <ErrorMessage text={errorMessage} />}
+          {showCustomError && <ErrorMessage text={customErrorMessage} />}
           <Button style={buttonStyle} onPress={handleSubmit}>
             {loading || loadingScoreData ? <Loader /> : <Text style={buttonTextStyle}>YES</Text>}
           </Button>
