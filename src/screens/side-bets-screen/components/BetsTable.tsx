@@ -22,13 +22,13 @@ const leftContentStyle = css`
   display: flex;
   align-items: flex-start;
   padding-left: 25px;
-  width: 150px;
+  width: 130px;
 `;
 
 const rightContentStyle = css`
   display: flex;
   align-items: center;
-  width: 100px;
+  width: 60px;
 `;
 
 const headerStyle = css`

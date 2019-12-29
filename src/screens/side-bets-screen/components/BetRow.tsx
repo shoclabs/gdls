@@ -9,12 +9,14 @@ import { numberToString } from '../../../utils/number-to-string';
 
 const rightArrowGrey = require('../assets/arrow-white.png');
 const rightArrowWhite = require('../assets/arrow-grey.png');
+const greyCloseIcon = require('../../side-bets-details-screen/assets/grey-close.png');
+const whiteCloseIcon = require('../../side-bets-details-screen/assets/white-close.png');
 
 const containerStyle = (isGrey: boolean) => css`
   height: 45px;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   ${isGrey ? `background-color: ${colors.lightGrey}`: ''}
 `;
 
@@ -22,20 +24,26 @@ const leftContentStyle = css`
   display: flex;
   align-items: flex-start;
   padding-left: 25px;
-  width: 150px;
+  width: 130px;
 `;
 
 const rightContentStyle = css`
   display: flex;
   align-items: center;
-  width: 100px;
+  width: 60px;
+`;
+
+const fullLeftContent = css`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
 `;
 
 const fullRightContentStyle = css`
   display: flex;
   align-items: center;
-  width: 60px;
-  justify-content: space-between;
+  width: 120px;
+  justify-content: flex-end;
   flex-direction: row;
   padding-left: 5px;
 `;
@@ -57,6 +65,11 @@ const nextIconStyle = css`
   height: 30px;
 `;
 
+const closeIconStyle = css`
+  width: 30px;
+  height: 30px;
+`;
+
 interface IBetRow {
   betGroup: {
     id: string;
@@ -72,18 +85,23 @@ export const BetRow = ({ betGroup, index }: IBetRow) => {
   const isGrey = index % 2 === 0;
   return (
     <View style={containerStyle(isGrey)}>
-      <View style={leftContentStyle}>
-        <Text style={textStyle}>{betGroup.name}</Text>
-      </View>
-      <View style={rightContentStyle}>
-        <Text style={textStyle}>{numberToString(parseFloat(betGroup.amount.toFixed(2)))}</Text>
-      </View>
-      <View style={rightContentStyle}>
-        <Text style={textStyle}>{betGroup.nextAdvantage}</Text>
+      <View style={fullLeftContent}>
+        <View style={leftContentStyle}>
+          <Text style={textStyle}>{betGroup.name}</Text>
+        </View>
+        <View style={rightContentStyle}>
+          <Text style={textStyle}>{numberToString(parseFloat(betGroup.amount.toFixed(2)))}</Text>
+        </View>
+        <View style={rightContentStyle}>
+          <Text style={textStyle}>{betGroup.nextAdvantage}</Text>
+        </View>
       </View>
       <View style={fullRightContentStyle}>
         <Button style={nextButton} transparent onPress={() => history.push(`/side-bets/${betGroup.id}`)}>
           <Image style={nextIconStyle} source={isGrey ? rightArrowGrey : rightArrowWhite} />
+        </Button>
+        <Button style={nextButton} transparent onPress={() => {}}>
+          <Image style={closeIconStyle} source={isGrey ? whiteCloseIcon : greyCloseIcon} />
         </Button>
       </View>
     </View>
