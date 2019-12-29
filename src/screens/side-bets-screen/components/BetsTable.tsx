@@ -38,7 +38,7 @@ const headerStyle = css`
 `;
 
 const MY_BETS_QUERY = gql`
-  {
+  query ME {
     me {
       id
       betsGroups {

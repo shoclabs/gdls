@@ -3,6 +3,10 @@ import { Button, Text, View } from 'native-base';
 import { Image } from 'react-native';
 import { css } from 'css-rn';
 import { useHistory } from 'react-router-native';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+
+import { Loader } from '../../components/Loader';
 
 import { colors } from '../../../theme/colors';
 import { numberToString } from '../../../utils/number-to-string';
@@ -60,6 +64,10 @@ const nextButton = css`
   margin-right: 30px;
 `;
 
+const loaderContainerStyle = css`
+  margin-right: 30px;
+`;
+
 const nextIconStyle = css`
   width: 25px;
   height: 30px;
@@ -68,6 +76,12 @@ const nextIconStyle = css`
 const closeIconStyle = css`
   width: 30px;
   height: 30px;
+`;
+
+const DELETE_SIDE_GROUP_MUTATION = gql`
+  mutation DELETE_BET_GROUP($ids: [ID!]!) {
+    deleteBetsGroups(ids: $ids)
+  }
 `;
 
 interface IBetRow {
@@ -82,7 +96,17 @@ interface IBetRow {
 
 export const BetRow = ({ betGroup, index }: IBetRow) => {
   const history = useHistory();
+  const [deleteSideGroup, { loading, error }] = useMutation(DELETE_SIDE_GROUP_MUTATION);
   const isGrey = index % 2 === 0;
+  const handleDelete = async () => {
+    await deleteSideGroup({
+      variables: { ids: [betGroup.id] },
+      refetchQueries: ['ME'],
+    });
+  };
+  if (error) {
+    alert('Unable to complete this action.');
+  }
   return (
     <View style={containerStyle(isGrey)}>
       <View style={fullLeftContent}>
@@ -100,9 +124,13 @@ export const BetRow = ({ betGroup, index }: IBetRow) => {
         <Button style={nextButton} transparent onPress={() => history.push(`/side-bets/${betGroup.id}`)}>
           <Image style={nextIconStyle} source={isGrey ? rightArrowGrey : rightArrowWhite} />
         </Button>
-        <Button style={nextButton} transparent onPress={() => {}}>
-          <Image style={closeIconStyle} source={isGrey ? whiteCloseIcon : greyCloseIcon} />
-        </Button>
+        {loading ?
+          <View style={loaderContainerStyle}>
+            <Loader color={colors.red} />
+          </View> :
+          <Button style={nextButton} transparent onPress={handleDelete}>
+            <Image style={closeIconStyle} source={isGrey ? whiteCloseIcon : greyCloseIcon} />
+          </Button>}
       </View>
     </View>
   );
