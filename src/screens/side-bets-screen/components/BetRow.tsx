@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Text, View } from 'native-base';
-import { Image } from 'react-native';
+import { Image, Dimensions } from 'react-native';
 import { css } from 'css-rn';
 import { useHistory } from 'react-router-native';
 import { useMutation } from '@apollo/react-hooks';
@@ -16,11 +16,12 @@ const rightArrowWhite = require('../assets/arrow-grey.png');
 const greyCloseIcon = require('../../side-bets-details-screen/assets/grey-close.png');
 const whiteCloseIcon = require('../../side-bets-details-screen/assets/white-close.png');
 
-const containerStyle = (isGrey: boolean) => css`
+const containerStyle = (isGrey: boolean, width: number) => css`
   height: 45px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  min-width: ${width - 15}px;
   ${isGrey ? `background-color: ${colors.lightGrey}`: ''}
 `;
 
@@ -107,8 +108,9 @@ export const BetRow = ({ betGroup, index }: IBetRow) => {
   if (error) {
     alert('Unable to complete this action.');
   }
+  const deviceWidth = Dimensions.get('window').width;
   return (
-    <View style={containerStyle(isGrey)}>
+    <View style={containerStyle(isGrey, deviceWidth)}>
       <View style={fullLeftContent}>
         <View style={leftContentStyle}>
           <Text style={textStyle}>{betGroup.name}</Text>

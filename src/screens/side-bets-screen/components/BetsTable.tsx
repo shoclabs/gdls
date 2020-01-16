@@ -4,6 +4,7 @@ import { css } from 'css-rn';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { get } from 'lodash';
+import { ScrollView } from 'react-native';
 
 import { BetRow } from './BetRow';
 import { PageLoader } from '../../components/PageLoader';
@@ -68,29 +69,33 @@ export const BetsTable = () => {
   return (
     <>
       <HeaderSection label="SIDE BETS" totalAmount={totalAmount} />
-      <View style={containerStyle}>
-        <View style={leftContentStyle}>
-          <Text style={headerStyle}>PLAYER</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View>
+          <View style={containerStyle}>
+            <View style={leftContentStyle}>
+              <Text style={headerStyle}>PLAYER</Text>
+            </View>
+            <View style={rightContentStyle}>
+              <Text style={headerStyle}>$</Text>
+            </View>
+            <View style={rightContentStyle}>
+              <Text style={headerStyle}>N. ADV</Text>
+            </View>
+          </View>
+          {data.me.betsGroups.map(({ id, name, bets }, index) => (
+            <BetRow
+              key={id}
+              betGroup={{
+                id,
+                name,
+                amount: bets.reduce((sum, bet) => sum + bet.amount, 0),
+                nextAdvantage: get(bets, `[${bets.length - 1}].nextAdvantage`),
+              }}
+              index={index}
+            />
+          ))}
         </View>
-        <View style={rightContentStyle}>
-          <Text style={headerStyle}>$</Text>
-        </View>
-        <View style={rightContentStyle}>
-          <Text style={headerStyle}>N. ADV</Text>
-        </View>
-      </View>
-      {data.me.betsGroups.map(({ id, name, bets }, index) => (
-        <BetRow
-          key={id}
-          betGroup={{
-            id,
-            name,
-            amount: bets.reduce((sum, bet) => sum + bet.amount, 0),
-            nextAdvantage: get(bets, `[${bets.length - 1}].nextAdvantage`),
-          }}
-          index={index}
-        />
-      ))}
+      </ScrollView>
     </>
   );
 };
