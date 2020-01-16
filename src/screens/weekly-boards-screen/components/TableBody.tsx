@@ -6,8 +6,10 @@ import { TableRow } from './TableRow';
 
 const headers = ['Score'];
 
-export const TableBody = ({ rounds, week }) => {
-  const filteredRounds = rounds.filter(round => get(round, 'week.weekNumber') === week);
+export const TableBody = ({ rounds, week, year }) => {
+  const roundIsSelected = round =>
+    get(round, 'week.weekNumber') === week && get(round, 'week.year.year') === year;
+  const filteredRounds = rounds.filter(roundIsSelected);
   const sortedRounds = sortBy(filteredRounds, ['score', 'user.firstName', 'user.lastName']).reverse();
   const winnerScore = get(sortedRounds, '[0].score');
   const loserScore = get(sortedRounds, `[${get(sortedRounds, 'length') - 1}].score`);

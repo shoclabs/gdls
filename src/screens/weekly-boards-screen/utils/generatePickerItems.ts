@@ -2,13 +2,13 @@ import moment from 'moment';
 
 import { getDateFromWeekAndYear } from './getDateFromWeekAndYear';
 
-export function generatePickerItems(weeks, year) {
-  return weeks.map(week => {
-    const date = getDateFromWeekAndYear(week, year);
-    const formatedDate = moment(date).format('DD/MM');
+export function generatePickerItems(weeksData) {
+  return weeksData.map(weekData => {
+    const date = getDateFromWeekAndYear(weekData.weekNumber, weekData.year);
+    const formatedDate = moment.utc(date).format('DD/MM/YY');
     return ({
-      value: week,
-      label: `Week ${week} (${formatedDate})`,
+      value: parseInt(`${weekData.year}${weekData.weekNumber}`),
+      label: `Week ${weekData.weekNumber} (${formatedDate})`,
     });
   });
 }

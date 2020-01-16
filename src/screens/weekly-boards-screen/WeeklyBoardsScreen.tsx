@@ -52,13 +52,14 @@ export const WeeklyBoardsScreen = () => {
   return (
     <View>
       <HeaderSection
-        activeWeek={selectedWeek || data.activeWeek.weekNumber}
+        activeWeek={selectedWeek ? (parseInt(selectedWeek.toString().slice(4))) : data.activeWeek.weekNumber}
         activeYear={data.activeWeek.year.year}
         onWeekSelect={setSelectedWeek}
       />
       <TableBody
         rounds={data.rounds}
-        week={selectedWeek || data.activeWeek.weekNumber}
+        week={selectedWeek ? (parseInt(selectedWeek.toString().slice(4))) : data.activeWeek.weekNumber}
+        year={selectedWeek ? (parseInt(selectedWeek.toString().slice(0, 4))) : data.activeWeek.year.year}
       />
     </View>
   );
