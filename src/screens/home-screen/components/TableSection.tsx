@@ -54,7 +54,7 @@ const GET_USERS = gql`
         contentBase64
       }
     }
-    activeWeek {
+    lastRoundsWeek {
       id
       rounds {
         id
@@ -86,7 +86,7 @@ export const TableSection = () => {
       </View>
     )
   }
-  const { winnerIds, loserIds } = getWinnerAndLoserIds(data.activeWeek.rounds);
+  const { winnerIds, loserIds } = getWinnerAndLoserIds(data.lastRoundsWeek.rounds);
   const userFieldToFilter = userFieldResolver[selectedHeader];
   const sortedUsers = sortBy(data.users, [userFieldToFilter, 'firstName', 'lastName']);
   const orderedUsers = order === 'desc' ? sortedUsers.reverse() : sortedUsers;
