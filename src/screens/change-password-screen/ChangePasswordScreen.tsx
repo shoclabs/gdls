@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { get } from 'lodash';
-import { Container, Content } from 'native-base';
 import * as yup from 'yup';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 import { withRouter } from 'react-router-native';
 
 import { ChangePasswordForm } from './components/ChangePasswordForm';
+import { Divider } from '../components/Divider';
+
 import { authStore } from '../../stores/auth-store';
 
 const UPDATE_PASSWORD = gql`
@@ -46,16 +47,15 @@ export const ChangePasswordScreen = withRouter(({ history }) => {
     setError('Unable to change your password');
   };
   return (
-    <Container>
-      <Content>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {formik => <ChangePasswordForm formik={formik} error={error} loading={loading} />}
-        </Formik>
-      </Content>
-    </Container>
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {formik => <ChangePasswordForm formik={formik} error={error} loading={loading} />}
+      </Formik>
+      <Divider height={30} />
+    </>
   );
 });

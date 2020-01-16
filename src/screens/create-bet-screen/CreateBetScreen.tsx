@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Content } from 'native-base';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { gql } from 'apollo-boost';
@@ -7,11 +6,19 @@ import { getApolloContext, useMutation } from '@apollo/react-hooks';
 import { get } from 'lodash';
 import { useHistory } from 'react-router-native';
 import moment from 'moment';
+import { Platform, View } from 'react-native';
+import { css } from 'css-rn';
 
 import { CreateBetHeader } from './components/CreateBetHeader';
 import { GoBackBar } from '../components/GoBackBar';
 import { CreateBetForm } from './components/CreateBetForm';
+import { Divider } from '../components/Divider';
+
 import { authStore } from '../../stores/auth-store';
+
+const containerStyle = css`
+  ${Platform.OS === 'android' ? 'height: 1050px' : ''}
+`;
 
 const initialValues = {
   date: '',
@@ -77,24 +84,23 @@ export const CreateBetScreen = () => {
     }
   };
   return (
-    <Container>
-      <Content>
-        <GoBackBar />
-        <CreateBetHeader />
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {formik => (
-            <CreateBetForm
-              formik={formik}
-              loading={loadingBet || loadingGroup}
-              error={errorBet || errorGroup}
-            />
-          )}
-        </Formik>
-      </Content>
-    </Container>
+    <View style={containerStyle}>
+      <GoBackBar />
+      <CreateBetHeader />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {formik => (
+          <CreateBetForm
+            formik={formik}
+            loading={loadingBet || loadingGroup}
+            error={errorBet || errorGroup}
+          />
+        )}
+      </Formik>
+      <Divider height={30} />
+    </View>
   );
 };

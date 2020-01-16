@@ -3,6 +3,8 @@ import { Button, Content, Text } from 'native-base';
 import { css } from 'css-rn';
 import { withRouter } from 'react-router';
 
+import { Divider } from '../../components/Divider';
+
 import { colors } from '../../../theme/colors';
 
 const firstButtonStyle = css`
@@ -50,5 +52,6 @@ export const ChooseScoreMethod = withRouter(({ history }) => (
     <Button style={[thirdButtonStyle, buttonStyle]} onPress={() => history.push('/enter-score/other')}>
       <Text style={buttonTextStyle}>OTHER PLAYER STABLEFORD</Text>
     </Button>
+    <Divider height={200} />
   </Content>
 ));

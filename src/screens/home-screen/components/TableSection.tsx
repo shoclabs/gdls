@@ -4,7 +4,7 @@ import { View } from 'native-base';
 import { css } from 'css-rn';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { sortBy, get } from 'lodash';
+import { sortBy } from 'lodash';
 
 import { TableHeader } from '../../components/TableHeader';
 import { TableRow } from './TableRow';

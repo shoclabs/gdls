@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Content } from 'native-base';
 import { withRouter } from 'react-router-native';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
@@ -10,6 +9,7 @@ import { GoBackBar } from '../components/GoBackBar';
 import { HIOTableHeader } from './components/HIOTableHeader';
 import { HIOTableSection } from './components/HIOTableSection';
 import { PageLoader } from '../components/PageLoader';
+import { Divider } from '../components/Divider';
 
 const HIO_QUERY = gql`
   query hioQuery($holeId: EntityId!) {
@@ -47,16 +47,15 @@ export const HoleInOneScreen = withRouter(({ match }) => {
   }
   const { holeInOne } = data;
   return (
-    <Container>
-      <Content>
-        <GoBackBar />
-        <HIOHeader
-          date={moment(holeInOne.date).format('DD/MM/YYYY')}
-          description={holeInOne.club.name}
-        />
-        <HIOTableHeader />
-        <HIOTableSection paymentObligations={holeInOne.paymentObligations} />
-      </Content>
-    </Container>
+    <>
+      <GoBackBar />
+      <HIOHeader
+        date={moment(holeInOne.date).format('DD/MM/YYYY')}
+        description={holeInOne.club.name}
+      />
+      <HIOTableHeader />
+      <HIOTableSection paymentObligations={holeInOne.paymentObligations} />
+      <Divider height={200} />
+    </>
   );
 });

@@ -58,7 +58,7 @@ const buttonStyle = css`
   align-items: center;
   justify-content: center;
   height: 48px;
-  margin-top: 35px;
+  margin: 35px 0;
   background-color: ${colors.green};
 `;
 

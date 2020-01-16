@@ -1,6 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Platform, View } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { getApolloContext, useMutation, useQuery } from '@apollo/react-hooks';
@@ -14,6 +13,7 @@ import { GoBackBar } from '../components/GoBackBar';
 import { CreateHIOHeaderSection } from './components/CreateHIOHeaderSection';
 import { CreateHIOForm } from './components/CreateHIOForm';
 import { PageLoader } from '../components/PageLoader';
+import { Divider } from '../components/Divider';
 
 const containerStyle = css`
   ${Platform.OS === 'android' ? 'height: 1050px' : ''}
@@ -81,24 +81,23 @@ export const CreateHoleInOneScreen = withRouter(({ history }) => {
     );
   }
   return (
-    <Container style={containerStyle}>
-      <Content>
-        <GoBackBar />
-        <CreateHIOHeaderSection />
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {formik => (
-            <CreateHIOForm
-              formik={formik}
-              loading={loadingCreateClub}
-              error={error}
-              clubsData={get(clubsData, 'clubs') || []}
-            />)}
-        </Formik>
-      </Content>
-    </Container>
+    <View style={containerStyle}>
+      <GoBackBar />
+      <CreateHIOHeaderSection />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {formik => (
+          <CreateHIOForm
+            formik={formik}
+            loading={loadingCreateClub}
+            error={error}
+            clubsData={get(clubsData, 'clubs') || []}
+          />)}
+      </Formik>
+      <Divider height={30} />
+    </View>
   );
 });

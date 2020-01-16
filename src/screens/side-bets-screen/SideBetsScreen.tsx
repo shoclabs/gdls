@@ -1,14 +1,13 @@
 import React from 'react';
-import { Container, Content } from 'native-base';
 
 import { BetsTable } from './components/BetsTable';
+import { Divider } from '../components/Divider';
 
 export const SideBetsScreen = () => {
   return (
-    <Container>
-      <Content>
-        <BetsTable />
-      </Content>
-    </Container>
+    <>
+      <BetsTable />
+      <Divider height={30} />
+    </>
   );
 };

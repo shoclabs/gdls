@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Content, Text, View, Input } from 'native-base';
+import { Button, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
 import { useHistory } from 'react-router-native';
 
@@ -86,7 +86,7 @@ export const EnterOtherPointsScreen = () => {
     setScoreIsEntered(true);
   };
   return (
-    <Content>
+    <>
       <GoBackBar />
       <SearchUsersSection onSetUserId={setUserId} userId={userId} />
       <View style={descriptionStyle}>
@@ -117,6 +117,6 @@ export const EnterOtherPointsScreen = () => {
         />
       )}
       <SuccessDialog visible={showSuccessDialog} onClose={handleCloseSuccessDialog} />
-    </Content>
+    </>
   );
 };

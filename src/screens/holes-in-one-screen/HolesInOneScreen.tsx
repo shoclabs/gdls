@@ -8,6 +8,7 @@ import { HeaderSection } from './components/HeaderSection';
 import { HolesInOneTableHeader } from './components/HolesInOneTableHeader';
 import { HolesInOneRow } from './components/HolesInOneRow';
 import { PageLoader } from '../components/PageLoader';
+import { Divider } from '../components/Divider';
 
 const HIO_QUERY = gql`
   {
@@ -45,11 +46,12 @@ export const HolesInOneScreen = () => {
       totalAmountPaid: holesInOne.reduce((sum, hole) => sum + hole.totalAmountPaid, 0),
     }));
   return (
-    <Container>
+    <>
       <HeaderSection label="HOLES-IN-ONE" />
       <HolesInOneTableHeader />
       {sortBy(users, 'numberOfHolesInOne').reverse()
         .map((user, index) => <HolesInOneRow user={user} key={user.id} index={index} />)}
-    </Container>
+      <Divider height={100} />
+    </>
   );
 };

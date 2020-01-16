@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Content, Text } from 'native-base';
+import { Text } from 'native-base';
 import { css } from 'css-rn';
 import { withRouter } from 'react-router-native';
 import { gql } from 'apollo-boost';
@@ -10,6 +10,7 @@ import { get } from 'lodash';
 import { GoBackBar } from '../components/GoBackBar';
 import { HoleInOne } from './components/HoleInOne';
 import { PageLoader } from '../components/PageLoader';
+import { Divider } from '../components/Divider';
 
 import { colors } from '../../theme/colors';
 
@@ -66,35 +67,34 @@ export const HolesInOneByPlayerScreen = withRouter(({ history, match }) => {
   const { user, me } = data;
   const hioIsMine = me.id === user.id;
   return (
-    <Container>
-      <Content>
-        <GoBackBar />
-        <Text style={headerStyle}>CURRENT HOLES-IN-ONE:</Text>
-        {user.holesInOne.map(hio => {
-          const paidObligations = hio.paymentObligations.filter(paymentObligation => paymentObligation.didPay);
-          const totalAmountPaid = paidObligations.reduce((sum, item) => sum + item.amountToPay, 0);
-          const myPaymentObligation =
-            hio.paymentObligations.filter(item => item.userWithPaymentObligation.id === me.id);
-          const paid = get(myPaymentObligation, '[0].didPay') === true;
-          const notPaid = get(myPaymentObligation, '[0].didPay') === false;
-          return (
-            <HoleInOne
-              key={hio.id}
-              holeId={hio.id}
-              date={moment(hio.date).format('DD/MM/YYYY')}
-              courseName={hio.courseName}
-              holeNumber={hio.holeNumber}
-              description={hio.club.name}
-              yardage={hio.yardage}
-              money={totalAmountPaid}
-              numberOfPeoplePaid={hio.paymentObligations.length - paidObligations.length}
-              disabled={!hioIsMine}
-              paid={paid}
-              notPaid={notPaid}
-            />
-          )
-        })}
-      </Content>
-    </Container>
+    <>
+      <GoBackBar />
+      <Text style={headerStyle}>CURRENT HOLES-IN-ONE:</Text>
+      {user.holesInOne.map(hio => {
+        const paidObligations = hio.paymentObligations.filter(paymentObligation => paymentObligation.didPay);
+        const totalAmountPaid = paidObligations.reduce((sum, item) => sum + item.amountToPay, 0);
+        const myPaymentObligation =
+          hio.paymentObligations.filter(item => item.userWithPaymentObligation.id === me.id);
+        const paid = get(myPaymentObligation, '[0].didPay') === true;
+        const notPaid = get(myPaymentObligation, '[0].didPay') === false;
+        return (
+          <HoleInOne
+            key={hio.id}
+            holeId={hio.id}
+            date={moment(hio.date).format('DD/MM/YYYY')}
+            courseName={hio.courseName}
+            holeNumber={hio.holeNumber}
+            description={hio.club.name}
+            yardage={hio.yardage}
+            money={totalAmountPaid}
+            numberOfPeoplePaid={hio.paymentObligations.length - paidObligations.length}
+            disabled={!hioIsMine}
+            paid={paid}
+            notPaid={notPaid}
+          />
+        )
+      })}
+      <Divider height={20} />
+    </>
   );
 });

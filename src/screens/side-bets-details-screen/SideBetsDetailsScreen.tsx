@@ -8,6 +8,7 @@ import { GoBackBar } from '../components/GoBackBar';
 import { PageLoader } from '../components/PageLoader';
 import { SideBetsDetailsHeader } from './components/SideBetsDetailsHeader';
 import { SideBetsDetailsTable } from './components/SideBetsDetailsTable';
+import { Divider } from '../components/Divider';
 
 const BETS_GROUP_QUERY = gql`
   query BETS_GROUP($betsGroupId: EntityId!) {
@@ -40,15 +41,14 @@ export const SideBetsDetailsScreen = () => {
   }
   const { betsGroup } = data;
   return (
-    <Container>
-      <Content>
-        <GoBackBar />
-        <SideBetsDetailsHeader
-          name={betsGroup.name}
-          balance={betsGroup.bets.reduce((sum, bet) => sum + bet.amount, 0)}
-        />
-        <SideBetsDetailsTable bets={betsGroup.bets} />
-      </Content>
-    </Container>
+    <>
+      <GoBackBar />
+      <SideBetsDetailsHeader
+        name={betsGroup.name}
+        balance={betsGroup.bets.reduce((sum, bet) => sum + bet.amount, 0)}
+      />
+      <SideBetsDetailsTable bets={betsGroup.bets} />
+      <Divider height={30} />
+    </>
   );
 };

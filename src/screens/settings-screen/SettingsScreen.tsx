@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Content } from 'native-base';
+import { Container } from 'native-base';
 import { gql } from 'apollo-boost';
 import { useQuery, useMutation, getApolloContext } from '@apollo/react-hooks';
 import * as yup from 'yup';
@@ -80,16 +80,12 @@ export const SettingsScreen = observer(({ history }) => {
     }
   };
   return (
-    <Container>
-      <Content>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {formik => <EditUserForm formik={formik} loading={updateUserLoading} error={updateUserError} />}
-        </Formik>
-      </Content>
-    </Container>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {formik => <EditUserForm formik={formik} loading={updateUserLoading} error={updateUserError} />}
+    </Formik>
   );
 });

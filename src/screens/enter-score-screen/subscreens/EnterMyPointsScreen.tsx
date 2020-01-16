@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Content, Text, View, Input } from 'native-base';
+import { Button, Text, View, Input } from 'native-base';
 import { css } from 'css-rn';
 import { useHistory } from 'react-router-native';
 
@@ -29,7 +29,7 @@ const markedTextStyle = css`
 
 const buttonContainerStyle = css`
   padding: 0 25px;
-  margin-top: 150px;
+  margin-top: 30px;
 `;
 
 const buttonStyle = css`
@@ -86,7 +86,7 @@ export const EnterMyPointsScreen = () => {
     setScoreIsEntered(true);
   };
   return (
-    <Content>
+    <>
       <GoBackBar />
       <View style={descriptionStyle}>
         <Text style={textStyle}>ENTER YOUR TOTAL</Text>
@@ -115,6 +115,6 @@ export const EnterMyPointsScreen = () => {
           userId={userId}
         />}
       <SuccessDialog visible={showSuccessDialog} onClose={handleCloseSuccessDialog} />
-    </Content>
+    </>
   );
 };
