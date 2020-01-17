@@ -45,7 +45,7 @@ const headerTextStyle = isSelected => css`
 `;
 
 const playerStyle = css`
-  width: 94px;
+  width: 140px;
   padding-left: 48px;
 `;
 
