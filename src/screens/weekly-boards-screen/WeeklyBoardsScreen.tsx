@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import moment from 'moment';
 
 import { HeaderSection } from './components/HeaderSection';
 import { BoardLoader } from './components/BoardLoader';
@@ -49,16 +50,22 @@ export const WeeklyBoardsScreen = () => {
     return <BoardLoader />;
   }
 
+  const isSaturday = moment().day() === 6;
+  let defaultWeek = data.activeWeek.weekNumber - 1;
+  if (isSaturday) {
+    defaultWeek = data.activeWeek.weekNumber;
+  }
+
   return (
     <View>
       <HeaderSection
-        activeWeek={selectedWeek ? (parseInt(selectedWeek.toString().slice(4))) : data.activeWeek.weekNumber}
+        activeWeek={selectedWeek ? (parseInt(selectedWeek.toString().slice(4))) : defaultWeek}
         activeYear={data.activeWeek.year.year}
         onWeekSelect={setSelectedWeek}
       />
       <TableBody
         rounds={data.rounds}
-        week={selectedWeek ? (parseInt(selectedWeek.toString().slice(4))) : data.activeWeek.weekNumber}
+        week={selectedWeek ? (parseInt(selectedWeek.toString().slice(4))) : defaultWeek}
         year={selectedWeek ? (parseInt(selectedWeek.toString().slice(0, 4))) : data.activeWeek.year.year}
       />
     </View>
