@@ -5,9 +5,11 @@ import { Input, Text, View } from 'native-base';
 import { css } from 'css-rn';
 import { times, slice } from 'lodash';
 
+import { SubmitScoreBoardResult } from './SubmitScoreBoardResult';
+import { TotalResult } from './TotalResult';
+
 import { colors } from '../../../theme/colors';
 import { calculateScoreOnHole } from '../utils/calculate-score-on-hole';
-import { SubmitScoreBoardResult } from './SubmitScoreBoardResult';
 
 const redFlagIcon = require('../assets/flag-red.png');
 const greenFlagIcon = require('../assets/flag-green.png');
@@ -77,6 +79,7 @@ export const ScoreCardBody = ({ handicap, userId }) => {
       ...slice(scorePerHole, holeIndex, 18),
     ]);
   };
+  const currentTotalResult = scorePerHole.reduce((sum, item) => sum + item, 0);
   return (
     <View style={containerStyle}>
       {range(1, 10).map(i => (
@@ -129,7 +132,8 @@ export const ScoreCardBody = ({ handicap, userId }) => {
           </View>
         </View>
       ))}
-      <SubmitScoreBoardResult result={scorePerHole.reduce((sum, item) => sum + item, 0)} userId={userId} />
+      <TotalResult result={currentTotalResult} />
+      <SubmitScoreBoardResult result={currentTotalResult} userId={userId} />
     </View>
   );
 };
