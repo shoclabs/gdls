@@ -9,6 +9,7 @@ import { sortBy } from 'lodash';
 import { TableHeader } from '../../components/TableHeader';
 import { TableRow } from './TableRow';
 import { Loader } from '../../components/Loader';
+import { HeaderSection } from './HeaderSection';
 
 import { colors } from '../../../theme/colors';
 import { userFieldResolver } from '../consts/user-field-resolver';
@@ -92,48 +93,24 @@ export const TableSection = () => {
   const orderedUsers = order === 'desc' ? sortedUsers.reverse() : sortedUsers;
   const filteredUsers = orderedUsers.filter(user => user.id !== '1');
   return (
-    <View style={containerStyle}>
-      <View style={leftContentStyle}>
-        <TableHeader
-          headers={[]}
-          removeRank
-        />
-        {filteredUsers.map((user, index) => (
-          <TableRow
-            key={user.id}
-            rank={index + 1}
-            avatar={user.avatar}
-            firstName={user.firstName.toUpperCase()}
-            lastName={user.lastName.toUpperCase()}
-            isWinner={winnerIds.includes(user.id)}
-            isLooser={loserIds.includes(user.id)}
-            location={user.location}
-            played={user.finishedRoundsCount}
-            won={user.winCount}
-            lost={user.loseCount}
-            percentWon={user.winPercentage}
-            percentLost={user.losePercentage}
-            money={user.money}
-            hcp={user.handicap}
-            description={user.description}
-            disableRightContent
-            averageScore={user.averageScore}
-          />
-        ))}
-      </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={contentStyle}>
+    <>
+      <HeaderSection loserIds={loserIds} />
+      <View style={containerStyle}>
+        <View style={leftContentStyle}>
           <TableHeader
-            headers={headers}
+            headers={[]}
             removeRank
-            selectedHeader={selectedHeader}
-            onSelectHeader={handleSelectHeader}
-            removeLeftContent
           />
           {filteredUsers.map((user, index) => (
             <TableRow
               key={user.id}
               rank={index + 1}
+              avatar={user.avatar}
+              firstName={user.firstName.toUpperCase()}
+              lastName={user.lastName.toUpperCase()}
+              isWinner={winnerIds.includes(user.id)}
+              isLooser={loserIds.includes(user.id)}
+              location={user.location}
               played={user.finishedRoundsCount}
               won={user.winCount}
               lost={user.loseCount}
@@ -141,14 +118,41 @@ export const TableSection = () => {
               percentLost={user.losePercentage}
               money={user.money}
               hcp={user.handicap}
-              location={user.location}
               description={user.description}
+              disableRightContent
               averageScore={user.averageScore}
-              disableLeftContent
             />
           ))}
         </View>
-      </ScrollView>
-    </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={contentStyle}>
+            <TableHeader
+              headers={headers}
+              removeRank
+              selectedHeader={selectedHeader}
+              onSelectHeader={handleSelectHeader}
+              removeLeftContent
+            />
+            {filteredUsers.map((user, index) => (
+              <TableRow
+                key={user.id}
+                rank={index + 1}
+                played={user.finishedRoundsCount}
+                won={user.winCount}
+                lost={user.loseCount}
+                percentWon={user.winPercentage}
+                percentLost={user.losePercentage}
+                money={user.money}
+                hcp={user.handicap}
+                location={user.location}
+                description={user.description}
+                averageScore={user.averageScore}
+                disableLeftContent
+              />
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+    </>
   );
 };

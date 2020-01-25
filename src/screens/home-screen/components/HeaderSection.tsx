@@ -1,11 +1,12 @@
 import React from 'react';
-import { Image, ImageSourcePropType } from 'react-native';
 import { Text, View } from 'native-base';
 import { css } from 'css-rn';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { get } from 'lodash';
 
-const dumbHatPlaceholder = require('../assets/dumb-hat-placeholder-2.png');
+import { DefaultDumbHatImage } from './DefaultDumbHatImage';
+import { DumbHatImage } from './DumbHatImage';
 
 const containerStyle = css`
   height: 214px;
@@ -23,15 +24,6 @@ const titleStyle = css`
   color: white;
 `;
 
-const imageStyle = css`
-  height: 214px;
-`;
-
-const placeholderStyle = css`
-  height: 214px;
-  width: 100%;
-`;
-
 const GET_ACTIVE_WEEK = gql`
   {
     activeYear {
@@ -43,19 +35,20 @@ const GET_ACTIVE_WEEK = gql`
 `;
 
 interface  IHeaderSection {
-  imageUrl?: ImageSourcePropType;
+  loserIds: String[] | [undefined];
 }
 
-export const HeaderSection = ({ imageUrl }: IHeaderSection) => {
+export const HeaderSection = ({ loserIds }: IHeaderSection) => {
   const { data, loading, error } = useQuery(GET_ACTIVE_WEEK);
   if (loading || !data) {
     return null;
   }
+  const displayDefaultImage = loserIds.length > 1 || get(loserIds, '[0]') === undefined;
   return (
     <View style={containerStyle}>
-      {imageUrl ?
-        <Image style={imageStyle} source={imageUrl} /> :
-        <Image style={placeholderStyle} source={dumbHatPlaceholder} resizeMode="cover" />}
+      {displayDefaultImage ?
+        <DefaultDumbHatImage /> :
+        <DumbHatImage loserId={get(loserIds, '[0]')} />}
       <Text style={titleStyle}>{data.activeYear.year}</Text>
     </View>
   );
