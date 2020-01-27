@@ -21,9 +21,20 @@ const imageStyle = css`
 
 const addPhotoStyle = css`
   color: white;
+  font-size: 25px;
+`;
+
+const addPhotoButtonStyle = css`
+  background-color: rgba(52, 52, 52, 0.8);
+  padding: 8px;
   position: absolute;
-  bottom: 15px;
-  right: 15px;
+  bottom: 10px;
+  right: 10px;
+  width: 46px;
+  height: 46px;
+  border-radius: 25px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const DUMB_HAT_USER_QUERY = gql`
@@ -120,7 +131,7 @@ return (
     {imageBase64Url ?
       <Image style={imageStyle} source={{ uri: `data:image/png;base64,${imageBase64Url}` }} resizeMode="cover" /> :
       <Image style={imageStyle} source={dumbHatPlaceholder} resizeMode="cover" />}
-    <TouchableOpacity onPress={() => setShowOptionsPicker(true)}>
+    <TouchableOpacity onPress={() => setShowOptionsPicker(true)} style={addPhotoButtonStyle}>
       <Icon name="add-a-photo" type="MaterialIcons" style={addPhotoStyle} />
     </TouchableOpacity>
     <PickSelectImageOptionDialog
